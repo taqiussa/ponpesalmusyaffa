@@ -34,7 +34,7 @@ export default function Navbar({ toggleSidebar }) {
                         {isDropdownOpen && (
                             <ul className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg py-2 z-20">
                                 <li className="px-4 py-2 hover:bg-gray-200">
-                                    <Link href="#">Profile</Link>
+                                    <Link href="/profile">Profile</Link>
                                 </li>
                                 <li className="px-4 py-2 hover:bg-gray-200">
                                     <Link href="#">Account Settings</Link>
