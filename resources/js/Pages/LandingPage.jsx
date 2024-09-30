@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import React from "react";
 
 // Dummy Data untuk Tabel dan Testimonial
@@ -25,7 +26,7 @@ const LandingPage = () => {
             <a href="#" className="text-gray-600 hover:text-blue-600">About</a>
             <a href="#" className="text-gray-600 hover:text-blue-600">Contact</a>
           </nav>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Get Started</button>
+          <Link href={route('login')} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Get Started</Link>
         </div>
       </header>
 
