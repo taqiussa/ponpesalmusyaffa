@@ -17,8 +17,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
       {/* Flex container untuk mengisi ruang sidebar */}
       <ul className="flex flex-col flex-1">
-        <li className="py-3"><Link to="/dashbaord" className="hover:text-gray-400">Home</Link></li>
-        <li className="py-3"><Link to="/about" cla  ssName="hover:text-gray-400">About</Link></li>
+        <li className="py-3"><Link to={route('data-santri')} className="hover:text-gray-400">Data Santri</Link></li>
+        <li className="py-3"><Link to="/about" className="hover:text-gray-400">About</Link></li>
         <li className="py-3"><Link to="/contact" className="hover:text-gray-400">Contact</Link></li>
         <li className="py-3 md:hidden"><Link href={route('profile.edit')}>Profile</Link></li>
       </ul>
@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       {/* Garis Pembatas dan Logout di pojok bawah (hanya muncul di mobile) */}
       <div className="md:hidden">
         <hr className="border-gray-700 my-2" />
-        <Link href={route("logout")} method="post" className="block py-2 hover:text-gray-400 text-center">Logout</Link>
+        {/* <Link href={route("logout")} method="post" className="block py-2 hover:text-gray-400 text-center">Logout</Link> */}
       </div>
     </aside>
   );

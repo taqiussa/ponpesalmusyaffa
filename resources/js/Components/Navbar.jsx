@@ -51,13 +51,13 @@ export default function Navbar({ toggleSidebar }) {
                                     <Link href={route('profile.edit')}>Profile</Link>
                                 </li>
                                 <li className="px-4 py-2 hover:bg-gray-200">
-                                    <Link
+                                    {/* <Link
                                         href={route("logout")}
                                         method="post"
                                         as="button"
                                     >
                                         Logout
-                                    </Link>
+                                    </Link> */}
                                 </li>
                             </ul>
                         )}
