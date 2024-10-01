@@ -1,7 +1,8 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 
 export default function Navbar({ toggleSidebar }) {
+    const user = usePage().props.auth.user;
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -19,7 +20,20 @@ export default function Navbar({ toggleSidebar }) {
                     className="md:hidden text-white"
                     onClick={toggleSidebar}
                 >
-                    Menu
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 md:hidden transition-transform duration-300 transform"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
                 </button>
 
                 {/* Dropdown Settings dan Logout di Desktop */}
@@ -29,15 +43,12 @@ export default function Navbar({ toggleSidebar }) {
                             onClick={toggleDropdown}
                             className="hover:text-gray-300"
                         >
-                            Settings
+                            {user.name}
                         </button>
                         {isDropdownOpen && (
                             <ul className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg py-2 z-20">
                                 <li className="px-4 py-2 hover:bg-gray-200">
-                                    <Link href="/profile">Profile</Link>
-                                </li>
-                                <li className="px-4 py-2 hover:bg-gray-200">
-                                    <Link href="#">Account Settings</Link>
+                                    <Link href={route('profile.edit')}>Profile</Link>
                                 </li>
                                 <li className="px-4 py-2 hover:bg-gray-200">
                                     <Link
