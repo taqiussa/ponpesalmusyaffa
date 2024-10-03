@@ -1,33 +1,81 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
 
 export default function Sidebar({ isOpen, toggleSidebar }) {
-  return (
-    <aside
-      className={`bg-gray-800 text-white w-64 min-h-screen p-4 flex flex-col fixed md:relative transform
-        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 
-        transition-transform duration-300 ease-in-out z-20`}
-    >
+    const user = usePage().props.auth.user;
+    const currentRoute = usePage().url;
 
-      {/* Logo di Sidebar */}
-      <div className="flex items-center mb-4">
-        <img src="/path/to/logo.png" alt="Logo" className="h-10 w-10 mr-2" />
-        <h2 className="text-lg font-bold">My Logo</h2>
-      </div>
+    const activeStyles = 'bg-blue-50 text-blue-600';
+    const inactiveStyles = 'text-gray-900 dark:text-white hover:bg-blue-100 dark:hover:bg-blue-700'
 
-      {/* Flex container untuk mengisi ruang sidebar */}
-      <ul className="flex flex-col flex-1">
-        <li className="py-3"><Link to={route('data-santri')} className="hover:text-gray-400">Data Santri</Link></li>
-        <li className="py-3"><Link to="/about" className="hover:text-gray-400">About</Link></li>
-        <li className="py-3"><Link to="/contact" className="hover:text-gray-400">Contact</Link></li>
-        <li className="py-3 md:hidden"><Link href={route('profile.edit')}>Profile</Link></li>
-      </ul>
-      
-      {/* Garis Pembatas dan Logout di pojok bawah (hanya muncul di mobile) */}
-      <div className="md:hidden">
-        <hr className="border-gray-700 my-2" />
-        {/* <Link href={route("logout")} method="post" className="block py-2 hover:text-gray-400 text-center">Logout</Link> */}
-      </div>
-    </aside>
-  );
+    return (
+        <aside
+            id="logo-sidebar"
+            className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
+                isOpen ? 'translate-x-0' : '-translate-x-full'
+            } bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 sm:translate-x-0`}
+            aria-label="Sidebar"
+        >
+            <div className="h-full flex flex-col px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+                {/* <div className="text-center mb-4">
+                    <h2 className="text-lg font-bold mb-3">My Logo</h2>
+                    <p className="whitespace-nowrap text-emerald-700 font-bold text-lg">{user.name}</p>
+                </div> */}
+
+                <ul className="flex-grow overflow-y-auto space-y-2 font-medium">
+                    <li>
+                        <Link 
+                            href={route('dashboard')} 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/dashboard') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">Dashboard</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href={route('data-santri')} 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/data-santri') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">Data Santri</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="/about" 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/about') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">About</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="/contact" 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/contact') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">Contact</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href={route('profile.edit')} 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/profile/edit') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">Profile</span>
+                        </Link>
+                    </li>
+                </ul>
+
+                <div className="mt-auto">
+                    <hr className="border-gray-700 my-2" />
+                    <Link
+                        href={route('logout')}
+                        method="post"
+                        className="block py-2 text-gray-500 font-bold hover:text-blue-600 text-center" // Adjusted hover color for logout
+                    >
+                        Logout
+                    </Link>
+                </div>
+            </div>
+        </aside>
+    );
 }

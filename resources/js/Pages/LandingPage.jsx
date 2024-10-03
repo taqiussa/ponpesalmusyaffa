@@ -1,7 +1,6 @@
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import React, { useState, useEffect, useRef } from "react";
 
-// Dummy Data for Pricing and Testimonials
 const pricingData = [
   { plan: "Basic Plan", price: "$10/month", features: "Access to basic features" },
   { plan: "Standard Plan", price: "$30/month", features: "Access to standard features" },
@@ -73,7 +72,6 @@ const testimonials = [
   { name: "Tom Hanks", feedback: "A game changer for my business!", img: "https://via.placeholder.com/150?text=Tom" },
 ];
 
-// Intersection Observer hook for element visibility
 const useInView = (options) => {
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
@@ -104,7 +102,6 @@ const LandingPage = () => {
   const itemsPerPages = 10;
   const autoScrollInterval = 5000;
 
-  // Handle scroll for sticky header
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -114,7 +111,6 @@ const LandingPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auto-scroll for testimonials
   useEffect(() => {
     const intervalId = setInterval(() => {
       handleNextTestimonial();
@@ -133,47 +129,21 @@ const LandingPage = () => {
     );
   };
 
-  // Ref and visibility tracking for various sections
   const [heroRef, heroInView] = useInView({ threshold: 0.8 });
   const [headerRef, headerInView] = useInView({ threshold: 0.5 });
   const [featuresRef, featuresInView] = useInView({ threshold: 0.5 });
-  const [pricingRef, pricingInView] = useInView({ threshold: 0.5 });
-  const [testimonialsRef, testimonialsInView] = useInView({ threshold: 0.5 });
+  const [pricingRef, pricingInView] = useInView({ threshold: 0.3 });
+  const [testimonialsRef, testimonialsInView] = useInView({ threshold: 0.6 });
 
   const totalPricingPages = Math.ceil(pricingData.length / itemsPerPages);
   const totalFeaturesPages = Math.ceil(featuresData.length / itemsPerPage);
 
-  // Get current items for Pricing and Features
   const currentPricingItems = pricingData.slice(currentPricingPage * itemsPerPages, (currentPricingPage + 1) * itemsPerPages);
   const currentFeatureItems = featuresData.slice(currentFeaturesPage * itemsPerPage, (currentFeaturesPage + 1) * itemsPerPage);
 
-  const handleNextPricingPage = () => {
-    if (currentPricingPage < totalPricingPages - 1) {
-      setCurrentPricingPage((prev) => prev + 1);
-    }
-  };
-
-  const handlePrevPricingPage = () => {
-    if (currentPricingPage > 0) {
-      setCurrentPricingPage((prev) => prev - 1);
-    }
-  };
-
-  const handleNextFeaturesPage = () => {
-    if (currentFeaturesPage < totalFeaturesPages - 1) {
-      setCurrentFeaturesPage((prev) => prev + 1);
-    }
-  };
-
-  const handlePrevFeaturesPage = () => {
-    if (currentFeaturesPage > 0) {
-      setCurrentFeaturesPage((prev) => prev - 1);
-    }
-  };
-
   return (
     <div className="bg-gray-50">
-      {/* Header */}
+      <Head title="Home" />
       <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
           <h1 className={`text-2xl font-bold transition-colors duration-300 ${isScrolled ? 'text-blue-600' : 'text-white'}`}>My Logo</h1>
@@ -181,7 +151,6 @@ const LandingPage = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
       <section ref={headerRef} className={`relative transition-opacity duration-700 ${headerInView ?  'opacity-100' : 'opacity-0'}`}>
         <img
           src="https://cdn.pixabay.com/photo/2016/11/14/22/18/beach-1824855_640.jpg"
@@ -190,7 +159,6 @@ const LandingPage = () => {
         />
       </section>
 
-      {/* Hero Content */}
       <section ref={heroRef} className={`bg-blue-600 text-white mx-10 rounded-lg py-20 mt-12 transition-opacity duration-700 ${heroInView ? 'opacity-100' : 'opacity-0'}`}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6">Welcome to Our Professional Service</h1>
@@ -198,7 +166,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section ref={featuresRef} className={`py-10 mt-10 bg-gray-50 transition-opacity duration-700 ${featuresInView ? 'opacity-100' : 'opacity-0'}`}>
         <div className="max-w-screen-xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Our Features</h2>
@@ -206,17 +173,15 @@ const LandingPage = () => {
             {currentFeatureItems.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-8 rounded-xl shadow-lg transition-all hover:bg-gradient-to-r from-blue-500 to-teal-400 hover:text-white"
-              >
+                className="bg-white p-8 rounded-xl shadow-lg transition-colors duration-500 hover:bg-gradient-to-r from-blue-500 to-teal-400 hover:text-white"
+                >
                 <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
           </div>
 
-          {/* Features Section Pagination Controls */}
           <div className="flex items-center justify-center mt-8 space-x-2">
-            {/* Tombol Previous to First */}
             {totalFeaturesPages > 5 && (
               <button
               onClick={() => setCurrentFeaturesPage(0)}
@@ -226,7 +191,6 @@ const LandingPage = () => {
               «
             </button>
             )}
-            {/* Previous Button */}
             <button
               onClick={() => setCurrentFeaturesPage((prev) => Math.max(prev - 1, 0))}
               disabled={currentFeaturesPage === 0}
@@ -235,7 +199,6 @@ const LandingPage = () => {
               ‹
             </button>
 
-            {/* Page Number Buttons */}
             {Array.from({ length: Math.min(5, totalFeaturesPages) }, (_, index) => {
               const startPage = Math.max(0, Math.min(totalFeaturesPages - 5, currentFeaturesPage - 2));
               const pageIndex = startPage + index;
@@ -251,7 +214,6 @@ const LandingPage = () => {
               );
             })}
 
-            {/* Next Button */}
             <button
               onClick={() => setCurrentFeaturesPage((prev) => Math.min(prev + 1, totalFeaturesPages - 1))}
               disabled={currentFeaturesPage === totalFeaturesPages - 1}
@@ -260,7 +222,6 @@ const LandingPage = () => {
               ›
             </button>
 
-            {/* Tombol Next to Last */}
             {totalFeaturesPages > 5 && (
               <button
                 onClick={() => setCurrentFeaturesPage(totalFeaturesPages - 1)}
@@ -274,28 +235,27 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
       <section ref={pricingRef} className={`py-10 bg-white transition-opacity duration-700 ${pricingInView ? 'opacity-100' : 'opacity-0'}`}>
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Our Pricing Plans</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200">
+          <div className="overflow-x-auto rounded-xl">
+            <table className="min-w-full bg-white border rounded-xl border-gray-200">
               <thead>
-                <tr className="bg-gray-100">
-                  <th className="py-4 px-6 border-b border-gray-200 text-left text-sm font-medium text-gray-700">No</th>
-                  <th className="py-4 px-6 border-b border-gray-200 text-left text-sm font-medium text-gray-700">Plan</th>
-                  <th className="py-4 px-6 border-b border-gray-200 text-left text-sm font-medium text-gray-700">Price</th>
-                  <th className="py-4 px-6 border-b border-gray-200 text-left text-sm font-medium text-gray-700">Features</th>
+                <tr className="bg-blue-500 border-b border-gray-200 rounded-xl text-center text-lg font-medium text-white">
+                  <th className="py-4 px-2">No.</th>
+                  <th className="py-4 px-6">Plan</th>
+                  <th className="py-4 px-6">Price</th>
+                  <th className="py-4 px-6">Features</th>
                   {/* <th className="py-4 px-6 border-b border-gray-200 text-left text-sm font-medium text-gray-700">Action</th> */}
                 </tr>
               </thead>
               <tbody>
                 {currentPricingItems.map((item, index) => (
-                  <tr key={index} className="hover:bg-gray-50 transition-colors duration-200">
-                    <td className="py-4 px-6 border-b border-gray-200">{currentPricingPage * itemsPerPages + index + 1}</td>
-                    <td className="py-4 px-6 border-b border-gray-200">{item.plan}</td>
-                    <td className="py-4 px-6 border-b border-gray-200">{item.price}</td>
-                    <td className="py-4 px-6 border-b border-gray-200">{item.features}</td>
+                  <tr key={index} className="hover:bg-blue-100 border-b border-gray-200 transition-colors duration-200">
+                    <td className="py-4 px-2 text-center">{currentPricingPage * itemsPerPages + index + 1}.</td>
+                    <td className="py-4 px-6">{item.plan}</td>
+                    <td className="py-4 px-6">{item.price}</td>
+                    <td className="py-4 px-6">{item.features}</td>
                     {/* <td className="py-4 px-6 border-b border-gray-200">
                       <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Choose Plan</button>
                     </td> */}
@@ -305,9 +265,7 @@ const LandingPage = () => {
             </table>
           </div>
 
-          {/* Pricing Section Pagination Controls */}
           <div className="flex items-center justify-center mt-8 space-x-2">         
-            {/* Tombol Previous to First */}
             {totalPricingPages > 5 && (
               <button
                 onClick={() => setCurrentPricingPage(0)}
@@ -318,7 +276,6 @@ const LandingPage = () => {
               </button>
             )}
             
-            {/* Previous Button */}
             <button
               onClick={() => setCurrentPricingPage((prev) => Math.max(prev - 1, 0))}
               disabled={currentPricingPage === 0}
@@ -327,7 +284,6 @@ const LandingPage = () => {
               ‹
             </button>
 
-            {/* Page Number Buttons */}
             {Array.from({ length: Math.min(5, totalPricingPages) }, (_, index) => {
               const startPage = Math.max(0, Math.min(totalPricingPages - 5, currentPricingPage - 2));
               const pageIndex = startPage + index;
@@ -343,7 +299,6 @@ const LandingPage = () => {
               );
             })}
 
-            {/* Next Button */}
             <button
               onClick={() => setCurrentPricingPage((prev) => Math.min(prev + 1, totalPricingPages - 1))}
               disabled={currentPricingPage === totalPricingPages - 1}
@@ -352,7 +307,6 @@ const LandingPage = () => {
               ›
             </button>
             
-            {/* Tombol Next to Last */}
             {totalPricingPages > 5 && (
               <button
                 onClick={() => setCurrentPricingPage(totalPricingPages - 1)}
@@ -366,17 +320,14 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Testimonials with Auto-scroll and Navigation */}
       <section ref={testimonialsRef} className={`py-28 mt-5 transition-opacity duration-700 ${testimonialsInView ? 'opacity-100' : 'opacity-0'}`}>
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
           <div className="flex items-center justify-center">
-            {/* Previous Button */}
             <button onClick={handlePrevTestimonial} className="p-2 bg-gray-300 rounded-full mr-4">
               &lt;
             </button>
             <div className="flex space-x-4 overflow-hidden">
-              {/* Display only one testimonial on mobile, three on larger screens */}
               {Array.from({ length: window.innerWidth < 768 ? 1 : 3 }, (_, i) => {
                 const index = (currentTestimonialIndex + i) % testimonials.length;
                 return (
@@ -390,7 +341,6 @@ const LandingPage = () => {
                 );
               })}
             </div>
-            {/* Next Button */}
             <button
               onClick={handleNextTestimonial}
               className="p-2 bg-gray-300 rounded-full ml-4"
@@ -401,9 +351,8 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 mt-10 bg-blue-500 text-center text-gray-50">
-        <p>&copy; 2024 My Platform. All rights reserved.</p>
+      <footer className="py-5 mt-10 bg-blue-500 text-center text-gray-50">
+        <p>&copy; Ponpes Al Musyaffa.</p>
       </footer>
     </div>
   );
