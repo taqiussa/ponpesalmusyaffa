@@ -1,105 +1,121 @@
-import React from 'react';
-import Main from '@/Layouts/Main';
-import { Head, Link, useForm } from '@inertiajs/react';
 import JenisKelamin from '@/Components/JenisKelamin';
 import Tahun from '@/Components/Tahun';
+import Main from '@/Layouts/Main';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { useFilter } from '@/hooks/useFilter';
+import React from 'react';
 
 export default function DataSantri({ initTahun, listSantri }) {
-    const {data, setData, post, errors, processing} = useForm({
+    const { data, setData, errors } = useForm({
         tahun: initTahun,
-        jenis_kelamin: ''
+        jenis_kelamin: '',
+        search: '' // Add search to form state
     });
 
-    console.log(initTahun);
-    console.log(listSantri);
-
-    const handleChange = (e) => {
+    const onHandleChange = (e) => {
         setData(e.target.name, e.target.value);
-        submitForm();
     };
 
-    const handleSearch = (e) => {
-        setData('search', e.target.value);
-        submitForm();
-    };
-
-    const submitForm = () => {
-        get(route('santri.index'));
-    };
+    const { isProcessing } = useFilter({
+        route: 'data-santri',
+        values: data
+    });
 
     return (
         <Main>
             <Head title="Data Santri" />
-            <div className="flex flex-col h-full">
-                {/* Title */}
-                <div className="p-4">
-                    <h1 className="text-2xl font-bold text-blue-600 mb-2">Data Santri</h1>
-                    <hr className="border-blue-600 mb-4" />
-                </div>
+            <div className="mb-4">
+                <h2 className="text-2xl font-bold">Data Santri</h2>
+                <div className="w-2/3 h-0.5 bg-gradient-to-r from-blue-500 to-transparent mt-1" />
+            </div>
 
-                <div className="px-4 flex flex-col md:flex-row md:space-x-4">
-                    <Tahun
-                        name="tahun"
-                        value={data.tahun}
-                        handleChange={handleChange}
-                        className="flex-1 mb-4 md:mb-0 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
+            <div className="grid grid-cols-2 gap-2 pb-2 lg:grid lg:grid-cols-4 lg:gap-2 lg:space-y-0">
+                <Tahun
+                    id="tahun"
+                    name="tahun"
+                    value={data.tahun}
+                    message={errors.tahun}
+                    handleChange={onHandleChange}
+                />
+                <JenisKelamin
+                    id="jenis_kelamin"
+                    name="jenis_kelamin"
+                    value={data.jenis_kelamin}
+                    message={errors.jenis_kelamin}
+                    handleChange={onHandleChange}
+                />
+            </div>
 
-                    <JenisKelamin
-                        name="jenis_kelamin"
-                        value={data.jenis_kelamin}
-                        handleChange={handleChange}
-                        className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
-                </div>
+            {/* Search Input */}
+            <div className="flex flex-col capitalize text-slate-600 py-2 pb-3">
+                <label htmlFor="search">Cari</label>
+                <input
+                    type="text"
+                    name="search"
+                    id="search"
+                    value={data.search}
+                    onChange={onHandleChange}
+                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                    placeholder="Cari Nama Santri...."
+                />
+            </div>
 
-                <div className="p-4 pt-10">
-                    <input
-                        type="search"
-                        placeholder="Cari Nama Santri..."
-                        value={data.search}
-                        onChange={handleSearch}
-                        className="w-full p-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
-                </div>
-
-                <div className="flex-grow overflow-y-auto rounded-xl">
-                    <table className="text-left text-sm text-gray-700 w-full">
-                        <thead className="bg-blue-600">
-                            <tr className="font-medium text-center uppercase text-white">
-                                <th className="px-6 py-3">No</th>
-                                <th className="px-6 py-3">NIS</th>
-                                <th className="px-6 py-3">Nama Santri</th>
-                                <th className="px-6 py-3">TTL</th>
-                                <th className="px-6 py-3">NIK</th>
-                                <th className="px-6 py-3">Ayah</th>
-                                <th className="px-6 py-3">Ibu</th>
-                                <th className="px-6 py-3">Desa</th>
-                                <th className="px-6 py-3">Telepon</th>
+            {isProcessing ? (
+                <div>Loading...</div>
+            ) : (
+                <div className="pt-2 overflow-x-auto">
+                    <table className="w-full text-sm text-slate-600 border border-gray-300 rounded-xl overflow-hidden">
+                        <thead className="text-sm text-slate-600 bg-gray-50">
+                            <tr>
+                                <th className="px-2 py-3">No.</th>
+                                <th className="px-2 py-3 text-left">NIS</th>
+                                <th className="px-2 py-3 text-left">Nama</th>
+                                <th className="px-2 py-3 text-left">NIK</th>
+                                <th className="px-2 py-3 text-left">Ayah</th>
+                                <th className="px-2 py-3 text-left">Ibu</th>
+                                <th className="px-2 py-3 text-left">Desa</th>
+                                <th className="px-2 py-3 text-left">Telepon</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {listSantri.data.map((santri, index) => (
-                                <tr key={santri.nis} className="border-b whitespace-nowrap hover:bg-blue-200 hover:text-black odd:bg-blue-100 odd:text-black">
-                                    <td className="px-6 py-4">{(listSantri.current_page - 1) * listSantri.per_page + index + 1}</td>
-                                    <td className="px-6 py-4">{santri.nis}</td>
-                                    <td className="px-6 py-4">{santri.santri.name}</td>
-                                    <td className="px-6 py-4">
-                                        {santri.biodata.tempat_lahir}, {new Date(santri.biodata.tanggal_lahir).toLocaleDateString()}
+                            {listSantri.data.length === 0 ? (
+                                <tr>
+                                    <td colSpan="8" className="text-center py-4">
+                                        <span className="text-red-600 cursor-default" style={{ userSelect: 'none' }}>
+                                            {data.search ? 'Tidak ada data yang ditemukan untuk pencarian ini.' : 'Data kosong.'}
+                                        </span>
                                     </td>
-                                    <td className="px-6 py-4">{santri.biodata.nik}</td>
-                                    <td className="px-6 py-4">{santri.biodata.ayah}</td>
-                                    <td className="px-6 py-4">{santri.biodata.ibu}</td>
-                                    <td className="px-6 py-4">
-                                        RT {santri.biodata.rt}, RW {santri.biodata.rw}, {santri.biodata.desa}, {santri.biodata.kecamatan}, {santri.biodata.kabupaten}, {santri.biodata.provinsi}
-                                    </td>
-                                    <td className="px-6 py-4">{santri.biodata.telepon}</td>
                                 </tr>
-                            ))}
+                            ) : (
+                                listSantri.data.map((santri, index) => (
+                                    <tr key={santri.nis} className="bg-white border-b whitespace-nowrap hover:bg-slate-300 odd:bg-slate-200">
+                                        <td className="px-2 py-2 text-center">
+                                            {index + 1 + (listSantri.current_page - 1) * listSantri.per_page}.
+                                        </td>
+                                        <td className="px-2 py-2">{santri.nis || <span className="text-gray-400 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-2">{santri.santri.name || <span className="text-gray-400 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-2">{santri.biodata.nik || <span className="text-gray-400 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-2">{santri.biodata.ayah || <span className="text-gray-400 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-2">{santri.biodata.ibu || <span className="text-gray-400 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-2">
+                                            {santri.biodata.rt && <span>RT {santri.biodata.rt}, </span>}
+                                            {santri.biodata.rw && <span>RW {santri.biodata.rw}, </span>}
+                                            {santri.biodata.desa && <span>{santri.biodata.desa}, </span>}
+                                            {santri.biodata.kecamatan && <span>{santri.biodata.kecamatan}, </span>}
+                                            {santri.biodata.kabupaten && <span>{santri.biodata.kabupaten}, </span>}
+                                            {santri.biodata.provinsi && <span>{santri.biodata.provinsi}</span>}
+                                        </td>
+                                        <td className="px-2 py-2">{santri.biodata.telepon || <span className="text-gray-400 text-center select-none italic">Data Kosong</span>}</td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
+            )}
 
+            {/* Pagination Controls */}
+            {listSantri.links.length > 0 && (
                 <div className="p-4">
                     <nav className="flex justify-center">
                         <ul className="flex flex-wrap justify-center md:gap-0 gap-y-4 space-x-1">
@@ -124,7 +140,7 @@ export default function DataSantri({ initTahun, listSantri }) {
                         </ul>
                     </nav>
                 </div>
-            </div>
+            )}
         </Main>
     );
 }
