@@ -19,4 +19,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/keamanan.php';
 require __DIR__ . '/sekretaris.php';

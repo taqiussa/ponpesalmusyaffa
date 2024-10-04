@@ -41,6 +41,14 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                     </li>
                     <li>
                         <Link 
+                            href={route('input-pelanggaran-santri')} 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/input-pelanggaran-santri') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">Input Pelanggaran Santri</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
                             href="/about" 
                             className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/about') ? activeStyles : inactiveStyles}`}
                         >

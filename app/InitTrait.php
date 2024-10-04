@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Santri;
 use Carbon\Carbon;
 
 trait InitTrait
@@ -17,5 +18,19 @@ trait InitTrait
         }
 
         return $tahunAjaran; // Should return "2025 / 2026"
+    }
+
+    public function list_all_santri()
+    {
+        return Santri::query()
+            ->whereTahun(request('tahun'))
+            ->when(
+                request('jenis_kelamin'),
+                fn($q) => $q->whereJenisKelamin(request('jenis_kelamin'))
+            )
+            ->with(['santri:nis,name'])
+            ->get()
+            ->sortBy('santri.name')
+            ->values();
     }
 }
