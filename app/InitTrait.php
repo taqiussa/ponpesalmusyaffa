@@ -23,7 +23,7 @@ trait InitTrait
     public function list_all_santri()
     {
         return Santri::query()
-            ->whereTahun(request('tahun'))
+            ->whereTahun(request('tahun') ?? $this->data_tahun())
             ->when(
                 request('jenis_kelamin'),
                 fn($q) => $q->whereJenisKelamin(request('jenis_kelamin'))
