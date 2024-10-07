@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Keamanan;
 use App\Http\Controllers\Controller;
 use App\InitTrait;
 use App\Models\Pelanggaran;
+use App\Models\PelanggaranSantri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InputPelanggaranSantriController extends Controller
 {
@@ -24,8 +26,22 @@ class InputPelanggaranSantriController extends Controller
 
     public function simpan()
     {
-        request()->validate([
+        $validated =     request()->validate([
             'nis' => 'required',
+            'pelanggaran_id' => 'required',
+            'tahun' => 'required',
+            'tanggal' => 'required',
+            'jumlah' => 'required',
         ]);
+
+        DB::beginTransaction();
+
+        try {
+            PelanggaranSantri::create($validated);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 }
