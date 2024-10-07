@@ -13,15 +13,10 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             id="logo-sidebar"
             className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
                 isOpen ? 'translate-x-0' : '-translate-x-full'
-            } bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 sm:translate-x-0`}
+            } bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 md:translate-x-0`} // Adjusted for mobile and desktop
             aria-label="Sidebar"
         >
             <div className="h-full flex flex-col px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-                {/* <div className="text-center mb-4">
-                    <h2 className="text-lg font-bold mb-3">My Logo</h2>
-                    <p className="whitespace-nowrap text-emerald-700 font-bold text-lg">{user.name}</p>
-                </div> */}
-
                 <ul className="flex-grow overflow-y-auto space-y-2 font-medium">
                     <li>
                         <Link 
@@ -78,7 +73,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                     <Link
                         href={route('logout')}
                         method="post"
-                        className="block py-2 text-gray-500 font-bold hover:text-blue-600 text-center" // Adjusted hover color for logout
+                        className="block py-2 text-gray-500 font-bold hover:text-blue-600 text-center"
                     >
                         Logout
                     </Link>

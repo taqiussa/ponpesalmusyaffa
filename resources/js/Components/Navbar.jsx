@@ -11,9 +11,8 @@ export default function Navbar({ toggleSidebar, isSidebarOpen }) {
                     >
                         <span className="sr-only">Toggle sidebar</span>
                         <span className="mr-2">
-                            {isSidebarOpen ? ">" : "<"}
-                        </span>
-                        Menu
+                            {isSidebarOpen ? "<" : ">"}
+                        </span>Menu
                     </button>
 
                     <a href="#" className="flex items-center">

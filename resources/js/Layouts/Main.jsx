@@ -12,27 +12,27 @@ export default function Main({ children }) {
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-      {/* Main Content Area */}
+      {/* Content */}
       <div className="flex-1 flex flex-col min-h-screen">
-        {/* Navbar */}
-        <Navbar toggleSidebar={toggleSidebar} />
+        <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
 
-        {/* Page Content */}
-        <div className="flex-grow p-4 sm:ml-64">
-          <div className="px-8 py-4 border-2 md:max-w-[180vh] sm:max-w-[165vh] lg:max-w-[165vh] max-w-[50vh] mb-[4rem] border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+        <div className="flex-grow p-4 md:ml-64">
+          <div className="px-8 py-4 border-2 border-gray-200 md:max-w-[180vh] sm:max-w-[165vh] lg:max-w-[165vh] max-w-[50vh] mb-[4rem] border-dashed rounded-lg dark:border-gray-700 mt-14">
             {children}
           </div>
         </div>
-      </div>
 
-      {/* Sticky Footer */}
-      <footer className="w-full bg-gray-50/80 border-t border-blue-300 md:pl-[20%] lg:pl-[20%] sm:pl-0 pl-0 py-4 fixed bottom-0 left-0">
-        <p className="select-none">&copy; Ponpes Al Musyaffa | {user.name}.</p>
-      </footer>
+        {/* Footer */}
+        <footer className="w-full bg-gray-50/80 border-t border-blue-300 py-4 fixed bottom-0 left-0">
+          <p className="md:ml-[20%] lg:ml-[20%] sm:ml-[5%] ml-[5%] select-none">
+            &copy; Ponpes Al Musyaffa | {user.name}.
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }
