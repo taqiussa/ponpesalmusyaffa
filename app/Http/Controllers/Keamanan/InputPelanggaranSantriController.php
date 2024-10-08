@@ -26,14 +26,14 @@ class InputPelanggaranSantriController extends Controller
 
     public function simpan()
     {
-        $validated =     request()->validate([
+        $validated = request()->validate([
             'nis' => 'required',
             'pelanggaran_id' => 'required',
             'tahun' => 'required',
             'tanggal' => 'required',
             'jumlah' => 'required',
         ]);
-
+        $validated['user_id'] = auth()->user()->id;
         DB::beginTransaction();
 
         try {
