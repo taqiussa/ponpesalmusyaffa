@@ -53,8 +53,8 @@ export default function DataSantri({ initTahun, listSantri }) {
         <Main>
             <Head title="Data Santri" />
             <div className="mb-4">
-                <h2 className="text-2xl font-bold">Data Santri</h2>
-                <div className="w-2/3 h-0.5 bg-gradient-to-r from-blue-500 to-transparent mt-1" />
+                <h2 className="text-3xl font-bold text-blue-600">Data Santri</h2>
+                <div className="w-full h-0.5 bg-gradient-to-r from-blue-500 to-transparent mt-1" />
             </div>
 
             <div className="grid md:grid-cols-2 gap-2 pb-2 lg:grid lg:grid-cols-4 lg:gap-2 lg:space-y-0">

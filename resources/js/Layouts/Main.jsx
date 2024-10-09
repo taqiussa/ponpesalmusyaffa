@@ -21,7 +21,7 @@ export default function Main({ children }) {
         <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
 
         <div className="flex-grow p-4 md:ml-64">
-          <div className="px-8 py-4 border-2 border-gray-200 md:max-w-[180vh] sm:max-w-[165vh] lg:max-w-[165vh] max-w-[50vh] mb-[4rem] border-dashed rounded-lg dark:border-gray-700 mt-14">
+          <div className="md:px-10 lg:px-10 sm:px-8 px-8 md:py-8 lg:py-8 sm:py-6 p-6 border-2 border-gray-200 md:max-w-[180vh] sm:max-w-[165vh] lg:max-w-[165vh] max-w-[50vh] mb-[4rem] border-dashed rounded-lg dark:border-gray-700 mt-14">
             {children}
           </div>
         </div>
