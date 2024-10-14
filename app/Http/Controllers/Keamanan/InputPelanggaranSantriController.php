@@ -52,4 +52,15 @@ class InputPelanggaranSantriController extends Controller
             throw $th;
         }
     }
+
+    public function hapus($id){
+        DB::beginTransaction();
+        try {
+            PelanggaranSantri::destroy($id);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
 }

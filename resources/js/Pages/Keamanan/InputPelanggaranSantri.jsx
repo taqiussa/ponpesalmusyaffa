@@ -7,19 +7,23 @@ import FormField from '@/Components/FormField';
 import Tahun from '@/Components/Tahun';
 import JenisKelamin from '@/Components/JenisKelamin';
 import Spinner from '@/Components/Spinner';
+import dayjs from 'dayjs';
+import { useFilter } from '@/hooks/useFilter';
+import { useFilterDependOn } from '@/hooks/useFilterDependOn';
 
 export default function InputPelanggaranSantri({ initTahun, listSantri, listPeraturan, listPelanggaran }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
         jenis_kelamin: '',
-        tanggal: '', // field tanggal diambil dari input user
-        jumlah: 0,
+        tanggal: dayjs().format('YYYY-MM-DD'), // ini harus nya di inisialisasi seperti tahun ada initTahunnya tahu kan penggunaan dayjs ini untuk apa ?
+        jumlah: 1,
         pelanggaran_id: null,
         nis: null,
     });
 
+    console.log(listPelanggaran);
+
     const [filteredSantri, setFilteredSantri] = useState([]);
-    const [filteredPelanggaran, setFilteredPelanggaran] = useState([]);
 
     // Filter santri berdasarkan tahun dan jenis kelamin
     useEffect(() => {
@@ -31,11 +35,22 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
     }, [data.tahun, data.jenis_kelamin, listSantri]);
 
     // Filter pelanggaran berdasarkan tanggal
-    useEffect(() => {
-        const filtered = listPelanggaran.filter(pelanggaran => pelanggaran.tanggal === data.tanggal);
-        setFilteredPelanggaran(filtered);
-        console.log('Filtered Pelanggaran:', filtered);
-    }, [data.tanggal, listPelanggaran]);
+    // useEffect(() => {
+    //     const filtered = listPelanggaran.filter(pelanggaran => pelanggaran.tanggal === data.tanggal);
+    //     setFilteredPelanggaran(filtered);
+    //     console.log('Filtered Pelanggaran:', filtered);
+    // }, [data.tanggal, listPelanggaran]);
+    // ini harusnya pakai usefilter bukan seperti ini
+
+    // sudah saya buatkan usefilter yang dependencie nya bisa di custom jadi hanya mereload data
+    // yang dependencie nya di sebutkan, semacam di useeffect, pada function dibawah ini akan terpicu
+    // jika data.tanggal ganti, selain itu tidak memicu usefilter
+
+    const { isProcessing } = useFilterDependOn({
+        route: route('input-pelanggaran-santri'),
+        values: data,
+        depend: [data.tanggal]
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -160,15 +175,15 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredPelanggaran.map((pelanggaran, index) => (
+                            {listPelanggaran && listPelanggaran.map((list, index) => (
                                 <tr key={index} className="border-t hover:bg-gray-100">
-                                    <td className="py-2 px-4">{pelanggaran.nis}</td>
-                                    <td className="py-2 px-4">{pelanggaran.santri.name}</td>
-                                    <td className="py-2 px-4">{pelanggaran.pelanggarans.nama}</td>
-                                    <td className="py-2 px-4">{pelanggaran.pelanggaran.kategori}</td>
-                                    <td className="py-2 px-4">{pelanggaran.pelanggaran.hukuman}</td>
-                                    <td className="py-2 px-4">{pelanggaran.jumlah}</td>
-                                    <td className="py-2 px-4">{pelanggaran.pengurus}</td>
+                                    <td className="py-2 px-4">{list?.nis}</td>
+                                    <td className="py-2 px-4">{list?.santri?.name}</td>
+                                    <td className="py-2 px-4">{list?.pelanggaran?.nama}</td>
+                                    <td className="py-2 px-4">{list?.pelanggaran?.kategori}</td>
+                                    <td className="py-2 px-4">{list?.pelanggaran?.hukuman}</td>
+                                    <td className="py-2 px-4">{list?.jumlah}</td>
+                                    <td className="py-2 px-4">{list?.pengurus?.name}</td>
                                 </tr>
                             ))}
                         </tbody>
