@@ -20,7 +20,15 @@ class InputPelanggaranSantriController extends Controller
             'listSantri' => $this->list_all_santri(),
             'listPeraturan' => Pelanggaran::query()
                 ->orderBy('nama')
-                ->get()
+                ->get(),
+            'listPelanggaran' => PelanggaranSantri::query()
+                ->whereTanggal(request('tanggal'))
+                ->with([
+                    'pelanggaran:id,nama',
+                    'santri:nis.name',
+                    'pengurus:id,name'
+                ])
+                ->get(),
         ]);
     }
 
