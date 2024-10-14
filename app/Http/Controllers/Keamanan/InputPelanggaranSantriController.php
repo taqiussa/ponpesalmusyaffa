@@ -25,7 +25,7 @@ class InputPelanggaranSantriController extends Controller
                 ->whereTanggal(request('tanggal'))
                 ->with([
                     'pelanggaran:id,nama,kategori,hukuman',
-                    'santri:nis.name',
+                    'santri:nis,name',
                     'pengurus:id,name'
                 ])
                 ->get(),
