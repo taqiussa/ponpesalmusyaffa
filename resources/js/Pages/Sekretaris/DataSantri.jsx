@@ -4,6 +4,9 @@ import Tahun from '@/Components/Tahun';
 import Main from '@/Layouts/Main';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useFilter } from '@/hooks/useFilter';
+import Loading from '@/Components/Loading';
+import Pagination from '@/Components/Pagination';
+import { formatTanggalLahir } from '@/hooks/formatTanggalLahir';
 
 export default function DataSantri({ initTahun, listSantri }) {
     const { data, setData, errors } = useForm({
@@ -14,40 +17,12 @@ export default function DataSantri({ initTahun, listSantri }) {
 
     const onHandleChange = (e) => {
         setData(e.target.name, e.target.value);
-    };  
+    };
 
     const { isProcessing } = useFilter({
         route: 'data-santri',
-        values: data
+        values: data,
     });
-
-    const [loadingWidth, setLoadingWidth] = useState(0);
-
-    useEffect(() => {
-        let interval;
-        if (isProcessing) {
-            interval = setInterval(() => {
-                setLoadingWidth((prevWidth) => (prevWidth >= 100 ? 0 : prevWidth + 10));
-            }, 100);
-        } else {
-            setLoadingWidth(0);
-        }
-        return () => clearInterval(interval);
-    }, [isProcessing]);
-
-    const formatTanggalLahir = (dateString) => {
-        const months = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
-    
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = months[date.getMonth()];
-        const year = date.getFullYear();
-    
-        return `${day} ${month} ${year}`;
-    };
 
     return (
         <Main>
@@ -89,36 +64,21 @@ export default function DataSantri({ initTahun, listSantri }) {
             </div>
 
             {isProcessing ? (
-                <div className="relative w-full h-24 flex items-center justify-center">
-                    <div className="relative h-2 my-auto w-1/2 bg-gray-200 rounded-lg">
-                        <div
-                            style={{
-                                width: `${loadingWidth}%`,
-                                height: '100%',
-                                backgroundColor: 'blue',
-                                borderRadius: 10,
-                                transition: 'width 0.1s ease-in-out'
-                            }}
-                        />
-                    </div>
-                    <div className="absolute top-[60%] text-sm text-center font-semibold text-gray-700">
-                        Memuat Halaman...
-                    </div>
-                </div>
+                <Loading isProcessing={isProcessing} />
             ) : (
                 <div className="border border-blue-50 mt-3 rounded-xl overflow-x-auto">
                     <table className="w-full text-sm text-slate-600 overflow-hidden">
-                        <thead className="text-sm text-slate-600 bg-gray-50">
+                        <thead className="text-base text-slate-600 bg-gray-50">
                             <tr>
-                                <th className="px-2 py-3">No.</th>
-                                <th className="px-2 py-3 text-left">NIS</th>
-                                <th className="px-2 py-3 text-left">Nama</th>
-                                <th className="px-2 py-3 text-left">TTL</th>
-                                <th className="px-2 py-3 text-left">NIK</th>
-                                <th className="px-2 py-3 text-left">Ayah</th>
-                                <th className="px-2 py-3 text-left">Ibu</th>
-                                <th className="px-2 py-3 text-left">Desa</th>
-                                <th className="px-2 py-3 text-left">Telepon</th>
+                                <th className="px-2 py-4 text-center">No.</th>
+                                <th className="px-2 py-4 text-center">NIS</th>
+                                <th className="px-2 py-4 text-center">Nama</th>
+                                <th className="px-2 py-4 text-center">TTL</th>
+                                <th className="px-2 py-4 text-center">NIK</th>
+                                <th className="px-2 py-4 text-center">Ayah</th>
+                                <th className="px-2 py-4 text-center">Ibu</th>
+                                <th className="px-2 py-4 text-center">Desa</th>
+                                <th className="px-2 py-4 text-center">Telepon</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,18 +91,18 @@ export default function DataSantri({ initTahun, listSantri }) {
                             ) : (
                                 listSantri.data.map((santri, index) => (
                                     <tr key={santri.nis} className="bg-white border-b whitespace-nowrap hover:bg-slate-300 odd:bg-slate-200">
-                                        <td className="px-2 py-2 text-center">
+                                        <td className="px-2 py-3 text-center">
                                             {index + 1 + (listSantri.current_page - 1) * listSantri.per_page}.
                                         </td>
-                                        <td className="px-2 py-2">{santri.santri.nis || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-2">{santri.santri.name || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-2">
+                                        <td className="px-2 py-3">{santri.santri.nis || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-3">{santri.santri.name || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-3">
                                             {santri.biodata.tempat_lahir}, {santri.biodata.tanggal_lahir ? formatTanggalLahir(santri.biodata.tanggal_lahir) : ''}
                                         </td>
-                                        <td className="px-2 py-2">{santri.biodata.nik || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-2">{santri.biodata.ayah || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-2">{santri.biodata.ibu || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-2">
+                                        <td className="px-2 py-3">{santri.biodata.nik || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-3">{santri.biodata.ayah || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-3">{santri.biodata.ibu || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-3">
                                             {santri.biodata.rt && <span>RT {santri.biodata.rt}, </span>}
                                             {santri.biodata.rw && <span>RW {santri.biodata.rw}, </span>}
                                             {santri.biodata.desa && <span>{santri.biodata.desa}, </span>}
@@ -150,7 +110,7 @@ export default function DataSantri({ initTahun, listSantri }) {
                                             {santri.biodata.kabupaten && <span>{santri.biodata.kabupaten}, </span>}
                                             {santri.biodata.provinsi && <span>{santri.biodata.provinsi}</span>}
                                         </td>
-                                        <td className="px-2 py-2">{santri.biodata.telepon || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
+                                        <td className="px-2 py-3">{santri.biodata.telepon || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
                                     </tr>
                                 ))
                             )}
@@ -160,46 +120,7 @@ export default function DataSantri({ initTahun, listSantri }) {
             )}
 
             {listSantri.links.length > 0 && (
-                <div className="p-4">
-                    <nav className="flex justify-center">
-                        <ul className="flex flex-wrap justify-center md:gap-0 gap-y-4 space-x-1">
-                            {listSantri.links.map((link, index) => {
-                                const label = link.label
-                                    .replace('Next', '')
-                                    .replace('Previous', '')
-                                    .replace('&laquo;', '«')
-                                    .replace('&raquo;', '»');
-
-                                if (!link.url) {
-                                    return (
-                                        <li key={index} className={`mx-1 ${link.active ? 'font-bold' : ''}`}>
-                                            <span
-                                                className={`px-4 py-2 border rounded-md text-gray-700 ${link.active ? 'bg-blue-600 text-white' : 'bg-white border-gray-300 text-sm'}`}
-                                            >
-                                                {label.trim()}
-                                            </span>
-                                        </li>
-                                    );
-                                }
-
-                                return (
-                                    <li key={index} className={`mx-1 ${link.active ? 'font-bold' : ''}`}>
-                                        <Link
-                                            href={link.url}
-                                            method="get"
-                                            as="a"
-                                            className={`px-4 py-2 border rounded-md text-gray-700 ${link.active ? 'bg-blue-600 text-white' : 'bg-white border-gray-300 hover:bg-blue-400 hover:text-white'} text-sm`}
-                                            preserveState
-                                            replace
-                                        >
-                                            {label.trim()}
-                                        </Link>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </nav>
-                </div>
+                <Pagination links={listSantri.links} />
             )}
         </Main>
     );

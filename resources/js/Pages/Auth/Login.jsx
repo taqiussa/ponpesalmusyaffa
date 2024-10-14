@@ -87,111 +87,86 @@ export default function Login({ status, canResetPassword }) {
     }, []);
 
     return (
-        <div
-            style={{
-                display: "flex",
-                height: "100vh",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: isMobile ? "20px" : "0",
-                backgroundImage: isMobile
-                    ? "url('https://cdn.pixabay.com/photo/2016/11/14/22/18/beach-1824855_640.jpg')"
-                    : "none",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
-        >
-            {isMobile && (
-                <div
-                    style={{
-                        textAlign: "center",
-                        marginBottom: "20px",
-                        position: "absolute",
-                        top: "20%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                    }}
-                >
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ891HLuugNKthcStMIQ3VD_phd6XrcYAhkjA&s"
-                        alt="Logo"
-                        style={{
-                            width: "100px",
-                            marginBottom: "10px",
-                        }}
-                    />
-                </div>
-            )}
-
-            {/* Card for desktop */}
+        <>
+        <Head title="Login" />
             <div
                 style={{
                     display: "flex",
-                    flexDirection: "column",
+                    height: "100vh",
                     justifyContent: "center",
-                    maxWidth: "600px",
-                    width: "100%",
-                    padding: isMobile ? "20px" : "40px",
-                    backgroundColor: isMobile
-                        ? "rgba(255, 255, 255, 0.9)"
-                        : "rgba(255, 255, 255, 0.9)", // Desktop card background
-                    borderRadius: "8px",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-                    position: isMobile ? "relative" : "initial",
-                    margin: isMobile ? "0" : "0 20px", // Margin luar untuk desktop
+                    alignItems: "center",
+                    padding: isMobile ? "20px" : "0",
+                    backgroundImage: isMobile
+                        ? "url('https://cdn.pixabay.com/photo/2016/11/14/22/18/beach-1824855_640.jpg')"
+                        : "none",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
                 }}
             >
                 {isMobile && (
-                    <h2
+                    <div
                         style={{
                             textAlign: "center",
-                            marginBottom: "30px",
-                            fontSize: "2em",
+                            marginBottom: "20px",
+                            position: "absolute",
+                            top: "20%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
                         }}
                     >
-                        Masuk
-                    </h2>
-                )}
-                <form onSubmit={submit}>
-                    <div style={{ marginBottom: "20px" }}>
-                        <label
-                            htmlFor="username"
-                            style={{ marginBottom: "5px", display: "block" }}
-                        >
-                            Username
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            placeholder="Masukkan username"
-                            required
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ891HLuugNKthcStMIQ3VD_phd6XrcYAhkjA&s"
+                            alt="Logo"
                             style={{
-                                width: "100%",
-                                padding: "15px",
-                                border: "1px solid #ccc",
-                                borderRadius: "4px",
-                                boxSizing: "border-box",
-                                fontSize: "16px",
-                                paddingRight: "40px", // untuk memberikan ruang di kanan
+                                width: "100px",
+                                marginBottom: "10px",
                             }}
-                            value={data.username}
-                            onChange={(e) => setData('username', e.target.value)}
                         />
                     </div>
-                    <div style={{ marginBottom: "20px" }}>
-                        <label
-                            htmlFor="password"
-                            style={{ marginBottom: "5px", display: "block" }}
+                )}
+
+                {/* Card for desktop */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        maxWidth: "600px",
+                        width: "100%",
+                        padding: isMobile ? "20px" : "40px",
+                        backgroundColor: isMobile
+                            ? "rgba(255, 255, 255, 0.9)"
+                            : "rgba(255, 255, 255, 0.9)", // Desktop card background
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+                        position: isMobile ? "relative" : "initial",
+                        margin: isMobile ? "0" : "0 20px", // Margin luar untuk desktop
+                    }}
+                >
+                    {isMobile && (
+                        <h2
+                            style={{
+                                textAlign: "center",
+                                marginBottom: "30px",
+                                fontSize: "2em",
+                            }}
                         >
-                            Password
-                        </label>
-                        <div style={{ position: "relative" }}>
+                            Masuk
+                        </h2>
+                    )}
+                    <form onSubmit={submit}>
+                        <div style={{ marginBottom: "20px" }}>
+                            <label
+                                htmlFor="username"
+                                style={{ marginBottom: "5px", display: "block" }}
+                            >
+                                Username
+                            </label>
                             <input
-                                type={showPassword ? "text" : "password"}
-                                id="password"
-                                name="password"
-                                placeholder="Masukkan password"
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Masukkan username"
                                 required
                                 style={{
                                     width: "100%",
@@ -200,78 +175,105 @@ export default function Login({ status, canResetPassword }) {
                                     borderRadius: "4px",
                                     boxSizing: "border-box",
                                     fontSize: "16px",
-                                    paddingRight: "40px",
+                                    paddingRight: "40px", // untuk memberikan ruang di kanan
                                 }}
-                                value={data.password}
-                                onChange={(e) => setData('password', e.target.value)}
+                                value={data.username}
+                                onChange={(e) => setData('username', e.target.value)}
                             />
-                            {showPassword ? (
-                                <EyeSlashIcon
-                                    isVisible={() =>
-                                        setShowPassword(!showPassword)
-                                    }
+                        </div>
+                        <div style={{ marginBottom: "20px" }}>
+                            <label
+                                htmlFor="password"
+                                style={{ marginBottom: "5px", display: "block" }}
+                            >
+                                Password
+                            </label>
+                            <div style={{ position: "relative" }}>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    name="password"
+                                    placeholder="Masukkan password"
+                                    required
+                                    style={{
+                                        width: "100%",
+                                        padding: "15px",
+                                        border: "1px solid #ccc",
+                                        borderRadius: "4px",
+                                        boxSizing: "border-box",
+                                        fontSize: "16px",
+                                        paddingRight: "40px",
+                                    }}
+                                    value={data.password}
+                                    onChange={(e) => setData('password', e.target.value)}
                                 />
-                            ) : (
-                                <EyeIcon
-                                    isVisible={() =>
-                                        setShowPassword(!showPassword)
-                                    }
-                                />
-                            )}
+                                {showPassword ? (
+                                    <EyeSlashIcon
+                                        isVisible={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                    />
+                                ) : (
+                                    <EyeIcon
+                                        isVisible={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                    />
+                                )}
+                            </div>
+                        </div>
+                        <button
+                            type="submit"
+                            style={{
+                                padding: "15px",
+                                border: "none",
+                                borderRadius: "4px",
+                                backgroundColor: "#007bff",
+                                color: "white",
+                                cursor: "pointer",
+                                width: "100%",
+                                fontSize: "16px",
+                                transition: "background-color 0.3s",
+                            }}
+                            onMouseOver={(e) =>
+                                (e.target.style.backgroundColor = "#0056b3")
+                            }
+                            onMouseOut={(e) =>
+                                (e.target.style.backgroundColor = "#007bff")
+                            }
+                        >
+                            Masuk
+                        </button>
+                    </form>
+                </div>
+
+                {/* Image for desktop */}
+                {!isMobile && (
+                    <div
+                        style={{
+                            width: "50%",
+                            height: "100%",
+                            backgroundImage:
+                                "url('https://cdn.pixabay.com/photo/2016/11/14/22/18/beach-1824855_640.jpg')",
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            position: "relative",
+                        }}
+                    >
+                        <div className="flex-col mt-[10%] ml-[5%]">
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ891HLuugNKthcStMIQ3VD_phd6XrcYAhkjA&s"
+                                alt="Logo"
+                                className="left-4 top-4 w-20"
+                            />
+                            <p className="text-white">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing
+                                elit.
+                            </p>
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        style={{
-                            padding: "15px",
-                            border: "none",
-                            borderRadius: "4px",
-                            backgroundColor: "#007bff",
-                            color: "white",
-                            cursor: "pointer",
-                            width: "100%",
-                            fontSize: "16px",
-                            transition: "background-color 0.3s",
-                        }}
-                        onMouseOver={(e) =>
-                            (e.target.style.backgroundColor = "#0056b3")
-                        }
-                        onMouseOut={(e) =>
-                            (e.target.style.backgroundColor = "#007bff")
-                        }
-                    >
-                        Masuk
-                    </button>
-                </form>
+                )}
             </div>
-
-            {/* Image for desktop */}
-            {!isMobile && (
-                <div
-                    style={{
-                        width: "50%",
-                        height: "100%",
-                        backgroundImage:
-                            "url('https://cdn.pixabay.com/photo/2016/11/14/22/18/beach-1824855_640.jpg')",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        height: "100%",
-                        position: "relative",
-                    }}
-                >
-                    <div className="flex-col mt-[10%] ml-[5%]">
-                        <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ891HLuugNKthcStMIQ3VD_phd6XrcYAhkjA&s"
-                            alt="Logo"
-                            className="left-4 top-4 w-20"
-                        />
-                        <p className="text-white">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit.
-                        </p>
-                    </div>
-                </div>
-            )}
-        </div>
+        </>
     );
 }
