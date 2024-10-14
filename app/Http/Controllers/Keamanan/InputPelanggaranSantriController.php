@@ -24,7 +24,7 @@ class InputPelanggaranSantriController extends Controller
             'listPelanggaran' => PelanggaranSantri::query()
                 ->whereTanggal(request('tanggal'))
                 ->with([
-                    'pelanggaran:id,nama',
+                    'pelanggaran:id,nama,kategori,hukuman',
                     'santri:nis.name',
                     'pengurus:id,name'
                 ])
