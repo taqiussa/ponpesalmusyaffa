@@ -44,6 +44,14 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                     </li>
                     <li>
                         <Link 
+                            href={route('data-peraturan')} 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/data-peraturan') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">Data Peraturan</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
                             href="/about" 
                             className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/about') ? activeStyles : inactiveStyles}`}
                         >
