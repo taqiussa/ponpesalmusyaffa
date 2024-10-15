@@ -37,10 +37,10 @@ class DataPeraturanController extends Controller
         }
     }
 
-    public function hapus($id){
+    public function hapus(){
         DB::beginTransaction();
         try {
-            Pelanggaran::destroy($id);
+            Pelanggaran::destroy(request('id'));
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
