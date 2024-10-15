@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\InitTrait;
 use App\Models\Pelanggaran;
 use App\Models\PelanggaranSantri;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class InputPelanggaranSantriController extends Controller
