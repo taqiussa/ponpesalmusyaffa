@@ -1,5 +1,6 @@
 import { useForm } from '@inertiajs/react';
 import { Trash2 } from 'react-feather';
+import ShowAlert from '@/Components/ShowAlert';
 import Swal from 'sweetalert2';
 
 export default function Hapus({ id, customRoute, routes, method }) {
@@ -11,13 +12,13 @@ export default function Hapus({ id, customRoute, routes, method }) {
             text: 'Anda yakin ingin menghapus data ini?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#dc3545', // Red color for confirm button
-            cancelButtonColor: '#6c757d',  // Gray color for cancel button
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
             confirmButtonText: 'Ya, Hapus!',
             cancelButtonText: 'Batal',
         }).then((result) => {
             if (result.isConfirmed) {
-                acceptDelete(); // Call the delete function if confirmed
+                acceptDelete();
             }
         });
     };
@@ -25,11 +26,21 @@ export default function Hapus({ id, customRoute, routes, method }) {
     const acceptDelete = () => {
         destroy(route(routes, { id, customRoute }), {
             onSuccess: () => {
-                method && method();
-                Swal.fire('Dihapus!', 'Data telah berhasil dihapus.', 'success'); // Show success message
+                if (method) method();
+                ShowAlert({
+                    icon: 'success',
+                    title: 'Dihapus!',
+                    text: 'Data telah berhasil dihapus.',
+                    timer: 3500,
+                });
             },
             onError: () => {
-                Swal.fire('Gagal!', 'Data gagal dihapus.', 'error'); // Show error message
+                ShowAlert({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Data gagal dihapus.',
+                    timer: 3500,
+                });
             },
             preserveScroll: true,
             preserveState: true,
