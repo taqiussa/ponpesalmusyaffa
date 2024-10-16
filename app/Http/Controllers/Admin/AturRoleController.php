@@ -17,6 +17,7 @@ class AturRoleController extends Controller
                 ->get(),
             'listUser' => User::query()
                 ->whereNotNull('username')
+                ->with(['roles'])
                 ->orderBy('name')
                 ->get()
         ]);
