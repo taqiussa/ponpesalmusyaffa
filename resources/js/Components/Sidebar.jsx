@@ -52,6 +52,14 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                     </li>
                     <li>
                         <Link 
+                            href={route('atur-role')} 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/atur-role') ? activeStyles : inactiveStyles}`}
+                        >
+                            <span className="ml-3">Atur Role</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
                             href="/about" 
                             className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/about') ? activeStyles : inactiveStyles}`}
                         >

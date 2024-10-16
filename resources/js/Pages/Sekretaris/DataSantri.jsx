@@ -38,7 +38,7 @@ export default function DataSantri({ initTahun, listSantri }) {
                     name="tahun"
                     value={data.tahun}
                     message={errors.tahun}
-                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring}"
+                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                     handleChange={onHandleChange}
                 />
                 <JenisKelamin
@@ -63,61 +63,63 @@ export default function DataSantri({ initTahun, listSantri }) {
                 />
             </div>
 
-            {isProcessing ? (
-                <Loading isProcessing={isProcessing} />
-            ) : (
-                <div className="border border-blue-50 mt-3 rounded-xl overflow-x-auto">
-                    <table className="w-full text-sm text-slate-600 overflow-hidden">
-                        <thead className="text-base text-slate-600 bg-gray-50">
+            <div className="border border-blue-200 mt-5 rounded-xl overflow-x-auto shadow-lg">
+                <table className="w-full text-base text-slate-600 overflow-hidden">
+                    <thead className="text-base text-white bg-blue-600">
+                        <tr className="whitespace-nowrap text-center uppercase font-semibold">
+                            <th className="px-2 py-4">No</th>
+                            <th className="px-2 py-4">NIS</th>
+                            <th className="px-2 py-4">Nama</th>
+                            <th className="px-2 py-4">TTL</th>
+                            <th className="px-2 py-4">NIK</th>
+                            <th className="px-2 py-4">Ayah</th>
+                            <th className="px-2 py-4">Ibu</th>
+                            <th className="px-2 py-4">Desa</th>
+                            <th className="px-2 py-4">Telepon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {isProcessing ? (
                             <tr>
-                                <th className="px-2 py-4 text-center">No.</th>
-                                <th className="px-2 py-4 text-center">NIS</th>
-                                <th className="px-2 py-4 text-center">Nama</th>
-                                <th className="px-2 py-4 text-center">TTL</th>
-                                <th className="px-2 py-4 text-center">NIK</th>
-                                <th className="px-2 py-4 text-center">Ayah</th>
-                                <th className="px-2 py-4 text-center">Ibu</th>
-                                <th className="px-2 py-4 text-center">Desa</th>
-                                <th className="px-2 py-4 text-center">Telepon</th>
+                                <td colSpan="9" className="text-center py-4">
+                                    <Loading isProcessing={isProcessing} />
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {listSantri.data.length === 0 ? (
-                                <tr>
-                                    <td colSpan="9" className="select-none text-center py-4 text-red-600 italic">
-                                        {data.search ? 'Data Santri Tidak Ditemukan.' : 'Data Santri Kosong.'}
+                        ) : listSantri.data.length === 0 ? (
+                            <tr>
+                                <td colSpan="9" className="select-none text-center py-4 text-red-600 italic">
+                                    {data.search ? 'Data Santri Tidak Ditemukan.' : 'Data Santri Kosong.'}
+                                </td>
+                            </tr>
+                        ) : (
+                            listSantri.data.map((santri, index) => (
+                                <tr key={santri.nis} className="bg-white border-b whitespace-nowrap text-center hover:bg-slate-300 odd:bg-slate-200">
+                                    <td className="px-2 py-3">
+                                        {index + 1 + (listSantri.current_page - 1) * listSantri.per_page}.
                                     </td>
+                                    <td className="px-2 py-3">{santri.santri.nis || <span className="text-red-300 select-none italic">Data Kosong</span>}</td>
+                                    <td className="px-2 py-3">{santri.santri.name || <span className="text-red-300 select-none italic">Data Kosong</span>}</td>
+                                    <td className="px-2 py-3">
+                                        {santri.biodata.tempat_lahir}, {santri.biodata.tanggal_lahir ? formatTanggalLahir(santri.biodata.tanggal_lahir) : ''}
+                                    </td>
+                                    <td className="px-2 py-3">{santri.biodata.nik || <span className="text-red-300 select-none italic">Data Kosong</span>}</td>
+                                    <td className="px-2 py-3">{santri.biodata.ayah || <span className="text-red-300 select-none italic">Data Kosong</span>}</td>
+                                    <td className="px-2 py-3">{santri.biodata.ibu || <span className="text-red-300 select-none italic">Data Kosong</span>}</td>
+                                    <td className="px-2 py-3">
+                                        {santri.biodata.rt && <span>RT {santri.biodata.rt}, </span>}
+                                        {santri.biodata.rw && <span>RW {santri.biodata.rw}, </span>}
+                                        {santri.biodata.desa && <span>{santri.biodata.desa}, </span>}
+                                        {santri.biodata.kecamatan && <span>{santri.biodata.kecamatan}, </span>}
+                                        {santri.biodata.kabupaten && <span>{santri.biodata.kabupaten}, </span>}
+                                        {santri.biodata.provinsi && <span>{santri.biodata.provinsi}</span>}
+                                    </td>
+                                    <td className="px-2 py-3">{santri.biodata.telepon || <span className="text-red-300 select-none italic">Data Kosong</span>}</td>
                                 </tr>
-                            ) : (
-                                listSantri.data.map((santri, index) => (
-                                    <tr key={santri.nis} className="bg-white border-b whitespace-nowrap hover:bg-slate-300 odd:bg-slate-200">
-                                        <td className="px-2 py-3 text-center">
-                                            {index + 1 + (listSantri.current_page - 1) * listSantri.per_page}.
-                                        </td>
-                                        <td className="px-2 py-3">{santri.santri.nis || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-3">{santri.santri.name || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-3">
-                                            {santri.biodata.tempat_lahir}, {santri.biodata.tanggal_lahir ? formatTanggalLahir(santri.biodata.tanggal_lahir) : ''}
-                                        </td>
-                                        <td className="px-2 py-3">{santri.biodata.nik || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-3">{santri.biodata.ayah || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-3">{santri.biodata.ibu || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                        <td className="px-2 py-3">
-                                            {santri.biodata.rt && <span>RT {santri.biodata.rt}, </span>}
-                                            {santri.biodata.rw && <span>RW {santri.biodata.rw}, </span>}
-                                            {santri.biodata.desa && <span>{santri.biodata.desa}, </span>}
-                                            {santri.biodata.kecamatan && <span>{santri.biodata.kecamatan}, </span>}
-                                            {santri.biodata.kabupaten && <span>{santri.biodata.kabupaten}, </span>}
-                                            {santri.biodata.provinsi && <span>{santri.biodata.provinsi}</span>}
-                                        </td>
-                                        <td className="px-2 py-3">{santri.biodata.telepon || <span className="text-red-300 text-center select-none italic">Data Kosong</span>}</td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
 
             {listSantri.links.length > 0 && (
                 <Pagination links={listSantri.links} />
