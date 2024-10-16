@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Sekretaris;
+namespace App\Http\Controllers\Keamanan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
