@@ -5,7 +5,6 @@ import ShowAlert from "@/Components/ShowAlert";
 import FormField from "@/Components/FormField";
 import Spinner from "@/Components/Spinner";
 import Hapus from "@/hooks/Hapus";
-// import Pagination from "@/Components/Pagination";
 
 export default function DataPeraturan({ listPeraturan }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -48,7 +47,6 @@ export default function DataPeraturan({ listPeraturan }) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Kategori */}
                 <FormField label="Kategori" error={errors.kategori}>
                     <select
                         id="kategori"
@@ -64,7 +62,6 @@ export default function DataPeraturan({ listPeraturan }) {
                 </FormField>
 
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-4">
-                    {/* Keterangan Peraturan */}
                     <FormField label="Keterangan Peraturan" error={errors.nama}>
                         <textarea
                             id="nama"
@@ -77,7 +74,6 @@ export default function DataPeraturan({ listPeraturan }) {
                         />
                     </FormField>
 
-                    {/* Hukuman */}
                     <FormField
                         label="Keterangan Hukuman"
                         error={errors.hukuman}
@@ -108,7 +104,6 @@ export default function DataPeraturan({ listPeraturan }) {
                 </div>
             </form>
 
-            {/* Tabel Peraturan */}
             <div className="border border-blue-200 mt-5 rounded-xl overflow-x-auto shadow-lg">
                 <table className="w-full text-base text-slate-600 overflow-hidden">
                     <thead className="text-base text-white bg-blue-600">
@@ -125,23 +120,23 @@ export default function DataPeraturan({ listPeraturan }) {
                             listPeraturan.map((peraturan, index) => (
                                 <tr
                                     key={peraturan.id}
-                                    className="bg-white border-b whitespace-nowrap hover:bg-slate-100 transition duration-200"
+                                    className="bg-white border-b text-center whitespace-nowrap hover:bg-slate-100 transition duration-200"
                                 >
-                                    <td className="py-2 px-4 border-r text-center">
-                                        {index + 1}
+                                    <td className="py-2 px-4">
+                                        {index + 1}.
                                     </td>
-                                    <td className="py-2 px-4 border-r">
+                                    <td className="py-2 px-4">
                                         {peraturan.nama}
                                     </td>
-                                    <td className="py-2 px-4 border-r text-center">
+                                    <td className="py-2 px-4">
                                         {peraturan.kategori}
                                     </td>
-                                    <td className="py-2 px-4 border-r">
+                                    <td className="py-2 px-4">
                                         {peraturan.hukuman}
                                     </td>
-                                    <td className="py-2 px-4 border-r text-center">
+                                    <td className="py-2 px-4">
                                         <Hapus
-                                            id={peraturan.id}
+                                            ids={peraturan.id}
                                             routes={"data-peraturan.hapus"}
                                         />
                                     </td>
@@ -151,7 +146,7 @@ export default function DataPeraturan({ listPeraturan }) {
                             <tr>
                                 <td
                                     colSpan="5"
-                                    className="text-center py-4 text-gray-500"
+                                    className="text-center py-4 text-gray-500 select-none italic"
                                 >
                                     Tidak ada data peraturan.
                                 </td>
@@ -160,10 +155,6 @@ export default function DataPeraturan({ listPeraturan }) {
                     </tbody>
                 </table>
             </div>
-
-            {/* {listPeraturan.links.length > 0 && (
-                <Pagination links={listPeraturan.links} />
-            )} */}
         </Main>
     );
 }

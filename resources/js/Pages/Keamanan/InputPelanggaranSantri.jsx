@@ -196,7 +196,7 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                                     <td className="py-3 px-4">{list?.pengurus?.name}</td>
                                     <td className="py-3 px-4">
                                         <Hapus
-                                            id={list.id}
+                                            ids={list.id}
                                             routes={'input-pelanggaran-santri.hapus'}
                                         />
                                     </td>
@@ -204,7 +204,7 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="9" className="text-center py-5 text-red-600 italic">
+                                <td colSpan="9" className="text-center py-5 text-red-600 select-none italic">
                                     Tidak ada santri yang melanggar hari ini.
                                 </td>
                             </tr>

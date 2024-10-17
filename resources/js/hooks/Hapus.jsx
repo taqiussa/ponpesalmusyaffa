@@ -3,7 +3,7 @@ import { Trash2 } from 'react-feather';
 import ShowAlert from '@/Components/ShowAlert';
 import Swal from 'sweetalert2';
 
-export default function Hapus({ id, customRoute, routes, method }) {
+export default function Hapus({ ids, customRoute, routes, method }) {
     const { delete: destroy, processing } = useForm({});
 
     const confirmDelete = () => {
@@ -24,7 +24,10 @@ export default function Hapus({ id, customRoute, routes, method }) {
     };
 
     const acceptDelete = () => {
-        destroy(route(routes, { id, customRoute }), {
+        // Check if ids is an array or a single value
+        const idToDelete = Array.isArray(ids) ? ids : [ids];
+
+        destroy(route(routes, { id: idToDelete }), {
             onSuccess: () => {
                 if (method) method();
                 ShowAlert({
