@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Sekretaris;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 
-class AturRoleController extends Controller
+class DataPenggunaController extends Controller
 {
     public function index()
     {
-        return inertia('Admin/AturRole', [
-            'listRole' => Role::query()
-                ->orderBy('name')
-                ->get(),
+        return inertia('Sekretaris/DataPengguna', [
             'listUser' => User::query()
                 ->whereNotNull('username')
                 ->with(['roles'])
@@ -23,18 +20,32 @@ class AturRoleController extends Controller
         ]);
     }
 
+    public function edit($id)
+    {
+        return inertia(
+            'Sekretaris/EditDataPengguna',
+            [
+                'user' => User::find($id)
+            ]
+        );
+    }
+
     public function simpan()
     {
         request()->validate([
-            'role' => 'required',
-            'user_id' => 'required'
+            'id' => 'required',
+            'name' => 'required',
+            'username' => 'required|unique:users,username'
         ]);
 
         DB::beginTransaction();
 
         try {
-            $user = User::find(request('user_id'));
-            $user->assignRole(request('role'));
+            User::find(request('id'))
+                ->update([
+                    'username' => request('username'),
+                    'name' => request('name')
+                ]);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -49,8 +60,7 @@ class AturRoleController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = User::find(request('id')[0]);
-            $user->removeRole(request('id')[1]);
+            User::destroy(request('id'));
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

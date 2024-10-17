@@ -23,6 +23,7 @@ class User extends Authenticatable
         'nis',
         'jenis_kelamin',
         'password',
+        'foto'
     ];
 
     /**

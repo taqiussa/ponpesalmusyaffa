@@ -53,6 +53,8 @@ class InputPelanggaranSantriController extends Controller
     }
 
     public function hapus(){
+        request()->validate(['id' => 'required']);
+
         DB::beginTransaction();
         try {
             PelanggaranSantri::destroy(request('id'));

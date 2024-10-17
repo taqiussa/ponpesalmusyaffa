@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Sekretaris;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 
-class AturRoleController extends Controller
+class TambahDataPenggunaController extends Controller
 {
     public function index()
     {
-        return inertia('Admin/AturRole', [
-            'listRole' => Role::query()
-                ->orderBy('name')
-                ->get(),
+        return inertia('TambahDataPengguna', [
             'listUser' => User::query()
                 ->whereNotNull('username')
                 ->with(['roles'])
@@ -25,16 +22,16 @@ class AturRoleController extends Controller
 
     public function simpan()
     {
-        request()->validate([
-            'role' => 'required',
-            'user_id' => 'required'
+        $validated = request()->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'password' => 'required|confirmed'
         ]);
 
         DB::beginTransaction();
-
+        $validated['password'] = bcrypt(request('password'));
         try {
-            $user = User::find(request('user_id'));
-            $user->assignRole(request('role'));
+            User::create($validated);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -49,8 +46,7 @@ class AturRoleController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = User::find(request('id')[0]);
-            $user->removeRole(request('id')[1]);
+            User::destroy(request('id'));
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
