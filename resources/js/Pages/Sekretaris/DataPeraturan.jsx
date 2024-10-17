@@ -5,12 +5,19 @@ import ShowAlert from "@/Components/ShowAlert";
 import FormField from "@/Components/FormField";
 import Spinner from "@/Components/Spinner";
 import Hapus from "@/hooks/Hapus";
+import Loading from "@/Components/Loading";
+import { useFilter } from "@/hooks/useFilter";
 
 export default function DataPeraturan({ listPeraturan }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
         kategori: "",
         hukuman: "",
+    });
+
+    const { isProcessing } = useFilter({
+        route: "data-peraturan",
+        values: data,
     });
 
     const handleSubmit = (e) => {
@@ -116,11 +123,23 @@ export default function DataPeraturan({ listPeraturan }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {listPeraturan.length > 0 ? (
+                        {isProcessing ? (
+                            <tr>
+                                <td colSpan="4" className="text-center py-4">
+                                    <Loading isProcessing={isProcessing} />
+                                </td>
+                            </tr>
+                        ) : listPeraturan.length === 0 ? (
+                                <tr>
+                                    <td colSpan="4" className="select-none text-center py-4 text-red-600 italic">
+                                        <p>Data Peraturan Kosong.</p>
+                                    </td>
+                                </tr>
+                            ) : (
                             listPeraturan.map((peraturan, index) => (
                                 <tr
                                     key={peraturan.id}
-                                    className="bg-white border-b text-center whitespace-nowrap hover:bg-slate-100 transition duration-200"
+                                    className="bg-white border-b whitespace-nowrap text-center hover:bg-slate-300 odd:bg-slate-200"
                                 >
                                     <td className="py-2 px-4">
                                         {index + 1}.
@@ -142,15 +161,6 @@ export default function DataPeraturan({ listPeraturan }) {
                                     </td>
                                 </tr>
                             ))
-                        ) : (
-                            <tr>
-                                <td
-                                    colSpan="5"
-                                    className="text-center py-4 text-gray-500 select-none italic"
-                                >
-                                    Tidak ada data peraturan.
-                                </td>
-                            </tr>
                         )}
                     </tbody>
                 </table>

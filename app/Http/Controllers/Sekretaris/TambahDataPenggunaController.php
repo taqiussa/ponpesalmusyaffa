@@ -11,7 +11,7 @@ class TambahDataPenggunaController extends Controller
 {
     public function index()
     {
-        return inertia('TambahDataPengguna', [
+        return inertia('Sekretaris/TambahDataPengguna', [
             'listUser' => User::query()
                 ->whereNotNull('username')
                 ->with(['roles'])

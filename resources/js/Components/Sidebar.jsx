@@ -16,7 +16,9 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     // Update dropdown states based on the current route
     useEffect(() => {
         setSekretarisOpen(
-            currentRoute.includes('/data-santri') || currentRoute.includes('/data-peraturan')
+            currentRoute.includes('/data-santri') || 
+            currentRoute.includes('/data-peraturan') ||
+            currentRoute.includes('/data-pengguna') 
         );
         
         setKeamananOpen(
@@ -78,6 +80,14 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                                         className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/data-peraturan') ? activeStyles : inactiveStyles}`}
                                     >
                                         <span className="ml-3">Data Peraturan</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link 
+                                        href={route('data-pengguna')} 
+                                        className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/data-pengguna') ? activeStyles : inactiveStyles}`}
+                                    >
+                                        <span className="ml-3">Data pengguna</span>
                                     </Link>
                                 </li>
                             </ul>
