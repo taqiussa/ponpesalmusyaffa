@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import Main from '@/Layouts/Main';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import FormField from '@/Components/FormField';
 import Spinner from '@/Components/Spinner';
 import Hapus from '@/hooks/Hapus';
 import { Edit } from 'react-feather';
 import { useFilter } from '@/hooks/useFilter';
 import Loading from '@/Components/Loading';
+import ShowAlert from '@/Components/ShowAlert';
 
 export default function TambahDataPengguna({ listUser }) {
-    const [form, setForm, processing, data ] = useState({
+    const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         username: '',
         password: '',
@@ -21,25 +22,60 @@ export default function TambahDataPengguna({ listUser }) {
         route: "tambah-data-pengguna",
         values: data,
     });
-    
-    const [errors, setErrors] = useState({});
-
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post(route('tambah-data-pengguna.simpan'), form, {
+        post(route("tambah-data-pengguna.simpan"), {
             onSuccess: () => {
-                setForm({ name: '', username: '', password: '', password_confirmation: '' });
-                setErrors({});
+                ShowAlert({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "Peraturan berhasil ditambahkan.",
+                    timer: 3500,
+                });
+                reset();
             },
-            onError: (err) => {
-                setErrors(err);
-            }
+            onError: () => {
+                ShowAlert({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "Peraturan gagal ditambahkan.",
+                    timer: 3500,
+                });
+            },
         });
     };
+
+    // const [form, setForm, processing, data ] = useState({
+    //     name: '',
+    //     username: '',
+    //     password: '',
+    //     password_confirmation: ''
+    // });
+
+    // const { isProcessing } = useFilter({
+    //     route: "tambah-data-pengguna",
+    //     values: data,
+    // });
+    
+    // const [errors, setErrors] = useState({});
+
+    // const handleChange = (e) => {
+    //     setForm({ ...form, [e.target.name]: e.target.value });
+    // };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     Inertia.post(route('tambah-data-pengguna.simpan'), form, {
+    //         onSuccess: () => {
+    //             setForm({ name: '', username: '', password: '', password_confirmation: '' });
+    //             setErrors({});
+    //         },
+    //         onError: (err) => {
+    //             setErrors(err);
+    //         }
+    //     });
+    // };
 
     return (
         <Main>
@@ -58,8 +94,8 @@ export default function TambahDataPengguna({ listUser }) {
                             type="text"
                             placeholder="Masukan Nama....."
                             name="name"
-                            value={form.name}
-                            onChange={handleChange}
+                            value={data.name}
+                            onChange={(e) => setData("name", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
                     </FormField>
@@ -69,8 +105,8 @@ export default function TambahDataPengguna({ listUser }) {
                             type="text"
                             placeholder="Masukan Username....."
                             name="username"
-                            value={form.username}
-                            onChange={handleChange}
+                            value={data.username}
+                            onChange={(e) => setData("username", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
                     </FormField>
@@ -80,8 +116,8 @@ export default function TambahDataPengguna({ listUser }) {
                             type="password"
                             placeholder="Masukan Password....."
                             name="password"
-                            value={form.password}
-                            onChange={handleChange}
+                            value={data.password}
+                            onChange={(e) => setData("password", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
                     </FormField>
@@ -91,8 +127,8 @@ export default function TambahDataPengguna({ listUser }) {
                             type="password"
                             placeholder="Konfirmasi Password Anda....."
                             name="password_confirmation"
-                            value={form.password_confirmation}
-                            onChange={handleChange}
+                            value={data.password_confirmation}
+                            onChange={(e) => setData("password_confirmation", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
                     </FormField>

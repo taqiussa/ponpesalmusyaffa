@@ -56,25 +56,6 @@ class ProfilePenggunaController extends Controller
             throw $th;
         }
     }
-    public function nama()
-    {
-        request()->validate([
-            'id' => 'required',
-            'name' => 'required'
-        ]);
-
-        DB::beginTransaction();
-
-        try {
-            User::find(request('id'))
-                ->update([
-                    'name' => request('name')
-                ]);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            throw $th;
-        }
-    }
 
     public function foto()
     {

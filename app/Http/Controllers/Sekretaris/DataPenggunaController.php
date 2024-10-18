@@ -35,7 +35,7 @@ class DataPenggunaController extends Controller
         request()->validate([
             'id' => 'required',
             'name' => 'required',
-            'username' => 'required|unique:users,username'
+            'username' => 'required'
         ]);
 
         DB::beginTransaction();

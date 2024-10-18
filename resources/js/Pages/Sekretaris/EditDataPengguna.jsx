@@ -1,43 +1,57 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import Main from '@/Layouts/Main';
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import FormField from '@/Components/FormField';
 
 export default function EditDataPengguna({ user }) {
-    const [form, setForm] = useState({
+    const { data, setData, post, errors, reset } = useForm({
         id: user.id,
-        name: user.name || '',
-        username: user.username || '',
+        name: user.name,
+        username: user.username,
     });
-
-    const [errors, setErrors] = useState({});
-
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post(route('data-pengguna.simpan'), form, {
-            onError: (err) => {
-                setErrors(err);
-            }
+        post(route("data-pengguna.simpan"), {
+            onSuccess: () => {
+                ShowAlert({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "Peraturan berhasil ditambahkan.",
+                    timer: 3500,
+                });
+                reset();
+            },
+            onError: () => {
+                ShowAlert({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "Peraturan gagal ditambahkan.",
+                    timer: 3500,
+                });
+            },
         });
     };
 
     return (
         <Main>
             <Head title='Edit Pengguna' />
-            <h1 className="text-xl font-bold mb-4">Edit Data Pengguna</h1>
+            <div className="mb-6 overflow-x-hidden">
+                <h2 className="text-3xl font-bold text-blue-600">
+                    Edit Data Pengguna
+                </h2>
+                <div className="w-full h-0.5 bg-gradient-to-r from-blue-500 to-transparent mt-2" />
+            </div>
+            
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-4">
                     <FormField label="Nama" error={errors.name}>
                         <input
                             type="text"
                             name="name"
-                            value={form.name}
-                            onChange={handleChange}
+                            value={data.name}
+                            onChange={(e) => setData("name", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
                     </FormField>
@@ -45,10 +59,9 @@ export default function EditDataPengguna({ user }) {
                     <FormField label="Username" error={errors.username}>
                         <input
                             type="text"
-                            id="username"
                             name="username"
-                            value={form.username}
-                            onChange={handleChange}
+                            value={data.username}
+                            onChange={(e) => setData("username", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
                     </FormField>
