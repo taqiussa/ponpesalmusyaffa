@@ -121,7 +121,7 @@ export default function AturRole({ listRole = [], listUser = [] }) {
                                                 {user.roles.length > 0 ? (
                                                         <div className="flex flex-col">
                                                                 {user.roles.map((role, roleIndex) => (
-                                                                <div key={role.name} className={`flex flex-col py-2 ${roleIndex < user.roles.length - 1 ? 'border-b border-blue-500 py-3 my-1' : ''}`}>
+                                                                <div key={role.name} className={`flex flex-col py-1 ${roleIndex < user.roles.length - 1 ? 'border-b border-blue-500 py-3 my-1' : ''}`}>
                                                                         <span className="inline-block bg-blue-500 text-white px-3 py-1 rounded">
                                                                                 {role.name}
                                                                         </span>
@@ -137,7 +137,7 @@ export default function AturRole({ listRole = [], listUser = [] }) {
                                         <td className="px-4 py-2">
                                                 {user.roles.length > 0 ? (
                                                 user.roles.map((role, roleIndex) => (
-                                                        <div key={role.name} className={`flex flex-col py-2 ${roleIndex < user.roles.length - 1 ? 'border-b border-blue-500 py-3 my-1' : ''}`}>
+                                                        <div key={role.name} className={`flex flex-col py-1 ${roleIndex < user.roles.length - 1 ? 'border-b border-blue-500 py-3 my-4' : ''}`}>
                                                                 <Hapus
                                                                         ids={[user.id, role.name]}
                                                                         routes={"atur-role.hapus"}

@@ -10,6 +10,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
     // State to track which dropdowns are open
     const [isSekretarisOpen, setSekretarisOpen] = useState(false);
+    const [isLainnyaOppen, setLainnyaOppen] = useState(false);
     const [isKeamananOpen, setKeamananOpen] = useState(false);
     const [isLainnyaOpen, setLainnyaOpen] = useState(false);
 
@@ -21,6 +22,10 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             currentRoute.includes('/data-pengguna') 
         );
         
+        setLainnyaOppen(
+            currentRoute.includes('/data-pengguna')
+        );
+
         setKeamananOpen(
             currentRoute.includes('/input-pelanggaran-santri')
         );
@@ -28,7 +33,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         setLainnyaOpen(
             currentRoute.includes('/about') || 
             currentRoute.includes('/contact') || 
-            currentRoute.includes('/profile/edit')
+            currentRoute.includes('/profile-pengguna')
         );
     }, [currentRoute]);
 
@@ -82,13 +87,36 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                                         <span className="ml-3">Data Peraturan</span>
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link 
                                         href={route('data-pengguna')} 
                                         className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/data-pengguna') ? activeStyles : inactiveStyles}`}
                                     >
                                         <span className="ml-3">Data pengguna</span>
                                     </Link>
+                                </li> */}
+                                <li>
+                                    <button 
+                                        onClick={() => setLainnyaOppen(!isLainnyaOppen)} 
+                                        className="flex items-center p-2 rounded-lg w-full text-left"
+                                    >
+                                        <span className="ml-3">Lainnya</span>
+                                        <span className="ml-auto">
+                                            {isLainnyaOppen ? '▼' : '▶'}
+                                        </span>
+                                    </button>
+                                    {isLainnyaOppen && (
+                                        <ul className="ml-6 space-y-2">
+                                            <li>
+                                                <Link 
+                                                    href={route('data-pengguna')} 
+                                                    className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/data-pengguna') ? activeStyles : inactiveStyles}`}
+                                                >
+                                                    <span className="ml-3">Data pengguna</span>
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    )}
                                 </li>
                             </ul>
                         )}
@@ -150,8 +178,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                                 </li> */}
                                 <li>
                                     <Link 
-                                        href={route('profile.edit')} 
-                                        className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/profile/edit') ? activeStyles : inactiveStyles}`}
+                                        href={route('profil-pengguna')} 
+                                        className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/profile-pengguna') ? activeStyles : inactiveStyles}`}
                                     >
                                         <span className="ml-3">Profile</span>
                                     </Link>

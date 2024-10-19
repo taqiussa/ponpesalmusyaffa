@@ -3,9 +3,11 @@ import { Inertia } from '@inertiajs/inertia';
 import Main from '@/Layouts/Main';
 import { Head, useForm } from '@inertiajs/react';
 import FormField from '@/Components/FormField';
+import Spinner from '@/Components/Spinner';
+import ShowAlert from "@/Components/ShowAlert";
 
 export default function EditDataPengguna({ user }) {
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, errors, processing, reset } = useForm({
         id: user.id,
         name: user.name,
         username: user.username,
@@ -18,7 +20,7 @@ export default function EditDataPengguna({ user }) {
                 ShowAlert({
                     icon: "success",
                     title: "Berhasil!",
-                    text: "Peraturan berhasil ditambahkan.",
+                    text: "Pengguna berhasil ditambahkan.",
                     timer: 3500,
                 });
                 reset();
@@ -27,7 +29,7 @@ export default function EditDataPengguna({ user }) {
                 ShowAlert({
                     icon: "error",
                     title: "Gagal!",
-                    text: "Peraturan gagal ditambahkan.",
+                    text: "Pengguna gagal ditambahkan.",
                     timer: 3500,
                 });
             },
@@ -70,8 +72,9 @@ export default function EditDataPengguna({ user }) {
                     <button
                         type="submit"
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+                        disabled={processing}
                     >
-                        Simpan
+                        {processing ? <Spinner /> : "Simpan"}
                     </button>
                 </div>
             </form>

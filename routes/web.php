@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(ProfilePenggunaController::class)->group(function(){
         Route::get('profile-pengguna', 'index')->name('profil-pengguna');
-        Route::post('profile-pengguna/password', 'passowrd')->name('profil-pengguna.password');
+        Route::post('profile-pengguna/password', 'password')->name('profil-pengguna.password');
         Route::post('profile-pengguna/nama', 'nama')->name('profil-pengguna.nama');
         Route::post('profile-pengguna/foto', 'foto')->name('profil-pengguna.foto');
 
