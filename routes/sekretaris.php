@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Sekretaris\DataAlumniController;
 use App\Http\Controllers\Sekretaris\DataPenggunaController;
 use App\Http\Controllers\Sekretaris\DataPeraturanController;
 use App\Http\Controllers\Sekretaris\DataSantriController;
@@ -7,6 +8,10 @@ use App\Http\Controllers\Sekretaris\TambahDataPenggunaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
+
+        Route::controller(DataAlumniController::class)->group(function () {
+                Route::get('data-alumni', 'index')->name('data-alumni');
+        });
 
         Route::controller(DataPenggunaController::class)->group(function () {
                 Route::get('data-pengguna', 'index')->name('data-pengguna');
