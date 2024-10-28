@@ -29,8 +29,8 @@ function DataAlumni() {
         <Main>
             <Head title='Data Alumni' />
             <div className="mb-6">
-                <h2 className="text-3xl font-bold text-blue-600">Data Alumni</h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-500 to-transparent mt-2" />
+                <h2 className="text-3xl font-bold text-blue-400">Data Alumni</h2>
+                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
             </div>
             <form>
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-4">
@@ -81,7 +81,7 @@ function DataAlumni() {
                     <div className="mb-4">
                         <FormField label="Tanggal Lahir" error={errors.tanggal_lahir}>
                             <input
-                                type="number"
+                                type="date"
                                 id="tanggal_lahir"
                                 name="tanggal_lahir"
                                 value={data.tanggal_lahir}
@@ -253,7 +253,25 @@ function DataAlumni() {
                         </FormField>
                     </div>
 
-                    <div className="mb-4">
+                    {(data.status !== 'Menikah') ? (
+                        <div className="mb-4">
+                            <FormField label="Tingkat Terakhir" error={errors.tingkat_terakhir}>
+                                <input
+                                    type="text"
+                                    id="tingkat_terakhir"
+                                    name="tingkat_terakhir"
+                                    value={data.tingkat_terakhir}
+                                    onChange={(e) => setData('tingkat_terakhir', e.target.value)}
+                                    placeholder="Masukkan Tingkat Terakhir"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                                />
+                            </FormField>
+                        </div>
+                    ) : null}
+                </div>
+                
+                {(data.status === 'Menikah') && (
+                    <div className="grid grid-cols-1 mb-4">
                         <FormField label="Tingkat Terakhir" error={errors.tingkat_terakhir}>
                             <input
                                 type="text"
@@ -266,7 +284,7 @@ function DataAlumni() {
                             />
                         </FormField>
                     </div>
-                </div>
+                )}
             </form>
         </Main>
     );

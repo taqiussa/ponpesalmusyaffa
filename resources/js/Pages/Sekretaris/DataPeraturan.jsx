@@ -7,6 +7,7 @@ import Spinner from "@/Components/Spinner";
 import Hapus from "@/hooks/Hapus";
 import Loading from "@/Components/Loading";
 import { useFilter } from "@/hooks/useFilter";
+import DataTable from "@/Components/DataTable";
 
 export default function DataPeraturan({ listPeraturan }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -43,14 +44,22 @@ export default function DataPeraturan({ listPeraturan }) {
         });
     };
 
+    const columns = [
+        { label: "No", render: (item, index) => index + 1 },
+        { label: "Keterangan Peraturan", render: (item) => item.nama },
+        { label: "Kategori", render: (item) => item.kategori },
+        { label: "Keterangan Hukuman", render: (item) => item.hukuman },
+        { label: "Aksi", render: (item) => ( <Hapus ids={item.id} routes={"data-peraturan.hapus"} /> ) },
+    ];
+
     return (
         <Main>
             <Head title="Data Peraturan" />
             <div className="mb-6 overflow-x-hidden">
-                <h2 className="text-3xl font-bold text-blue-600">
-                    Tambah Peraturan
+                <h2 className="text-3xl font-bold text-blue-400">
+                    Data Peraturan
                 </h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-500 to-transparent mt-2" />
+                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -98,7 +107,7 @@ export default function DataPeraturan({ listPeraturan }) {
                 </div>
 
                 <div className="mt-4 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center sm:flex-col sm:justify-between sm:items-center">
-                    <h3 className="text-xl font-bold mt-5 lg:mt-0">
+                    <h3 className="text-xl font-bold mt-5 lg:mt-0 text-blue-400">
                         List Peraturan
                     </h3>
                     <button
@@ -111,60 +120,12 @@ export default function DataPeraturan({ listPeraturan }) {
                 </div>
             </form>
 
-            <div className="border border-blue-200 mt-5 rounded-xl overflow-x-auto shadow-lg">
-                <table className="w-full text-base text-slate-600 overflow-hidden">
-                    <thead className="text-base text-white bg-blue-600">
-                        <tr className="whitespace-nowrap text-center uppercase font-semibold">
-                            <th className="py-2 px-4">No</th>
-                            <th className="py-2 px-4">Keterangan Peraturan</th>
-                            <th className="py-2 px-4">Kategori</th>
-                            <th className="py-2 px-4">Keterangan Hukuman</th>
-                            <th className="py-2 px-4">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {isProcessing ? (
-                            <tr>
-                                <td colSpan="4" className="text-center py-4">
-                                    <Loading isProcessing={isProcessing} />
-                                </td>
-                            </tr>
-                        ) : listPeraturan.length === 0 ? (
-                                <tr>
-                                    <td colSpan="4" className="select-none text-center py-4 text-red-600 italic">
-                                        <p>Data Peraturan Kosong.</p>
-                                    </td>
-                                </tr>
-                            ) : (
-                            listPeraturan.map((peraturan, index) => (
-                                <tr
-                                    key={peraturan.id}
-                                    className="bg-white border-b whitespace-nowrap text-center hover:bg-slate-300 odd:bg-slate-200"
-                                >
-                                    <td className="py-2 px-4">
-                                        {index + 1}.
-                                    </td>
-                                    <td className="py-2 px-4">
-                                        {peraturan.nama}
-                                    </td>
-                                    <td className="py-2 px-4">
-                                        {peraturan.kategori}
-                                    </td>
-                                    <td className="py-2 px-4">
-                                        {peraturan.hukuman}
-                                    </td>
-                                    <td className="py-2 px-4">
-                                        <Hapus
-                                            ids={peraturan.id}
-                                            routes={"data-peraturan.hapus"}
-                                        />
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
+            <DataTable
+                columns={columns}
+                data={listPeraturan}
+                loading={isProcessing}
+                emptyMessage={"Data Peraturan Kosong."}
+            />
         </Main>
     );
 }

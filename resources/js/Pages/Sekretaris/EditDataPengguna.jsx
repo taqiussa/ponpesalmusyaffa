@@ -40,10 +40,10 @@ export default function EditDataPengguna({ user }) {
         <Main>
             <Head title='Edit Pengguna' />
             <div className="mb-6 overflow-x-hidden">
-                <h2 className="text-3xl font-bold text-blue-600">
+                <h2 className="text-3xl font-bold text-blue-400">
                     Edit Data Pengguna
                 </h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-500 to-transparent mt-2" />
+                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
             </div>
             
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -53,6 +53,7 @@ export default function EditDataPengguna({ user }) {
                             type="text"
                             name="name"
                             value={data.name}
+                            autoComplete='off'
                             onChange={(e) => setData("name", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
@@ -63,6 +64,7 @@ export default function EditDataPengguna({ user }) {
                             type="text"
                             name="username"
                             value={data.username}
+                            autoComplete='off'
                             onChange={(e) => setData("username", e.target.value)}
                             className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
                         />
