@@ -3,7 +3,6 @@ import 'tailwindcss/tailwind.css';
 import AOS from 'aos';
 import "@/CSS/skilline.css";
 import 'aos/dist/aos.css';
-// import Girl from "@/img/girl.png";
 import PakKyai from "@/img/pak_kyai.png";
 import Foto_A from "@/img/Foto_A.jpeg";
 import Foto_B from "@/img/Foto_B.jpeg";
