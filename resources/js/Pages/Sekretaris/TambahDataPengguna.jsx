@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Main from '@/Layouts/Main';
 import FormField from '@/Components/FormField';
@@ -8,7 +8,11 @@ import { Edit } from 'react-feather';
 import { useFilter } from '@/hooks/useFilter';
 import Loading from '@/Components/Loading';
 import ShowAlert from '@/Components/ShowAlert';
-import DataTable from '@/Components/DataTable'; 
+import DataTable from '@/Components/DataTable';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 export default function TambahDataPengguna({ listUser }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
@@ -21,6 +25,9 @@ export default function TambahDataPengguna({ listUser }) {
         route: "tambah-data-pengguna",
         values: data,
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -59,10 +66,8 @@ export default function TambahDataPengguna({ listUser }) {
         {
             label: "Aksi",
             render: (item) => (
-
                 <div className="flex justify-center gap-2">
                     <Link href={route("data-pengguna.edit", item.id)} className="inline-flex items-center text-blue-600 uppercase tracking-widest hover:text-blue-500 active:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150" >
-                        
                         <Edit />
                     </Link>
                     <Hapus ids={item.id} routes={"data-pengguna.hapus"} />
@@ -106,25 +111,41 @@ export default function TambahDataPengguna({ listUser }) {
                     </FormField>
 
                     <FormField label="Password" error={errors.password}>
-                        <input
-                            type="password"
-                            placeholder="Masukan Password....."
-                            name="password"
-                            value={data.password}
-                            onChange={(e) => setData("password", e.target.value)}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
-                        />
+                        <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Masukan Password....."
+                                name="password"
+                                value={data.password}
+                                onChange={(e) => setData("password", e.target.value)}
+                                className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
+                            />
+                            <IconButton
+                                onClick={() => setShowPassword(!showPassword)}
+                                size="medium"
+                            >
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </div>
                     </FormField>
 
                     <FormField label="Konfirmasi Password" error={errors.password_confirmation}>
-                        <input
-                            type="password"
-                            placeholder="Konfirmasi Password Anda....."
-                            name="password_confirmation"
-                            value={data.password_confirmation}
-                            onChange={(e) => setData("password_confirmation", e.target.value)}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
-                        />
+                        <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
+                            <input
+                                type={showPasswordConfirmation ? 'text' : 'password'}
+                                placeholder="Konfirmasi Password Anda....."
+                                name="password_confirmation"
+                                value={data.password_confirmation}
+                                onChange={(e) => setData("password_confirmation", e.target.value)}
+                                className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full" // Removed border for seamless design
+                            />
+                            <IconButton
+                                onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+                                size="medium"
+                            >
+                                {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </div>
                     </FormField>
                 </div>
 
@@ -142,7 +163,6 @@ export default function TambahDataPengguna({ listUser }) {
                 </div>
             </form>
 
-            
             <DataTable
                 columns={columns}
                 data={listUser || []}

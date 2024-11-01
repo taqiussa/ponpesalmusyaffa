@@ -1,9 +1,16 @@
 import Main from '@/Layouts/Main';
 import { Head, useForm } from '@inertiajs/react';
-import React, { useState } from 'react';
-import { Eye, EyeOff } from 'react-feather';
-import ShowAlert from '@/Components/ShowAlert';
+import React, { useState, useRef } from 'react';
+import { Grid, CssBaseline, Card, Divider, Button, Typography, FormControl, Tabs, Tab, TextField, Box, Avatar, IconButton, InputAdornment, Badge, Menu, MenuItem, Modal } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import SaveIcon from '@mui/icons-material/PermMedia';
+import ShowAlert from "@/Components/ShowAlert";
 import FormField from '@/Components/FormField';
+
+const theme = createTheme();
 
 export default function ProfilePengguna({ user }) {
     const defaultPhoto = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ891HLuugNKthcStMIQ3VD_phd6XrcYAhkjA&s';
@@ -20,278 +27,270 @@ export default function ProfilePengguna({ user }) {
     const [newPhotoPreview, setNewPhotoPreview] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+    const [activeTab, setActiveTab] = useState('account');
 
-    const [activeTab, setActiveTab] = useState('nama');
+    const [anchorEl, setAnchorEl] = useState(null);
+    const inputFileRef = useRef(null);
+    const videoRef = useRef(null);
+    const canvasRef = useRef(null);
+    const [openModal, setOpenModal] = useState(false);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setData('foto', file);
-
         if (file) {
-            setNewPhotoPreview(URL.createObjectURL(file));
-        } else {
-            setNewPhotoPreview(null);
+            if (newPhotoPreview) {
+                URL.revokeObjectURL(newPhotoPreview);
+            }
+            const newPreviewUrl = URL.createObjectURL(file);
+            setData('foto', file);
+            setNewPhotoPreview(newPreviewUrl);
         }
     };
 
-    const handleSubmitName = (e) => {
-        e.preventDefault();
-        post(route('profil-pengguna.nama'), {
-            onSuccess: () => {
-                ShowAlert({
-                    icon: "success",
-                    title: "Berhasil!",
-                    text: "Nama berhasil diperbarui.",
-                    timer: 3500,
-                });
-                reset('name');
-                console.log("Active Tab:", activeTab);
-            },
-            onError: () => {
-                ShowAlert({
-                    icon: "error",
-                    title: "Gagal!",
-                    text: "Nama gagal diperbarui.",
-                    timer: 3500,
-                });
-                console.log("Active Tab:", activeTab);
-            },
-        });
+    const handleOpenMenu = (e) => {
+        setAnchorEl(e.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
+    const handleSelectFile = () => {
+        handleCloseMenu();
+        inputFileRef.current.click();
+    };
+
+    const handleCapturePhoto = async () => {
+        handleCloseMenu();
+        setOpenModal(true);
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
     };
     
-    const handleSubmitPassword = (e) => {
-        e.preventDefault();
-        post(route('profil-pengguna.password'), {
-            onSuccess: () => {
-                ShowAlert({
-                    icon: "success",
-                    title: "Berhasil!",
-                    text: "Password berhasil diperbarui.",
-                    timer: 3500,
-                });
-                reset('password', 'password_confirmation');
-                console.log("Active Tab:", activeTab);
-            },
-            onError: () => {
-                ShowAlert({
-                    icon: "error",
-                    title: "Gagal!",
-                    text: "Password gagal diperbarui.",
-                    timer: 3500,
-                });
-                console.log("Active Tab:", activeTab);
-            },
-        });
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        
+        if (videoRef.current && videoRef.current.srcObject) {
+            const stream = videoRef.current.srcObject;
+            const tracks = stream.getTracks();
+            tracks.forEach((track) => track.stop());
+            videoRef.current.srcObject = null;
+        }
     };
     
-    const handleSubmitFoto = (e) => {
+    const handleTakePhoto = async () => {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+        const photoURL = canvas.toDataURL('image/png');
+
+        const response = await fetch(photoURL);
+        const blob = await response.blob();
+        const file = new File([blob], "captured_photo.png", { type: "image/png" });
+
+        setData('foto', file);
+        setNewPhotoPreview(photoURL);
+        setOpenModal(false);
+        const stream = videoRef.current.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        videoRef.current.srcObject = null;
+    };
+
+    const handleSubmit = (route, successMsg, errorMsg) => (e) => {
         e.preventDefault();
-        post(route('profil-pengguna.foto'), {
+        post(route, {
             onSuccess: () => {
-                ShowAlert({
-                    icon: "success",
-                    title: "Berhasil!",
-                    text: "Foto berhasil diperbarui.",
-                    timer: 3500,
-                });
+                ShowAlert({ icon: "success", title: "Berhasil!", text: successMsg, timer: 3500 });
+                reset();
                 setNewPhotoPreview(null);
-                console.log("Active Tab:", activeTab);
+                if (response && response.foto) {
+                    setNewPhotoPreview(`/storage/${response.foto}`);
+                }
             },
             onError: () => {
-                ShowAlert({
-                    icon: "error",
-                    title: "Gagal!",
-                    text: "Foto gagal diperbarui.",
-                    timer: 3500,
-                });
-                console.log("Active Tab:", activeTab);
+                ShowAlert({ icon: "error", title: "Gagal!", text: errorMsg, timer: 3500 });
             },
         });
     };
-    
+
     return (
-        <Main>
-            <Head title='Profile Pengguna' />
-            <div className="mb-6 overflow-x-hidden">
-                <h2 className="text-3xl font-bold text-blue-400">
-                    Profile
-                </h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
-            </div>
-
-            {/* Tab Navigation */}
-            <div className='border px-5 py-3 rounded-lg shadow-lg shadow-blue-400'>
-                <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
-                    <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" role="tablist">
-                        <li className="me-2" role="presentation">
-                            <button
-                                className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'nama' ? 'border-blue-600 text-blue-400' : ''}`}
-                                onClick={() => setActiveTab('nama')}
-                            >
-                                Nama
-                            </button>
-                        </li>
-                        <li className="me-2" role="presentation">
-                            <button
-                                className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'password' ? 'border-blue-600 text-blue-400' : ''}`}
-                                onClick={() => setActiveTab('password')}
-                            >
-                                Password
-                            </button>
-                        </li>
-                        <li className="me-2" role="presentation">
-                            <button
-                                className={`inline-block p-4 border-b-2 rounded-t-lg ${activeTab === 'foto' ? 'border-blue-600 text-blue-400' : ''}`}
-                                onClick={() => setActiveTab('foto')}
-                            >
-                                Foto
-                            </button>
-                        </li>
-                    </ul>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Main>
+                <Head title='Profile Pengguna' />
+                <div className="mb-4">
+                    <h2 className="text-3xl font-bold text-blue-400">Profile</h2>
+                    <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-1" />
                 </div>
-
-                {/* Tab Content */}
-                {activeTab === 'nama' && (
-                    <div className="p-4">
-                        <div className="flex flex-col">
-                            <h3 className="text-lg font-semibold mb-1 text-blue-400">Update Nama</h3>
-                            <hr className='w-3/4 h-0.5 bg-gradient-to-r from-blue-300 to-transparent mb-5' />
-                        </div>
-                        <form onSubmit={handleSubmitName} className="flex flex-col">
-                            <FormField label="Nama" error={errors.name}>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={data.name}
-                                    onChange={(e) => setData("name", e.target.value)}
-                                    className="border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
-                                />
-                            </FormField>
-                            <button
-                                type="submit"
-                                className="bg-blue-500 text-white px-3 py-1 mt-4 rounded hover:bg-blue-600 transition duration-200"
-                            >
-                                Update Nama
-                            </button>
-                        </form>
-                    </div>
-                )}
-
-                {activeTab === 'password' && (
-                    <div className="p-4">
-                        <div className="flex flex-col">
-                            <h3 className="text-lg font-semibold mb-1 text-blue-400">Update Password</h3>
-                            <hr className='w-3/4 h-0.5 bg-gradient-to-r from-blue-300 to-transparent mb-5' />
-                        </div>
-                        <form onSubmit={handleSubmitPassword} className="flex flex-col">
-                            <FormField label="Password" error={errors.password}>
-                                <div className="relative">
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        name="password"
-                                        value={data.password}
-                                        placeholder='Masukan Password Baru Anda...'
-                                        onChange={(e) => setData("password", e.target.value)}
-                                        className="border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
-                                    />
-                                    <div
-                                        className="absolute right-3 top-3 cursor-pointer"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                    >
-                                        {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-                                    </div>
-                                </div>
-                            </FormField>
-                            <FormField label="Konfirmasi Password" error={errors.password_confirmation}>
-                                <div className="relative">
-                                    <input
-                                        type={showPasswordConfirmation ? 'text' : 'password'}
-                                        name="password_confirmation"
-                                        value={data.password_confirmation}
-                                        placeholder='Konfirmasi Password Anda...'
-                                        onChange={(e) => setData("password_confirmation", e.target.value)}
-                                        className="border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
-                                    />
-                                    <div
-                                        className="absolute right-3 top-3 cursor-pointer"
-                                        onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
-                                    >
-                                        {showPasswordConfirmation ? <Eye size={20} /> : <EyeOff size={20} />}
-                                    </div>
-                                </div>
-                            </FormField>
-                            <button
-                                type="submit"
-                                className="bg-blue-500 text-white px-3 py-1 mt-4 rounded hover:bg-blue-600 transition duration-200"
-                            >
-                                Update Password
-                            </button>
-                        </form>
-                    </div>
-                )}
-
-                {activeTab === 'foto' && (
-                    <div className="p-4">
-                        <div className="flex flex-col">
-                            <h3 className="text-lg font-semibold mb-1 text-blue-400">Update Foto</h3>
-                            <hr className='w-3/4 h-0.5 bg-gradient-to-r from-blue-300 to-transparent mb-5' />
-                        </div>
-                        <form onSubmit={handleSubmitFoto} encType="multipart/form-data" className="flex flex-col">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                                <div className={`flex flex-col ${newPhotoPreview ? "items-center" : ""}`}>
-                                    <label className="block text-sm">Foto Saat Ini</label>
-                                    <img
-                                        src={currentPhotoUrl}
-                                        alt="Profile Foto"
-                                        className="rounded-lg max-w-60 h-40"
-                                    />
-                                </div>
-                                <div className={`flex flex-col ${newPhotoPreview ? "items-center" : "hidden"}`}>
-                                    <label className="block text-sm">Foto Baru</label>
-                                    <img
-                                        src={newPhotoPreview}
-                                        alt="Profile Foto"
-                                        className="rounded-lg max-w-60 h-40"
-                                    />
-                                </div>
-                                {!newPhotoPreview && (
-                                    <div>
-                                        <FormField label="Unggah Foto Baru" error={errors.foto}>
-                                            <input
-                                                type="file"
-                                                name="foto"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                                onChange={handleFileChange}
-                                                className="border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
-                                            />
-                                        </FormField>
-                                    </div>
-                                )}
-                            </div>
-                            {newPhotoPreview && (
-                                <div>
-                                    <FormField label="Unggah Foto Baru" error={errors.foto}>
-                                        <input
-                                            type="file"
-                                            name="foto"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                            onChange={handleFileChange}
-                                            className="border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                <Grid container direction="column" sx={{ overflowX: "hidden" }}>
+                    <Grid container direction={{ xs: "column", md: "row" }} spacing={3} sx={{ position: "relative" }}>
+                        <Grid item md={4}>
+                            <Card variant="outlined" sx={{ p: 4 }}>
+                                <Grid container direction="column" alignItems="center">
+                                    <Box sx={{ mb: 2, textAlign: 'center' }}>
+                                        <Typography variant="body2">Foto Lama</Typography>
+                                        <Avatar
+                                            sx={{ width: 100, height: 100, margin: "0 auto" }}
+                                            src={currentPhotoUrl}
                                         />
-                                    </FormField>
-                                </div>
-                            )}
+                                    </Box>
+                                    {newPhotoPreview && (
+                                        <Box sx={{ mb: 2, textAlign: 'center' }}>
+                                            <Typography variant="body2">Foto Baru</Typography>
+                                            <Avatar
+                                                sx={{ width: 100, height: 100, margin: "0 auto" }}
+                                                src={newPhotoPreview}
+                                            />
+                                        </Box>
+                                    )}
 
-                            <button
-                                type="submit"
-                                className="bg-blue-500 text-white px-3 py-1 mt-4 rounded hover:bg-blue-600 transition duration-200"
-                            >
-                                Update Foto
-                            </button>
-                        </form>
-                    </div>
-                )}
-            </div>
-        </Main>
+                                <Badge
+                                    overlap="circular"
+                                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                                    badgeContent={
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <IconButton onClick={handleOpenMenu}>
+                                                <PhotoCameraIcon
+                                                    sx={{
+                                                        border: "4px solid white",
+                                                        backgroundColor: "#ff558f",
+                                                        color: "white",
+                                                        borderRadius: "50%",
+                                                        padding: ".3rem",
+                                                        width: 40,
+                                                        height: 40
+                                                    }}
+                                                />
+                                            </IconButton>
+                                            {newPhotoPreview && (
+                                                <Grid sx={{ ml: 5 }}>
+                                                    <IconButton onClick={handleSubmit(route('profil-pengguna.foto'), "Foto berhasil diperbarui.", "Foto gagal diperbarui.")}>
+                                                        <SaveIcon
+                                                            sx={{
+                                                                border: "4px solid white",
+                                                                backgroundColor: "#5f97ff",
+                                                                color: "white",
+                                                                borderRadius: "50%",
+                                                                padding: ".3rem",
+                                                                width: 40,
+                                                                height: 40
+                                                            }} 
+                                                            />
+                                                    </IconButton>
+                                                </Grid>
+                                            )}
+                                        </Box>
+                                    }
+                                />
+
+                                    <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+                                        <MenuItem onClick={handleSelectFile}>Pilih dari File</MenuItem>
+                                        <MenuItem onClick={handleCapturePhoto}>Foto dari Kamera</MenuItem>
+                                    </Menu>
+
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        ref={inputFileRef}
+                                        hidden
+                                        onChange={handleFileChange}
+                                    />
+                                    
+                                    <Typography variant="h6" sx={{ mt: 3 }}>{user.name}</Typography>
+                                </Grid>
+                            </Card>
+                        </Grid>
+
+                        <Grid item md={8}>
+                            <Card variant="outlined" sx={{ p: 2 }}>
+                                <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} textColor="primary" indicatorColor="primary">
+                                    <Tab style={{ fontSize: 'sm'}} value="account" label="Akun" />
+                                    <Tab style={{ fontSize: 'sm'}} value="password" label="Password" />
+                                </Tabs>
+                                <Divider />
+
+                                <form>
+                                    <Box sx={{ p: 3 }}>
+                                        {activeTab === 'account' && (
+                                            <FormControl fullWidth>
+                                                <FormField label="Nama" error={errors.name}>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Masukan Nama....."
+                                                        name="name"
+                                                        value={data.name}
+                                                        onChange={(e) => setData("name", e.target.value)}
+                                                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                                                    />
+                                                </FormField>
+                                                <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.nama'), "Nama berhasil diperbarui.", "Nama gagal diperbarui.")}>
+                                                    Update Nama
+                                                </Button>
+                                            </FormControl>
+                                        )}
+
+                                        {activeTab === 'password' && (
+                                            <FormControl fullWidth>
+                                                <TextField
+                                                    label="Password"
+                                                    type={showPassword ? 'text' : 'password'}
+                                                    value={data.password}
+                                                    onChange={(e) => setData("password", e.target.value)}
+                                                    error={!!errors.password}
+                                                    helperText={errors.password}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                    sx={{ mb: 2 }}
+                                                />
+                                                <TextField
+                                                    label="Konfirmasi Password"
+                                                    type={showPasswordConfirmation ? 'text' : 'password'}
+                                                    value={data.password_confirmation}
+                                                    onChange={(e) => setData("password_confirmation", e.target.value)}
+                                                    error={!!errors.password_confirmation}
+                                                    helperText={errors.password_confirmation}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                <IconButton onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}>
+                                                                    {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                    sx={{ mb: 2 }}
+                                                />
+                                                <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.password'), "Password berhasil diperbarui.", "Password gagal diperbarui.")}>
+                                                    Update Password
+                                                </Button>
+                                            </FormControl>
+                                        )}
+                                    </Box>
+                                </form>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <Modal open={openModal} onClick={handleCloseModal}>
+                    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 2 }}>
+                        <Typography variant="h6" align="center">Ambil Foto</Typography>
+                        <video ref={videoRef} style={{ width: '100%', height: 'auto' }} />
+                        <canvas ref={canvasRef} style={{ display: 'none' }} width={640} height={480} />
+                        <Button variant="contained" onClick={handleTakePhoto} sx={{ mt: 2 }}>Ambil Foto</Button>
+                        <Button variant="outlined" onClick={handleCloseModal} sx={{ mt: 2, ml: 2 }}>Tutup</Button>
+                    </Box>
+                </Modal>
+            </Main>
+        </ThemeProvider>
     );
 }
