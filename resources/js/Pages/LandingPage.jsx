@@ -4,6 +4,7 @@ import AOS from 'aos';
 import "@/CSS/skilline.css";
 import 'aos/dist/aos.css';
 import PakKyai from "@/img/pak_kyai.png";
+import Logo from "@/img/logo.png";
 import Foto_A from "@/img/Foto_A.jpeg";
 import Foto_B from "@/img/Foto_B.jpeg";
 import Foto_C from "@/img/Foto_C.jpeg";
@@ -12,20 +13,10 @@ import Foto_E from "@/img/Foto_E.jpeg";
 import Foto_F from "@/img/Foto_F.jpeg";
 import Foto_G from "@/img/Foto_G.jpeg";
 import Calendar from "@/img/calendar.svg";
-// import TeacherExplaining from "@/img/teacher-explaining.png";
-// import VCall from "@/img/vcall.png";
-// import GirlWithBooks from "@/img/girl-with-books.png";
-// import TrueFalse from "@/img/true-false.png";
-// import Gradebook from "@/img/gradebook.png";
-// import Discussion from "@/img/discussion.png";
-// import Integrations from "@/img/integrations.png";
-// import Testimonials from "@/img/testimonials.png";
 import LaptopNews from "@/img/laptop-news.png";
 import ChildrenLaptop from "@/img/children-laptop.png";
 import GirlLaptop from "@/img/girl-laptop.png";
 import CatLaptop from "@/img/cat-laptop.png";
-// import Rectangle19 from "@/img/Rectangle 19.png";
-// import Rectangle21 from "@/img/Rectangle 21.png";
 import uxClass from "@/img/ux-class.svg";
 import congrat from "@/img/congrat.svg";
 import { Head } from '@inertiajs/react';
@@ -40,14 +31,14 @@ const SkillineLandingPage = () => {
     return (
         <div className="antialiased">
             <Head title='Home' />
-            <div className="w-full text-gray-700 bg-cream">
+            <div style={{ backgroundColor: '#0AD1C8' }} className="w-full text-gray-700">
                 <div className="flex flex-col max-w-screen-xl px-8 mx-auto md:items-center md:justify-between md:flex-row">
                     <div className="flex flex-row items-center justify-between py-6">
-                        <div className="relative md:mt-8">
-                            <a href="#" className="text-lg relative z-50 font-bold tracking-widest text-gray-900 rounded-lg focus:outline-none focus:shadow-outline">Skilline</a>
-                            <svg className="h-11 z-40 absolute -top-2 -left-3" viewBox="0 0 79 79" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M35.2574 2.24264C37.6005 -0.100501 41.3995 -0.100505 43.7426 2.24264L76.7574 35.2574C79.1005 37.6005 79.1005 41.3995 76.7574 43.7426L43.7426 76.7574C41.3995 79.1005 37.6005 79.1005 35.2574 76.7574L2.24264 43.7426C-0.100501 41.3995 -0.100505 37.6005 2.24264 35.2574L35.2574 2.24264Z" fill="#65DAFF"/>
-                            </svg>
+                        <div className="flex items-center space-x-3 md:mt-8">
+                            <img src={Logo} alt="Icon" className="h-11" />
+                            <a href="#" className="text-lg font-bold tracking-widest text-gray-900 rounded-lg focus:outline-none focus:shadow-outline">
+                                ponpes Al Musyaffa
+                            </a>
                         </div>
                         <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline" onClick={() => setOpen(!open)}>
                             <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
@@ -65,34 +56,41 @@ const SkillineLandingPage = () => {
                     </nav>
                 </div>
             </div>
-            <div className="bg-cream">
+            <div style={{ backgroundColor: '#0AD1C8' }}>
                 <div className="max-w-screen-xl px-8 mx-auto flex flex-col lg:flex-row items-start">
                     <div className="flex flex-col w-full lg:w-6/12 justify-center lg:pt-24 items-start text-center lg:text-left mb-5 md:mb-0">
-                        <h1 data-aos="fade-right" data-aos-once="true" className="my-4 text-5xl font-bold leading-tight text-darken">
+                        <h1 className="my-4 text-5xl font-bold leading-tight text-darken">
                             <span className="text-yellow-500">Studying</span> Online is now much easier
                         </h1>
-                        <p data-aos="fade-down" data-aos-once="true" data-aos-delay="300" className="leading-normal text-2xl mb-8">Skilline is an interesting platform that will teach you in more an interactive way</p>
-                        <div data-aos="fade-up" data-aos-once="true" data-aos-delay="700" className="w-full md:flex items-center justify-center lg:justify-start md:space-x-5">
+                        <p className="leading-normal text-2xl mb-8">Skilline is an interesting platform that will teach you in more an interactive way</p>
+                        <div className="w-full md:flex items-center justify-center lg:justify-start md:space-x-5">
                             <button className="lg:mx-0 bg-yellow-500 text-white text-xl font-bold rounded-full py-4 px-9 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out">
                                 Join for free
                             </button>
-                            <div className="flex items-center justify-center space-x-3 mt-5 md:mt-0 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out">
+                            <div className="flex items-center justify-center space-x-3 mt-5 md:mt-0">
                                 <button className="bg-white w-14 h-14 rounded-full flex items-center justify-center">
                                     <svg className="w-5 h-5 ml-2" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22.5751 12.8097C23.2212 13.1983 23.2212 14.135 22.5751 14.5236L1.51538 27.1891C0.848878 27.5899 5.91205e-07 27.1099 6.25202e-07 26.3321L1.73245e-06 1.00123C1.76645e-06 0.223477 0.848877 -0.256572 1.51538 0.14427L22.5751 12.8097Z" fill="#23BDEE"/>
-                                    </svg>
+                                        </svg>
                                 </button>
                                 <span className="cursor-pointer">Watch how it works</span>
                             </div>
                         </div>
                     </div>
-                    <div className="w-full lg:w-6/12 lg:-mt-10 relative" id="girl">
-                        <img data-aos="fade-up" data-aos-once="true" className="w-10/12 md:h-[670px] h-[400px] mx-auto 2xl:-mb-20" src={PakKyai} />
-                        <div data-aos="fade-up" data-aos-delay="300" data-aos-once="true" className="absolute top-20 -left-6 sm:top-32 sm:left-10 md:top-40 md:left-16 lg:-left-0 lg:top-52 floating-4">
-                            <img className="bg-white bg-opacity-80 rounded-lg h-12 sm:h-16" src={Calendar} />
+                    <div className="w-full lg:w-6/12 lg:-mt-10 relative">
+                        <img 
+                            className="w-full h-auto max-w-xs lg:max-w-md object-cover object-center mx-auto 2xl:-mb-20" 
+                            src={PakKyai} 
+                            alt="Pak Kyai"
+                            style={{ aspectRatio: '3/4' }}
+                        />
+                        <div className="absolute top-20 -left-6 sm:top-32 sm:left-10 md:top-40 md:left-16 lg:-left-0 lg:top-52 floating-4">
+                            <img className="bg-white bg-opacity-80 rounded-lg h-12 sm:h-16" src={Calendar} alt="Calendar" />
                         </div>
-                        <div data-aos="fade-up" data-aos-delay="400" data-aos-once="true" className="absolute top-20 right-10 sm:right-24 sm:top-28 md:top-36 md:right-32 lg:top-32 lg:right-16 floating">
-                            <svg className="h-16 sm:h-24" viewBox="0 0 149 149" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_d)"><rect x="40" y="32" width="69" height="69" rx="14" fill="#F3627C"/></g><rect x="51.35 " y="44.075" width="47.3" height="44.85" rx="8" fill="white"/><path d="M74.5 54.425V78.575" stroke="#F25471" stroke-width="4" stroke-linecap="round"/><path d="M65.875 58.7375L65.875 78.575" stroke="#F25471" stroke-width="4" stroke-linecap="round"/><path d="M83.125 63.9125V78.575" stroke="#F25471" stroke-width="4" stroke-linecap="round"/><defs><filter id="filter0_d" x="0" y="0" width="149" height="149" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/><feOffset dy="8"/><feGaussianBlur stdDeviation="20"/><feColorMatrix type="matrix" values="0 0 0 0 0.825 0 0 0 0 0.300438 0 0 0 0 0.396718 0 0 0 0.26 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter></defs></svg>
+                        <div className="absolute top-20 right-10 sm:right-24 sm:top-28 md:top-36 md:right-32 lg:top-32 lg:right-16 floating">
+                            <svg className="h-16 sm:h-24" viewBox="0 0 149 149" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g filter="url(#filter0_d)"><rect x="40" y="32" width="69" height="69" rx="14" fill="#F3627C"/></g><rect x="51.35 " y="44.075" width="47.3" height="44.85" rx="8" fill="white"/><path d="M74.5 54.425V78.575" stroke="#F25471" stroke-width="4" stroke-linecap="round"/><path d="M65.875 58.7375L65.875 78.575" stroke="#F25471" stroke-width="4" stroke-linecap="round"/><path d="M83.125 63.9125V78.575" stroke="#F25471" stroke-width="4" stroke-linecap="round"/><defs><filter id="filter0_d" x="0" y="0" width="149" height="149" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/><feOffset dy="8"/><feGaussianBlur stdDeviation="20"/><feColorMatrix type="matrix" values="0 0 0 0 0.825 0 0 0 0 0.300438 0 0 0 0 0.396718 0 0 0 0.26 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter></defs>
+                            </svg>
                         </div>
                         <div data-aos="fade-up" data-aos-delay="500" data-aos-once="true" className="absolute bottom-14 -left-4 sm:left-2 sm:bottom-20 lg:bottom-24 lg:-left-4 floating">
                             <img className="bg-white bg-opacity-80 rounded-lg h-20 sm:h-28" src={uxClass} alt="" />
@@ -268,55 +266,6 @@ const SkillineLandingPage = () => {
                     </div>
                     <img data-aos="fade-left" className="md:w-7/12" src={Foto_G} />
                 </div>
-
-                {/* <div className="mt-24 flex flex-col-reverse md:flex-row items-center md:space-x-10">
-                    <div data-aos="fade-right" className="md:w-7/12">
-                        <img className="md:w-11/12" src={Discussion} />
-                    </div>
-                    <div data-aos="fade-left" className="md:w-5/12 md:transform md:-translate-y-6">
-                        <h1 className="font-semibold text-darken text-3xl lg:pr-64">One-on-One <span className="text-yellow-500">Discussions</span></h1>
-                        <p className="text-gray-500 my-5 lg:pr-24">Teachers and teacher assistants can talk with students privately without leaving the Zoom environment.</p>
-                    </div>
-                </div>
-
-                <button data-aos="flip-up" className="px-5 py-3 border border-yellow-500 text-yellow-500 font-medium my-14 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out rounded-full mx-auto block">See more features</button>
-
-                <div className="mt-24 flex flex-col md:flex-row items-start md:space-x-10">
-                    <div data-aos="zoom-in-right" className="md:w-6/12">
-                        <img className="md:w-8/12 mx-auto" src={Integrations} />
-                    </div>
-                    <div data-aos="zoom-in-left" className="md:w-6/12">
-                        <div className="flex items-center space-x-20 mb-5">
-                            <span className="border-l border-gray-500 text-sm pl-5 py-2 font-semibold">INTEGRATIONS</span>
-                        </div>
-                        <h1 className="font-semibold text-darken text-2xl lg:pr-40">200+ educational tools and platform <span className="text-yellow-500">integrations</span></h1>
-                        <p className="text-gray-500 my-5 lg:pr-20">Schoology has every tool your classroom needs and comes pre-integrated with more than 200+ tools, student information systems (SIS), and education platforms.</p>
-                        <button className="px-5 py-3 border border-yellow-500 text-yellow-500 font-medium my-4 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out rounded-full">See All Integrations</button>
-                    </div>
-                </div>
-
-                <div className="mt-24 flex flex-col-reverse md:flex-row items-start md:space-x-10">
-                    <div data-aos="zoom-in-right" className="md:w-5/12">
-                        <div className="flex items-center space-x-20 mb-5">
-                            <span className="border-l border-gray-500 text-sm pl-5 py-2 font-semibold">TESTIMONIAL</span>
-                        </div>
-                        <h1 className="font-semibold text-darken text-2xl lg:pr-40">What They Say?</h1>
-                        <p className="text-gray-500 my-5 lg:pr-36">Skilline has got more than 100k positive ratings from our users around the world.</p>
-                        <p className="text-gray-500 my-5 lg:pr-36">Some of the students and teachers were greatly helped by the Skilline.</p>
-                        <p className="text-gray-500 my-5 lg:pr-36">Are you too? Please give your assessment</p>
-                        <button className="flex items-center space-x-3 pl-3 border-b border-l border-t border-yellow-500 text-yellow-500 font-medium my-4 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out rounded-full">
-                            <span>Write your assessment</span>
-                            <div className="border border-yellow-500 h-14 w-14 rounded-full flex items-center justify-center">
-                                <svg className="w-5 h-5" viewBox="0 0 26 16" fill="none" xmlns="http://www.w3.org/2000/svg">
- <path d="M25.7071 8.70711C26.0976 8.31658 26.0976 7.68342 25.7071 7.2929L19.3431 0.928934C18.9526 0.538409 18.3195 0.538409 17.9289 0.928934C17.5384 1.31946 17.5384 1.95262 17.9289 2.34315L23.5858 8L17.9289 13.6569C17.5384 14.0474 17.5384 14.6805 17.9289 15.0711C18.3195 15.4616 18.9526 15.4616 19.3431 15.0711L25.7071 8.70711ZM-8.74228e-08 9L25 9L25 7L8.74228e-08 7L-8.74228e-08 9Z" fill="#F48C06"/>
-                                </svg>
-                            </div>
-                        </button>
-                    </div>
-                    <div data-aos="zoom-in-left" className="md:w-7/12">
-                        <img className="md:w-10/12 mx-auto" src={Testimonials} />
-                    </div>
-                </div> */}
 
                 <div data-aos="zoom-in" className="mt-16 text-center">
                     <h1 className="text-darken text-2xl font-semibold">Latest News and Resources</h1>
