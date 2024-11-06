@@ -233,42 +233,43 @@ export default function ProfilePengguna({ user }) {
 
                                         {activeTab === 'password' && (
                                             <FormControl fullWidth>
-                                                <TextField
-                                                    label="Password"
-                                                    type={showPassword ? 'text' : 'password'}
-                                                    value={data.password}
-                                                    onChange={(e) => setData("password", e.target.value)}
-                                                    error={!!errors.password}
-                                                    helperText={errors.password}
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <InputAdornment position="end">
-                                                                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        ),
-                                                    }}
-                                                    sx={{ mb: 2 }}
-                                                />
-                                                <TextField
-                                                    label="Konfirmasi Password"
-                                                    type={showPasswordConfirmation ? 'text' : 'password'}
-                                                    value={data.password_confirmation}
-                                                    onChange={(e) => setData("password_confirmation", e.target.value)}
-                                                    error={!!errors.password_confirmation}
-                                                    helperText={errors.password_confirmation}
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <InputAdornment position="end">
-                                                                <IconButton onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}>
-                                                                    {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        ),
-                                                    }}
-                                                    sx={{ mb: 2 }}
-                                                />
+                                                 <FormField label="Password" error={errors.password}>
+                                                    <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
+                                                        <input
+                                                            type={showPassword ? 'text' : 'password'}
+                                                            placeholder="Masukan Password Baru....."
+                                                            name="password"
+                                                            value={data.password}
+                                                            onChange={(e) => setData("password", e.target.value)}
+                                                            className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
+                                                        />
+                                                        <IconButton
+                                                            onClick={() => setShowPassword(!showPassword)}
+                                                            size="medium"
+                                                        >
+                                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </div>
+                                                </FormField>
+
+                                                <FormField label="Konfirmasi Password" error={errors.password_confirmation}>
+                                                    <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
+                                                        <input
+                                                            type={showPasswordConfirmation ? 'text' : 'password'}
+                                                            placeholder="Konfirmasi Password....."
+                                                            name="password_confirmation"
+                                                            value={data.password_confirmation}
+                                                            onChange={(e) => setData("password_confirmation", e.target.value)}
+                                                            className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
+                                                        />
+                                                        <IconButton
+                                                            onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+                                                            size="medium"
+                                                        >
+                                                            {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </div>
+                                                </FormField>
                                                 <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.password'), "Password berhasil diperbarui.", "Password gagal diperbarui.")}>
                                                     Update Password
                                                 </Button>

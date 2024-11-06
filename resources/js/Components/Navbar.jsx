@@ -17,7 +17,7 @@ export default function Navbar({ toggleSidebar, isSidebarOpen }) {
 
                     <a href="#" className="flex items-center">
                         <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                            My Company
+                            Ponpes Al Musyaffa
                         </span>
                     </a>
                 </div>

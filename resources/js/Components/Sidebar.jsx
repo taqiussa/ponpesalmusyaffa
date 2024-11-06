@@ -5,8 +5,8 @@ export default function Sidebar({ isOpen }) {
     const user = usePage().props.auth.user;
     const currentRoute = usePage().url;
 
-    const activeStyles = 'bg-blue-300 text-white';
-    const inactiveStyles = 'text-gray-900 dark:text-white hover:bg-blue-50 hover: dark:hover:bg-blue-700';
+    const activeStyles = 'bg-[#0B6477] text-white';
+    const inactiveStyles = 'text-gray-900 dark:text-white hover:text-white hover:bg-[#14919B] hover: dark:hover:bg-[#14919B]';
 
     return (
         <aside
@@ -131,7 +131,7 @@ export default function Sidebar({ isOpen }) {
                     <Link
                         href={route('logout')}
                         method="post"
-                        className="block py-2 text-gray-500 font-bold hover:text-blue-600 text-center"
+                        className="block py-2 text-gray-500 font-bold hover:text-white hover:bg-[#14919B] rounded-lg text-center"
                     >
                         Logout
                     </Link>

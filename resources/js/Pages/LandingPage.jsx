@@ -1,27 +1,13 @@
 import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import AOS from 'aos';
-import "@/CSS/skilline.css";
+import "@/css/skilline.css";
 import 'aos/dist/aos.css';
-import PakKyai from "@/img/pak_kyai.png";
-import Logo from "@/img/logo.png";
-import Foto_A from "@/img/Foto_A.jpeg";
-import Foto_B from "@/img/Foto_B.jpeg";
-import Foto_C from "@/img/Foto_C.jpeg";
-import Foto_D from "@/img/Foto_D.jpeg";
-import Foto_E from "@/img/Foto_E.jpeg";
-import Foto_F from "@/img/Foto_F.jpeg";
-import Foto_G from "@/img/Foto_G.jpeg";
-import Calendar from "@/img/calendar.svg";
-import LaptopNews from "@/img/laptop-news.png";
-import ChildrenLaptop from "@/img/children-laptop.png";
-import GirlLaptop from "@/img/girl-laptop.png";
-import CatLaptop from "@/img/cat-laptop.png";
-import uxClass from "@/img/ux-class.svg";
-import congrat from "@/img/congrat.svg";
 import { Head } from '@inertiajs/react';
 
 const SkillineLandingPage = () => {
+  const getImageUrl = (filename) => `https://is3.cloudhost.id/alfa/pondok/public/${filename}`;
+
   const [open, setOpen] = useState(false);
 
   React.useEffect(() => {
@@ -35,9 +21,9 @@ const SkillineLandingPage = () => {
                 <div className="flex flex-col max-w-screen-xl px-8 mx-auto md:items-center md:justify-between md:flex-row">
                     <div className="flex flex-row items-center justify-between py-6">
                         <div className="flex items-center space-x-3 md:mt-8">
-                            <img src={Logo} alt="Icon" className="h-11" />
+                            <img src={getImageUrl("logo.png")} alt="Icon" className="h-11" />
                             <a href="#" className="text-lg font-bold tracking-widest text-gray-900 rounded-lg focus:outline-none focus:shadow-outline">
-                                ponpes Al Musyaffa
+                                Ponpes Al Musyaffa
                             </a>
                         </div>
                         <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline" onClick={() => setOpen(!open)}>
@@ -80,12 +66,12 @@ const SkillineLandingPage = () => {
                     <div className="w-full lg:w-6/12 lg:-mt-10 relative">
                         <img 
                             className="w-full h-auto max-w-xs lg:max-w-md object-cover object-center mx-auto 2xl:-mb-20" 
-                            src={PakKyai} 
+                            src={getImageUrl("pak_kyai.png")} 
                             alt="Pak Kyai"
                             style={{ aspectRatio: '3/4' }}
                         />
                         <div className="absolute top-20 -left-6 sm:top-32 sm:left-10 md:top-40 md:left-16 lg:-left-0 lg:top-52 floating-4">
-                            <img className="bg-white bg-opacity-80 rounded-lg h-12 sm:h-16" src={Calendar} alt="Calendar" />
+                            <img className="bg-white bg-opacity-80 rounded-lg h-12 sm:h-16" src={getImageUrl("calendar.svg")} alt="Calendar" />
                         </div>
                         <div className="absolute top-20 right-10 sm:right-24 sm:top-28 md:top-36 md:right-32 lg:top-32 lg:right-16 floating">
                             <svg className="h-16 sm:h-24" viewBox="0 0 149 149" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,10 +79,10 @@ const SkillineLandingPage = () => {
                             </svg>
                         </div>
                         <div data-aos="fade-up" data-aos-delay="500" data-aos-once="true" className="absolute bottom-14 -left-4 sm:left-2 sm:bottom-20 lg:bottom-24 lg:-left-4 floating">
-                            <img className="bg-white bg-opacity-80 rounded-lg h-20 sm:h-28" src={uxClass} alt="" />
+                            <img className="bg-white bg-opacity-80 rounded-lg h-20 sm:h-28" src={getImageUrl("ux-class.svg")} alt="" />
                         </div>
                         <div data-aos="fade-up" data-aos-delay="600" data-aos-once="true" className="absolute bottom-20 md:bottom-48 lg:bottom-52 -right-6 lg:right-8 floating-4">
-                            <img className="bg-white bg-opacity-80 rounded-lg h-12 sm:h-16" src={congrat} alt="" />
+                            <img className="bg-white bg-opacity-80 rounded-lg h-12 sm:h-16" src={getImageUrl("congrat.svg")} alt="" />
                         </div>
                     </div>
                 </div>
@@ -161,7 +147,7 @@ const SkillineLandingPage = () => {
                     </div>
                     <div data-aos="fade-up" className="flex flex-col md:flex-row justify-center space-y-5 md:space-y-0 md:space-x-6 lg:space-x-10 mt-7">
                         <div className="relative md:w-5/12">
-                            <img className="rounded-2xl" src={Foto_A} alt=""/>
+                            <img className="rounded-2xl" src={getImageUrl("Foto_A.jpeg")} alt=""/>
                             <div className="absolute bg-black bg-opacity-20 bottom-0 left-0 right-0 w-full h-full rounded-2xl">
                                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                     <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3">FOR INSTRUCTORS</h1>
@@ -170,7 +156,7 @@ const SkillineLandingPage = () => {
                             </div>
                         </div>
                         <div className="relative md:w-5/12">
-                            <img className="rounded-2xl" src={Foto_B} alt=""/>
+                            <img className="rounded-2xl" src={getImageUrl("Foto_B.jpeg")} alt=""/>
                             <div className="absolute bg-black bg-opacity-20 bottom-0 left-0 right-0 w-full h-full rounded-2xl">
                                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                     <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3">FOR STUDENTS</h1>
@@ -190,7 +176,7 @@ const SkillineLandingPage = () => {
                     </div>
                     <div data-aos="fade-left" className="sm:w-1/2 relative mt-10 sm:mt-0">
                         <div style={{background: '#23BDEE'}} className="floating w-24 h-24 absolute rounded-lg z-0 -top-3 -left-3"></div>
-                        <img className="rounded-xl z-40 relative" src={Foto_C} alt=""/>
+                        <img className="rounded-xl z-40 relative" src={getImageUrl("Foto_C.jpeg")} alt=""/>
                         <button className="bg-white w-14 h-14 rounded-full flex items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out z-50">
                             <svg className="w-5 h-5 ml-1" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22.5751 12.8097C23.2212 13.1983 23.2212 14.135 22.5751 14.5236L1.51538 27.1891C0.848878 27.5899 5.91205e-07 27.1099 6.25202e-07 26.3321L1.73245e-06 1.00123C1.76645e-06 0.223477 0.848877 -0.256572 1.51538 0.14427L22.5751 12.8097Z" fill="#23BDEE"/>
@@ -204,7 +190,7 @@ const SkillineLandingPage = () => {
                     <div data-aos="fade-down" className="md:w-7/12 relative">
                         <div style={{background: '#33EFA0'}} className="w-32 h-32 rounded-full absolute z-0 left-4 -top-12 animate-pulse"></div>
                         <div style={{background: '#33D9EF'}} className="w-5 h-5 rounded-full absolute z-0 left-36 -top-12 animate-ping"></div>
-                        <img className="relative z-50 floating" src={Foto_D} alt=""/>
+                        <img className="relative z-50 floating" src={getImageUrl("Foto_D.jpeg")} alt=""/>
                         <div style={{background: '#5B61EB'}} className="w-36 h-36 rounded-full absolute z-0 right-16 -bottom-1 animate-pulse"></div>
                         <div style={{background: '#F56666'}} className="w-5 h-5 rounded-full absolute z-0 right-52 bottom-1 animate-ping"></div>
                     </div>
@@ -246,12 +232,12 @@ const SkillineLandingPage = () => {
                         <h1 className="text-darken font-semibold text-3xl lg:pr-56"><span className="text-yellow-500">Tools</span> For Teachers And Learners</h1>
                         <p className="text-gray-500 my-4 lg:pr-32">Class has a dynamic set of teaching tools built to be deployed and used during class. Teachers can handout assignments in real-time for students to complete and submit.</p>
                     </div>
-                    <img data-aos="fade-left" className="md:w-1/2" src={Foto_E} />
+                    <img data-aos="fade-left" className="md:w-1/2" src={getImageUrl("Foto_E.jpeg")} />
                 </div>
 
                 <div className="mt-20 flex flex-col-reverse md:flex-row items-center md:space-x-10">
                     <div data-aos="fade-right" className="md:w-6/12">
-                        <img className="md:w-11/12" src={Foto_F} />
+                        <img className="md:w-11/12" src={getImageUrl("Foto_F.jpeg")} />
                     </div>
                     <div data-aos="fade-left" className="md:w-6/12 md:transform md:-translate-y-20">
                         <h1 className="font-semibold text-darken text-3xl lg:pr-64">Assessments, <span className="text-yellow-500">Quizzes</span>, Tests</h1>
@@ -264,7 +250,7 @@ const SkillineLandingPage = () => {
                         <h1 className="text-darken font-semibold text-3xl leading-tight lg:pr-32"><span className="text-yellow-500">Class Management</span> Tools for Educators</h1>
                         <p className="my-5 lg:pr-14">Class provides tools to help run and manage the class such as Class Roster, Attendance, and more. With the Gradebook, teachers can review and grade tests and quizzes in real-time.</p>
                     </div>
-                    <img data-aos="fade-left" className="md:w-7/12" src={Foto_G} />
+                    <img data-aos="fade-left" className="md:w-7/12" src={getImageUrl("Foto_G.jpeg")} />
                 </div>
 
                 <div data-aos="zoom-in" className="mt-16 text-center">
@@ -273,7 +259,7 @@ const SkillineLandingPage = () => {
                 </div>
                 <div data-aos="zoom-in-up" className="my-14 flex flex-col lg:flex-row lg:space-x-20">
                     <div className="lg:w-6/12">
-                        <img className="w-full mb-6" src={LaptopNews} />
+                        <img className="w-full mb-6" src={getImageUrl("laptop-news.png")} />
                         <span className="bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full">NEWS</span>
                         <h1 className="text-gray-800 font-semibold my-3 text-xl">Class adds $30 million to its balance sheet for a Zoom-friendly edtech solution</h1>
                         <p className="text-gray-500 mb-3">Class, launched less than a year ago by Blackboard co-founder Michael Chasen, integrates exclusively...</p>
@@ -283,7 +269,7 @@ const SkillineLandingPage = () => {
                         <div className="flex space-x-5">
                             <div className="w-4/12">
                                 <div className="relative">
-                                    <img className="rounded-xl w-full" src={ChildrenLaptop}/>
+                                    <img className="rounded-xl w-full" src={getImageUrl("children-laptop.png")}/>
                                     <span className="absolute bottom-2 right-2 bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full hidden sm:block">PRESS RELEASE</span>
                                 </div>
                             </div>
@@ -295,7 +281,7 @@ const SkillineLandingPage = () => {
                         <div className="flex space-x-5">
                             <div className="w-4/12">
                                 <div className="relative">
-                                    <img className="rounded-xl w-full" src={GirlLaptop} />
+                                    <img className="rounded-xl w-full" src={getImageUrl("girl-laptop.png")} />
                                     <span className="absolute bottom-2 right-2 bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full hidden sm:block">NEWS</span>
                                 </div>
                             </div>
@@ -307,7 +293,7 @@ const SkillineLandingPage = () => {
                         <div className="flex space-x-5">
                             <div className="w-4/12">
                                 <div className="relative">
-                                    <img className="rounded-xl w-full" src={CatLaptop} />
+                                    <img className="rounded-xl w-full" src={getImageUrl("cat-laptop.png")} />
                                     <span className="absolute bottom-2 right-2 bg-yellow-300 text-darken font-semibold px-4 py-px text-sm rounded-full hidden sm:block">NEWS</span>
                                 </div>
                             </div>
@@ -324,10 +310,8 @@ const SkillineLandingPage = () => {
                 <div className="max-w-lg mx-auto">
                     <div className="flex py-12 justify-center text-white items-center px-20 sm:px-36">
                         <div className="relative">
-                            <h1 className="font-bold text-xl pr-5 relative z-50">Skilline</h1>
-                            <svg className="w-11 h-11 absolute -top-2 -left-3 z-40" viewBox="0 0 79 79" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M35.9645 2.94975C37.9171 0.997129 41.0829 0.997127 43.0355 2.94975L76.0502 35.9645C78.0029 37.9171 78.0029 41.0829 76.0503 43.0355L43.0355 76.0502C41.0829 78.0029 37.9171 78.0029 35.9645 76.0503L2.94975 43.0355C0.997129 41.0829 0.997127 37.9171 2.94975 35.9645L35.9645 2.94975Z" stroke="#26C1F2" stroke-width="2"/>
-                            </svg>
+                            <h1 className="font-bold text-xl pr-5 relative z-50">Ponpes Al Musyaffa</h1>
+                            <img src={getImageUrl("logo.png")} alt="Icon" className="w-11 h-11 absolute -top-2 -left-3 z-40" />
                         </div>
                         <span className="border-l border-gray-500 text-sm pl-5 py-2 font-semibold">Virtual Class for Zoom</span>
                     </div>

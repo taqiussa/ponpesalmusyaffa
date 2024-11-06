@@ -26,14 +26,29 @@ export default function DataSantri({ initTahun, listSantri }) {
     });
 
     const columns = [
-        { label: 'No', field: 'no', render: (item, index) => index + 1 + (listSantri.current_page - 1) * listSantri.per_page, },
+        { label: 'No', field: 'no', render: (item, index) => index + 1 + (listSantri.current_page - 1) * listSantri.per_page + ".", },
         { label: 'NIS', field: 'nis', render: (item) => item.santri.nis || <span className="text-red-300 italic">Data Kosong</span> },
         { label: 'Nama', field: 'name', render: (item) => item.santri.name || <span className="text-red-300 italic">Data Kosong</span> },
         { label: 'TTL', field: 'ttl', render: (item) => `${item.biodata.tempat_lahir}, ${item.biodata.tanggal_lahir ? formatTanggalLahir(item.biodata.tanggal_lahir) : ''}` },
         { label: 'NIK', field: 'nik', render: (item) => item.biodata.nik || <span className="text-red-300 italic">Data Kosong</span> },
         { label: 'Ayah', field: 'ayah', render: (item) => item.biodata.ayah || <span className="text-red-300 italic">Data Kosong</span> },
         { label: 'Ibu', field: 'ibu', render: (item) => item.biodata.ibu || <span className="text-red-300 italic">Data Kosong</span> },
-        { label: 'Desa', field: 'desa', render: (item) => `${item.biodata.desa}, ${item.biodata.kecamatan}, ${item.biodata.kabupaten}, ${item.biodata.provinsi}` },
+        { 
+            label: 'Desa', 
+            field: 'desa', 
+            render: (item) => {
+                const rtRw = item.biodata?.rt && item.biodata?.rw ? `RT ${item.biodata.rt} / RW ${item.biodata.rw}` : ''; // Combine rt and rw
+                const location = [
+                    rtRw,
+                    item.biodata?.desa,
+                    item.biodata?.kecamatan,
+                    item.biodata?.kabupaten,
+                    item.biodata?.provinsi
+                ].filter(Boolean).join(', ');
+                
+                return location || <span className="text-red-300 italic">-</span>;
+            }
+        },
         { label: 'Telepon', field: 'telepon', render: (item) => item.biodata.telepon || <span className="text-red-300 italic">Data Kosong</span> }
     ];
 
