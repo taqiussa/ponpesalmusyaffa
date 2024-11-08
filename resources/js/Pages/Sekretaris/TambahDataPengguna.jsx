@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import Main from '@/Layouts/Main';
+import Layout from '@/Layouts/Layout';
 import FormField from '@/Components/FormField';
 import Spinner from '@/Components/Spinner';
 import Hapus from '@/hooks/Hapus';
 import { Edit } from 'react-feather';
 import { useFilter } from '@/hooks/useFilter';
-import Loading from '@/Components/Loading';
 import ShowAlert from '@/Components/ShowAlert';
 import DataTable from '@/Components/DataTable';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export default function TambahDataPengguna({ listUser }) {
+function TambahDataPengguna({ listUser }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         username: '',
@@ -77,16 +76,9 @@ export default function TambahDataPengguna({ listUser }) {
     ];
 
     return (
-        <Main>
+        <>
             <Head title='Tambah Data Pengguna' />
-            <div className="mb-6 overflow-x-hidden">
-                <h2 className="text-3xl font-bold text-blue-400">
-                    Tambah Data Pengguna
-                </h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-4">
                     <FormField label="Nama" error={errors.name}>
                         <input
@@ -94,8 +86,9 @@ export default function TambahDataPengguna({ listUser }) {
                             placeholder="Masukan Nama....."
                             name="name"
                             value={data.name}
+                            autoComplete='off'
                             onChange={(e) => setData("name", e.target.value)}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         />
                     </FormField>
 
@@ -105,20 +98,21 @@ export default function TambahDataPengguna({ listUser }) {
                             placeholder="Masukan Username....."
                             name="username"
                             value={data.username}
+                            autoComplete='off'
                             onChange={(e) => setData("username", e.target.value)}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         />
                     </FormField>
 
                     <FormField label="Password" error={errors.password}>
-                        <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
+                        <div className="flex items-center border-gray-300 focus:border-[#0B6477] focus:ring-[#0B6477] rounded-md shadow-md shadow-[#0B6477] focus:ring">
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="Masukan Password....."
                                 name="password"
                                 value={data.password}
                                 onChange={(e) => setData("password", e.target.value)}
-                                className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
+                                className="border-none rounded-tl-md rounded-bl-md focus:border-[#0B6477] focus:ring-[#0B6477] shadow-[#0B6477] focus:ring pl-2 w-full"
                             />
                             <IconButton
                                 onClick={() => setShowPassword(!showPassword)}
@@ -130,14 +124,14 @@ export default function TambahDataPengguna({ listUser }) {
                     </FormField>
 
                     <FormField label="Konfirmasi Password" error={errors.password_confirmation}>
-                        <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
+                        <div className="flex items-center border-gray-300 focus:border-[#0B6477] focus:ring-[#0B6477] rounded-md shadow-md shadow-[#0B6477] focus:ring">
                             <input
                                 type={showPasswordConfirmation ? 'text' : 'password'}
                                 placeholder="Konfirmasi Password Anda....."
                                 name="password_confirmation"
                                 value={data.password_confirmation}
                                 onChange={(e) => setData("password_confirmation", e.target.value)}
-                                className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full" // Removed border for seamless design
+                                className="border-none rounded-tl-md rounded-bl-md focus:border-[#0B6477] focus:ring-[#0B6477] shadow-[#0B6477] focus:ring pl-2 w-full" // Removed border for seamless design
                             />
                             <IconButton
                                 onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
@@ -148,14 +142,14 @@ export default function TambahDataPengguna({ listUser }) {
                         </div>
                     </FormField>
                 </div>
-
-                <div className="mt-4 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center sm:flex-col sm:justify-between sm:items-center">
-                    <h3 className="text-xl font-bold mt-5 lg:mt-0 text-blue-400">
+                
+                <div className="md:px-5 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">
+                    <h3 className="text-xl font-bold text-[#0B6477]">
                         Data Pengguna
                     </h3>
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white rounded-md items-end py-2 px-3 hover:bg-blue-600 transition duration-200 md:w-auto lg:w-auto sm:w-20 w-20 mb-4"
+                        className="bg-blue-500 text-white rounded-md py-2 px-3 hover:bg-blue-600 transition duration-200"
                         disabled={processing}
                     >
                         {processing ? <Spinner /> : "Simpan"}
@@ -169,6 +163,10 @@ export default function TambahDataPengguna({ listUser }) {
                 loading={isProcessing}
                 emptyMessage={"Data Pengguna Kosong."}
             />
-        </Main>
+        </>
     );
 }
+
+TambahDataPengguna.layout = (page) => <Layout children={page} title="Tambah Data Pengguna" />;
+
+export default TambahDataPengguna;

@@ -46,7 +46,7 @@ export default forwardRef(function Tahun(
                                         id={id}
                                         value={value}
                                         className={
-                                                `border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring  ` +
+                                                `border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring ` +
                                                 className
                                         }
                                         ref={input}

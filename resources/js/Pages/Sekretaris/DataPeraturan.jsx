@@ -1,5 +1,5 @@
 import React from "react";
-import Main from "@/Layouts/Main";
+import Layout from "@/Layouts/Layout";
 import { Head, useForm, router } from "@inertiajs/react";
 import ShowAlert from "@/Components/ShowAlert";
 import FormField from "@/Components/FormField";
@@ -9,7 +9,7 @@ import Loading from "@/Components/Loading";
 import { useFilter } from "@/hooks/useFilter";
 import DataTable from "@/Components/DataTable";
 
-export default function DataPeraturan({ listPeraturan }) {
+function DataPeraturan({ listPeraturan }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
         kategori: "",
@@ -53,22 +53,15 @@ export default function DataPeraturan({ listPeraturan }) {
     ];
 
     return (
-        <Main>
+        <>
             <Head title="Data Peraturan" />
-            <div className="mb-6 overflow-x-hidden">
-                <h2 className="text-3xl font-bold text-blue-400">
-                    Data Peraturan
-                </h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit}>
                 <FormField label="Kategori" error={errors.kategori}>
                     <select
                         id="kategori"
                         value={data.kategori}
                         onChange={(e) => setData("kategori", e.target.value)}
-                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md md:w-1/2 lg:w-1/2 sm:w-full w-full shadow-blue-300 focus:ring"
+                        className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md md:w-1/2 lg:w-1/2 sm:w-full w-full shadow-[#14919B] focus:ring"
                     >
                         <option value="">Pilih Kategori</option>
                         <option value="ringan">Ringan</option>
@@ -86,7 +79,7 @@ export default function DataPeraturan({ listPeraturan }) {
                             placeholder="Masukan Peraturan....."
                             onChange={(e) => setData("nama", e.target.value)}
                             required
-                            className="border-gray-300 h-24 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 h-24 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         />
                     </FormField>
 
@@ -101,18 +94,18 @@ export default function DataPeraturan({ listPeraturan }) {
                             placeholder="Masukan Hukuman....."
                             onChange={(e) => setData("hukuman", e.target.value)}
                             required
-                            className="border-gray-300 h-24 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 h-24 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         />
                     </FormField>
                 </div>
-
-                <div className="mt-4 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center sm:flex-col sm:justify-between sm:items-center">
-                    <h3 className="text-xl font-bold mt-5 lg:mt-0 text-blue-400">
+                
+                <div className="md:px-5 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">
+                    <h3 className="text-xl font-bold text-[#0B6477]">
                         List Peraturan
                     </h3>
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white rounded-md items-end py-2 px-3 hover:bg-blue-600 transition duration-200 md:w-auto lg:w-auto sm:w-20 w-20 mb-4"
+                        className="bg-blue-500 text-white rounded-md py-2 px-3 hover:bg-blue-600 transition duration-200"
                         disabled={processing}
                     >
                         {processing ? <Spinner /> : "Simpan"}
@@ -126,6 +119,10 @@ export default function DataPeraturan({ listPeraturan }) {
                 loading={isProcessing}
                 emptyMessage={"Data Peraturan Kosong."}
             />
-        </Main>
+        </>
     );
 }
+
+DataPeraturan.layout = (page) => <Layout children={page} title="Data Peraturan" />;
+
+export default DataPeraturan;

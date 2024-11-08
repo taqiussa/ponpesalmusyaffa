@@ -1,4 +1,3 @@
-import Main from '@/Layouts/Main';
 import { Head, useForm } from '@inertiajs/react';
 import React, { useState, useRef } from 'react';
 import { Grid, CssBaseline, Card, Divider, Button, Typography, FormControl, Tabs, Tab, TextField, Box, Avatar, IconButton, InputAdornment, Badge, Menu, MenuItem, Modal } from "@mui/material";
@@ -9,10 +8,11 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import SaveIcon from '@mui/icons-material/PermMedia';
 import ShowAlert from "@/Components/ShowAlert";
 import FormField from '@/Components/FormField';
+import Layout from '@/Layouts/Layout';
 
 const theme = createTheme();
 
-export default function ProfilePengguna({ user }) {
+function ProfilePengguna({ user }) {
     const defaultPhoto = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ891HLuugNKthcStMIQ3VD_phd6XrcYAhkjA&s';
     const currentPhotoUrl = user.foto ? `/storage/${user.foto}` : defaultPhoto;
 
@@ -118,21 +118,16 @@ export default function ProfilePengguna({ user }) {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Main>
-                <Head title='Profile Pengguna' />
-                <div className="mb-4">
-                    <h2 className="text-3xl font-bold text-blue-400">Profile</h2>
-                    <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-1" />
-                </div>
+                <Head title='Profile' />
                 <Grid container direction="column" sx={{ overflowX: "hidden" }}>
                     <Grid container direction={{ xs: "column", md: "row" }} spacing={3} sx={{ position: "relative" }}>
                         <Grid item md={4}>
-                            <Card variant="outlined" sx={{ p: 4 }}>
+                            <Card variant="outlined" sx={{ p: 2.5 }}>
                                 <Grid container direction="column" alignItems="center">
                                     <Box sx={{ mb: 2, textAlign: 'center' }}>
                                         <Typography variant="body2">Foto Lama</Typography>
                                         <Avatar
-                                            sx={{ width: 100, height: 100, margin: "0 auto" }}
+                                            sx={{ width: 90, height: 90, margin: "0 auto" }}
                                             src={currentPhotoUrl}
                                         />
                                     </Box>
@@ -140,7 +135,7 @@ export default function ProfilePengguna({ user }) {
                                         <Box sx={{ mb: 2, textAlign: 'center' }}>
                                             <Typography variant="body2">Foto Baru</Typography>
                                             <Avatar
-                                                sx={{ width: 100, height: 100, margin: "0 auto" }}
+                                                sx={{ width: 90, height: 90, margin: "0 auto" }}
                                                 src={newPhotoPreview}
                                             />
                                         </Box>
@@ -165,7 +160,7 @@ export default function ProfilePengguna({ user }) {
                                                 />
                                             </IconButton>
                                             {newPhotoPreview && (
-                                                <Grid sx={{ ml: 5 }}>
+                                                <Grid sx={{ ml: 1    }}>
                                                     <IconButton onClick={handleSubmit(route('profil-pengguna.foto'), "Foto berhasil diperbarui.", "Foto gagal diperbarui.")}>
                                                         <SaveIcon
                                                             sx={{
@@ -211,72 +206,70 @@ export default function ProfilePengguna({ user }) {
                                 </Tabs>
                                 <Divider />
 
-                                <form>
-                                    <Box sx={{ p: 3 }}>
-                                        {activeTab === 'account' && (
-                                            <FormControl fullWidth>
-                                                <FormField label="Nama" error={errors.name}>
+                                <Box sx={{ p: 2 }}>
+                                    {activeTab === 'account' && (
+                                        <FormControl fullWidth>
+                                            <FormField label="Nama" error={errors.name}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Masukan Nama....."
+                                                    name="name"
+                                                    value={data.name}
+                                                    onChange={(e) => setData("name", e.target.value)}
+                                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                                                />
+                                            </FormField>
+                                            <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.nama'), "Nama berhasil diperbarui.", "Nama gagal diperbarui.")}>
+                                                Update Nama
+                                            </Button>
+                                        </FormControl>
+                                    )}
+
+                                    {activeTab === 'password' && (
+                                        <FormControl fullWidth>
+                                             <FormField label="Password" error={errors.password}>
+                                                <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
                                                     <input
-                                                        type="text"
-                                                        placeholder="Masukan Nama....."
-                                                        name="name"
-                                                        value={data.name}
-                                                        onChange={(e) => setData("name", e.target.value)}
-                                                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                                                        type={showPassword ? 'text' : 'password'}
+                                                        placeholder="Masukan Password Baru....."
+                                                        name="password"
+                                                        value={data.password}
+                                                        onChange={(e) => setData("password", e.target.value)}
+                                                        className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
                                                     />
-                                                </FormField>
-                                                <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.nama'), "Nama berhasil diperbarui.", "Nama gagal diperbarui.")}>
-                                                    Update Nama
-                                                </Button>
-                                            </FormControl>
-                                        )}
+                                                    <IconButton
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        size="medium"
+                                                    >
+                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </div>
+                                            </FormField>
 
-                                        {activeTab === 'password' && (
-                                            <FormControl fullWidth>
-                                                 <FormField label="Password" error={errors.password}>
-                                                    <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
-                                                        <input
-                                                            type={showPassword ? 'text' : 'password'}
-                                                            placeholder="Masukan Password Baru....."
-                                                            name="password"
-                                                            value={data.password}
-                                                            onChange={(e) => setData("password", e.target.value)}
-                                                            className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
-                                                        />
-                                                        <IconButton
-                                                            onClick={() => setShowPassword(!showPassword)}
-                                                            size="medium"
-                                                        >
-                                                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                        </IconButton>
-                                                    </div>
-                                                </FormField>
-
-                                                <FormField label="Konfirmasi Password" error={errors.password_confirmation}>
-                                                    <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
-                                                        <input
-                                                            type={showPasswordConfirmation ? 'text' : 'password'}
-                                                            placeholder="Konfirmasi Password....."
-                                                            name="password_confirmation"
-                                                            value={data.password_confirmation}
-                                                            onChange={(e) => setData("password_confirmation", e.target.value)}
-                                                            className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
-                                                        />
-                                                        <IconButton
-                                                            onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
-                                                            size="medium"
-                                                        >
-                                                            {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
-                                                        </IconButton>
-                                                    </div>
-                                                </FormField>
-                                                <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.password'), "Password berhasil diperbarui.", "Password gagal diperbarui.")}>
-                                                    Update Password
-                                                </Button>
-                                            </FormControl>
-                                        )}
-                                    </Box>
-                                </form>
+                                            <FormField label="Konfirmasi Password" error={errors.password_confirmation}>
+                                                <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
+                                                    <input
+                                                        type={showPasswordConfirmation ? 'text' : 'password'}
+                                                        placeholder="Konfirmasi Password....."
+                                                        name="password_confirmation"
+                                                        value={data.password_confirmation}
+                                                        onChange={(e) => setData("password_confirmation", e.target.value)}
+                                                        className="border-none rounded-tl-md rounded-bl-md focus:border-blue-500 focus:ring-blue-300 shadow-blue-300 focus:ring pl-2 w-full"
+                                                    />
+                                                    <IconButton
+                                                        onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+                                                        size="medium"
+                                                    >
+                                                        {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </div>
+                                            </FormField>
+                                            <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.password'), "Password berhasil diperbarui.", "Password gagal diperbarui.")}>
+                                                Update Password
+                                            </Button>
+                                        </FormControl>
+                                    )}
+                                </Box>
                             </Card>
                         </Grid>
                     </Grid>
@@ -291,7 +284,10 @@ export default function ProfilePengguna({ user }) {
                         <Button variant="outlined" onClick={handleCloseModal} sx={{ mt: 2, ml: 2 }}>Tutup</Button>
                     </Box>
                 </Modal>
-            </Main>
         </ThemeProvider>
     );
 }
+
+ProfilePengguna.layout = (page) => <Layout children={page} title="Profile" />;
+
+export default ProfilePengguna;

@@ -1,12 +1,12 @@
-import Main from "@/Layouts/Main";
 import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import ShowAlert from "@/Components/ShowAlert";
 import Hapus from "@/hooks/Hapus";
 import FormField from "@/Components/FormField";
-import Spinner from "@/Components/Spinner"; // Make sure you import your Spinner component
+import Spinner from "@/Components/Spinner";
+import Layout from "@/Layouts/Layout";
 
-export default function AturRole({ listRole = [], listUser = [] }) {
+function AturRole({ listRole = [], listUser = [] }) {
     const { post, setData, data, processing, errors } = useForm({
         user_id: "",
         role: "",
@@ -36,15 +36,10 @@ export default function AturRole({ listRole = [], listUser = [] }) {
     };
 
     return (
-        <Main>
+        <>
             <Head title="Atur Role" />
-            <div className="mb-6 overflow-x-hidden">
-                <h2 className="text-3xl font-bold text-blue-400">Atur Role</h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
-            </div>
-
-            <form onSubmit={handleAssignRole} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={handleAssignRole}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
                     <FormField label="Nama" error={errors.user_id}>
                         <select
                             id="user-select"
@@ -86,8 +81,8 @@ export default function AturRole({ listRole = [], listUser = [] }) {
                     </FormField>
                 </div>
 
-                <div className="mt-4 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">
-                    <h3 className="text-xl font-bold mt-5 lg:mt-0 text-blue-400">
+                <div className="md:px-5 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">
+                    <h3 className="text-xl font-bold text-blue-400">
                         Daftar Role Pengguna
                     </h3>
                     <button
@@ -113,7 +108,7 @@ export default function AturRole({ listRole = [], listUser = [] }) {
                     <tbody className="divide-y divide-gray-200">
                         {listUser.map((user, index) => (
                             <tr key={user.id} className="bg-white hover:bg-gray-100">
-                                <td className="px-2 py-2 text-center">{index + 1}.</td>
+                                <td className="px-2 py-2 text-center">{index + 1}</td>
                                 <td className="px-2 py-2 text-center">{user.name}</td>
                                 <td colSpan={2} className="px-2 py-2">
                                     {user.roles.length > 0 ? (
@@ -148,7 +143,10 @@ export default function AturRole({ listRole = [], listUser = [] }) {
                     </tbody>
                 </table>
             </div>
-
-        </Main>
+        </>
     );
 }
+
+AturRole.layout = (page) => <Layout children={page} title="Atur Role" />;
+
+export default AturRole;

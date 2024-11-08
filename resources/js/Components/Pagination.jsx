@@ -33,7 +33,7 @@ const Pagination = ({ links }) => {
                                     href={link.url}
                                     method="get"
                                     as="a"
-                                    className={`px-4 py-2 border rounded-md text-gray-700 ${link.active ? 'bg-blue-400 text-white' : 'bg-white border-gray-300 hover:bg-blue-400 hover:text-white'} text-sm`}
+                                    className={`px-4 py-2 border rounded-md text-gray-700 ${link.active ? 'bg-[#0B6477] text-white' : 'bg-white border-[#14919B] hover:bg-[#0B6477] hover:text-white'} text-sm`}
                                     preserveState
                                     replace
                                 >

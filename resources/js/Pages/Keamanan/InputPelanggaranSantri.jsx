@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Main from '@/Layouts/Main';
+import Layout from '@/Layouts/Layout';
 import { Head, useForm } from '@inertiajs/react';
 import Select from 'react-select';
 import ShowAlert from '@/Components/ShowAlert';
@@ -11,8 +11,9 @@ import dayjs from 'dayjs';
 import { useFilter } from '@/hooks/useFilter';
 import Hapus from '@/hooks/Hapus';
 import DataTable from '@/Components/DataTable';
+import { formatTanggalLahir } from "@/hooks/formatTanggalLahir";
 
-export default function InputPelanggaranSantri({ initTahun, listSantri, listPeraturan, listPelanggaran }) {
+function InputPelanggaranSantri({ initTahun, listSantri, listPeraturan, listPelanggaran }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
         jenis_kelamin: '',
@@ -55,6 +56,7 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
         { label: 'No', field: 'no' },
         { label: 'NIS', field: 'nis' },
         { label: 'Nama Santri', field: 'santriName' },
+        { label: 'Tanggal', field: 'tanggal' },
         { label: 'Pelanggaran', field: 'pelanggaranName' },
         { label: 'Kategori', field: 'kategori' },
         { label: 'Hukuman', field: 'hukuman' },
@@ -72,6 +74,7 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
         no: index + 1,
         nis: list?.nis,
         santriName: list?.santri?.name,
+        tanggal: formatTanggalLahir(list?.tanggal),
         pelanggaranName: list?.pelanggaran?.nama,
         kategori: list?.pelanggaran?.kategori,
         hukuman: list?.pelanggaran?.hukuman,
@@ -81,14 +84,9 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
     }));
 
     return (
-        <Main>
+        <>
             <Head title="Input Pelanggaran Santri" />
-            <div className="mb-6 overflow-x-hidden">
-                <h2 className="text-3xl font-bold text-blue-400">Input Pelanggaran Santri</h2>
-                <div className="w-full h-0.5 bg-gradient-to-r from-blue-300 to-transparent mt-2" />
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-4">
                     <FormField error={errors.tahun}>
                         <Tahun
@@ -119,7 +117,7 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                             isSearchable
                             getOptionLabel={santri => santri.santri.name}
                             getOptionValue={santri => santri.nis}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         />
                     </FormField>
 
@@ -132,7 +130,7 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                             isSearchable
                             getOptionLabel={peraturan => peraturan.nama}
                             getOptionValue={peraturan => peraturan.id}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         />
                     </FormField>
 
@@ -141,7 +139,7 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                             type="date"
                             value={data.tanggal}
                             onChange={e => setData('tanggal', e.target.value)}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         />
                     </FormField>
 
@@ -150,22 +148,22 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                             type="number"
                             value={data.jumlah}
                             onChange={e => setData('jumlah', e.target.value)}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                             placeholder="Masukkan jumlah"
                         />
                     </FormField>
                 </div>
-
-                <div className="mt-4 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center sm:flex-col sm:justify-between sm:items-center">
-                    <h3 className="text-xl font-bold mt-5 lg:mt-0 text-blue-400">
+                
+                <div className="md:px-5 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">
+                    <h3 className="text-xl font-bold text-[#0B6477]">
                         Santri Yang Melanggar Hari Ini
                     </h3>
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white rounded-md items-end py-2 px-3 hover:bg-blue-600 transition duration-200 md:w-auto lg:w-auto sm:w-20 w-20 mb-4"
+                        className="bg-blue-500 text-white rounded-md py-2 px-3 hover:bg-blue-600 transition duration-200"
                         disabled={processing}
                     >
-                        {processing ? <Spinner /> : 'Simpan'}
+                        {processing ? <Spinner /> : "Simpan"}
                     </button>
                 </div>
             </form>
@@ -176,6 +174,10 @@ export default function InputPelanggaranSantri({ initTahun, listSantri, listPera
                 loading={isProcessing}
                 emptyMessage="Tidak ada santri yang melanggar hari ini."
             />
-        </Main>
+        </>
     );
 }
+
+InputPelanggaranSantri.layout = (page) => <Layout children={page} title="Input Pelanggaran Santri" />;
+
+export default InputPelanggaranSantri;

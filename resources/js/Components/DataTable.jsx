@@ -5,7 +5,7 @@ export default function DataTable({ columns, data, loading, emptyMessage = "Data
     return (
         <div className="mt-5 rounded-lg overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-600 table-auto">
-                <thead className="text-xs text-white uppercase bg-gradient-to-r from-blue-400 to-blue-500">
+                <thead className="text-xs text-white uppercase bg-[#0B6477]">
                     <tr>
                         {columns.map((column, index) => (
                             <th key={index} scope="col" className="px-2 py-4 text-center">
@@ -13,7 +13,7 @@ export default function DataTable({ columns, data, loading, emptyMessage = "Data
                             </th>
                         ))}
                     </tr>
-                </thead>
+                </thead>    
                 <tbody className="divide-y divide-gray-200">
                     {loading ? (
                         <tr>
@@ -29,7 +29,7 @@ export default function DataTable({ columns, data, loading, emptyMessage = "Data
                         </tr>
                     ) : (
                         data.map((item, rowIndex) => (
-                            <tr key={rowIndex} className="bg-white hover:bg-gray-100 text-center">
+                            <tr key={rowIndex} className="bg-white hover:bg-gray-50 text-center">
                                 {columns.map((column, colIndex) => (
                                     <td key={colIndex} className="px-2 py-4">
                                         {column.render ? column.render(item, rowIndex) : item[column.field]}
