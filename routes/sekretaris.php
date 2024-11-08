@@ -4,6 +4,8 @@ use App\Http\Controllers\Sekretaris\DataAlumniController;
 use App\Http\Controllers\Sekretaris\DataPenggunaController;
 use App\Http\Controllers\Sekretaris\DataPeraturanController;
 use App\Http\Controllers\Sekretaris\DataSantriController;
+use App\Http\Controllers\Sekretaris\InputDataAlumniController;
+use App\Http\Controllers\Sekretaris\TambahDataAlumniController;
 use App\Http\Controllers\Sekretaris\TambahDataPenggunaController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,11 @@ Route::middleware('auth')->group(function () {
 
         Route::controller(DataSantriController::class)->group(function () {
                 Route::get('data-santri', 'index')->name('data-santri');
+        });
+
+        Route::controller(TambahDataAlumniController::class)->group(function(){
+                Route::get('tambah-data-alumni', 'index')->name('tambah-data-alumni');
+                Route::post('tambah-data-alumni', 'simpan')->name('tambah-data-alumni.simpan');
         });
 
         Route::controller(TambahDataPenggunaController::class)->group(function () {

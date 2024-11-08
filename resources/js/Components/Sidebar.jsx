@@ -54,13 +54,13 @@ export default function Sidebar({ isOpen }) {
                     </li>
                     <li>
                         <Link 
-                            href={route('data-alumni')} 
-                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/data-alumni') ? activeStyles : inactiveStyles}`}
+                            href={route('tambah-data-alumni')} 
+                            className={`flex items-center p-2 rounded-lg ${currentRoute.includes('/tambah-data-alumni') ? activeStyles : inactiveStyles}`}
                         >
                             <svg class={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${currentRoute.includes('/data-alumni') ? activeStyles : inactiveStyles}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 22">
                                 <path d="M9 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H7Zm8-1a1 1 0 0 1 1-1h1v-1a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
                             </svg>
-                            <span className="ml-3">Data Alumni</span>
+                            <span className="ml-3">Tambah Data Alumni</span>
                         </Link>
                     </li>
                     <li>
