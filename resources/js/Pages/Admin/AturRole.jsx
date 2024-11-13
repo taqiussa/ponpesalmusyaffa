@@ -45,7 +45,7 @@ function AturRole({ listRole = [], listUser = [] }) {
                             id="user-select"
                             onChange={(e) => setData("user_id", e.target.value)}
                             value={data.user_id}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         >
                             <option value="">Pilih User</option>
                             {listUser.length > 0 ? (
@@ -65,7 +65,7 @@ function AturRole({ listRole = [], listUser = [] }) {
                             id="role-select"
                             onChange={(e) => setData("role", e.target.value)}
                             value={data.role}
-                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
+                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                         >
                             <option value="">Pilih Role</option>
                             {listRole.length > 0 ? (
@@ -80,10 +80,10 @@ function AturRole({ listRole = [], listUser = [] }) {
                         </select>
                     </FormField>
                 </div>
-
+                
                 <div className="md:px-5 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">
-                    <h3 className="text-xl font-bold text-blue-400">
-                        Daftar Role Pengguna
+                    <h3 className="text-xl font-bold text-[#0B6477]">
+                    Daftar Role Pengguna
                     </h3>
                     <button
                         type="submit"
@@ -97,7 +97,7 @@ function AturRole({ listRole = [], listUser = [] }) {
 
             <div className="mt-5 rounded-lg overflow-x-auto">
                 <table className="w-full text-sm text-gray-600 table-auto">
-                    <thead className="text-xs text-white uppercase bg-gradient-to-r from-blue-400 to-blue-500">
+                    <thead className="text-xs text-white uppercase bg-[#0B6477]">
                         <tr>
                             <th className="border-b px-4 py-3 w-12">No</th>
                             <th className="border-b px-4 py-3 text-center">Nama</th>
@@ -118,7 +118,7 @@ function AturRole({ listRole = [], listUser = [] }) {
                                                     key={role.name}
                                                     className={`grid grid-cols-2 ${roleIndex === 0 ? '' : 'border-t border-gray-300'} pt-2`}
                                                 >
-                                                    <div className="inline-block text-center bg-blue-500 text-white px-3 py-2 rounded">
+                                                    <div className="inline-block text-center bg-[#0B6477] text-white px-3 py-2 rounded">
                                                         {role.name}
                                                     </div>
                                                     <div className="text-center">

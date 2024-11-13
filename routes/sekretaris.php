@@ -35,6 +35,13 @@ Route::middleware('auth')->group(function () {
         Route::controller(TambahDataAlumniController::class)->group(function(){
                 Route::get('tambah-data-alumni', 'index')->name('tambah-data-alumni');
                 Route::post('tambah-data-alumni', 'simpan')->name('tambah-data-alumni.simpan');
+                Route::get('/provinces', [TambahDataAlumniController::class, 'getProvinces']);
+                Route::get('/cities/{provinceCode}', [TambahDataAlumniController::class, 'getCities']);
+                Route::get('/districts/{cityCode}', [TambahDataAlumniController::class, 'getDistricts']);
+                Route::get('/villages/{districtCode}', [TambahDataAlumniController::class, 'getVillages']);
+                // Route::get('provinces/{provinceCode}/cities', 'getCities');
+                // Route::get('cities/{cityCode}/districts', 'getDistricts');
+                // Route::get('districts/{districtCode}/villages', 'getVillages');
         });
 
         Route::controller(TambahDataPenggunaController::class)->group(function () {

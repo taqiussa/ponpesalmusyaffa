@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Sekretaris;
 use App\Http\Controllers\Controller;
 use App\Models\Alumni;
 use Illuminate\Support\Facades\DB;
+use Laravolt\Indonesia\Models\City;
+use Laravolt\Indonesia\Models\District;
+use Laravolt\Indonesia\Models\Province;
+use Laravolt\Indonesia\Models\Village;
 
 class TambahDataAlumniController extends Controller
 {
@@ -13,6 +17,41 @@ class TambahDataAlumniController extends Controller
         return inertia('Sekretaris/TambahDataAlumni');
     }
 
+    // public function getCities($provinceCode)
+    // {
+    //     return City::where('province_code', $provinceCode)->get();
+    // }
+
+    // public function getDistricts($cityCode)
+    // {
+    //     return District::where('city_code', $cityCode)->get();
+    // }
+
+    // public function getVillages($districtCode)
+    // {
+    //     return Village::where('district_code', $districtCode)->get();
+    // }
+
+    public function getProvinces()
+    {
+        return Province::all();
+    }
+
+    public function getCities($provinceCode)
+    {
+        return City::where('province_code', $provinceCode)->get();
+    }
+
+    public function getDistricts($cityCode)
+    {
+        return District::where('city_code', $cityCode)->get();
+    }
+
+    public function getVillages($districtCode)
+    {
+        return Village::where('district_code', $districtCode)->get();
+    }
+    
     public function simpan()
     {
         $validated =   request()->validate(
