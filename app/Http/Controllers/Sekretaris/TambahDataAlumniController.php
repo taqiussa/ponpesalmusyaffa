@@ -8,50 +8,20 @@ use Illuminate\Support\Facades\DB;
 use Laravolt\Indonesia\Models\City;
 use Laravolt\Indonesia\Models\District;
 use Laravolt\Indonesia\Models\Province;
+use Laravolt\Indonesia\Models\Provinsi;
 use Laravolt\Indonesia\Models\Village;
 
 class TambahDataAlumniController extends Controller
 {
     public function index()
     {
-        return inertia('Sekretaris/TambahDataAlumni');
+        return inertia('Sekretaris/TambahDataAlumni', [
+            'listProvinsi' => Provinsi::query()
+                ->orderBy('name')
+                ->get()
+        ]);
     }
 
-    // public function getCities($provinceCode)
-    // {
-    //     return City::where('province_code', $provinceCode)->get();
-    // }
-
-    // public function getDistricts($cityCode)
-    // {
-    //     return District::where('city_code', $cityCode)->get();
-    // }
-
-    // public function getVillages($districtCode)
-    // {
-    //     return Village::where('district_code', $districtCode)->get();
-    // }
-
-    public function getProvinces()
-    {
-        return Province::all();
-    }
-
-    public function getCities($provinceCode)
-    {
-        return City::where('province_code', $provinceCode)->get();
-    }
-
-    public function getDistricts($cityCode)
-    {
-        return District::where('city_code', $cityCode)->get();
-    }
-
-    public function getVillages($districtCode)
-    {
-        return Village::where('district_code', $districtCode)->get();
-    }
-    
     public function simpan()
     {
         $validated =   request()->validate(

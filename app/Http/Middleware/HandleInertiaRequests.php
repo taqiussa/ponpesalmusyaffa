@@ -4,9 +4,12 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Spatie\Permission\Traits\HasRoles;
 
 class HandleInertiaRequests extends Middleware
 {
+    use HasRoles;
+
     /**
      * The root template that is loaded on the first page visit.
      *
@@ -33,6 +36,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'roles' => $request->user()?->getRoleNames()
             ],
         ];
     }

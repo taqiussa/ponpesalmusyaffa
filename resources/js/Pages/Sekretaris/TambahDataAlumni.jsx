@@ -4,115 +4,33 @@ import Layout from '@/Layouts/Layout';
 import FormField from '@/Components/FormField';
 import ShowAlert from '@/Components/ShowAlert';
 import axios from 'axios';
+import getKabupaten from '@/Functions/getKabupaten';
+import getKecamatan from '@/Functions/getKecamatan';
+import getDesa from '@/Functions/getDesa';
 
-function TambahDataAlumni() {
+function TambahDataAlumni({ listProvinsi }) {
     const { data, setData, post, processing, reset, errors } = useForm({
-        nama: '', jenis_kelamin: '', tempat_lahir: '', tanggal_lahir: '',
-        nama_ayah: '', nama_ibu: '', rt: '', rw: '', desa: '', kecamatan: '',
-        kabupaten: '', provinsi: '', telepon: '', status_nikah: '',
-        status_pekerjaan: '', tahun_masuk: '', tingkat_terakhir: ''
+        nama: '',
+        jenis_kelamin: '',
+        tempat_lahir: '',
+        tanggal_lahir: '',
+        nama_ayah: '',
+        nama_ibu: '',
+        rt: '',
+        rw: '',
+        desa: '',
+        kecamatan: '',
+        kabupaten: '',
+        provinsi: '',
+        telepon: '',
+        status_nikah: '',
+        status_pekerjaan: '',
+        tahun_masuk: '',
+        tingkat_terakhir: ''
     });
 
-    // const [provinces, setProvinces] = useState([]);
-    // const [cities, setCities] = useState([]);
-    // const [districts, setDistricts] = useState([]);
-    // const [villages, setVillages] = useState([]);
 
-    // useEffect(() => {
-    //     axios.get('/api/provinces').then(response => {
-    //         setProvinces(response.data);
-    //     });
-    // }, []);
-
-    // const handleProvinceChange = (e) => {
-    //     setData('provinsi', e.target.value);
-    //     setData('kabupaten', '');
-    //     setData('kecamatan', '');
-    //     setData('desa', '');
-    //     setCities([]);
-    //     setDistricts([]);
-    //     setVillages([]);
-
-    //     axios.get(`/provinces/${e.target.value}/cities`).then(response => {
-    //         setCities(response.data);
-    //     });
-    // };
-
-    // const handleCityChange = (e) => {
-    //     setData('kabupaten', e.target.value);
-    //     setData('kecamatan', '');
-    //     setData('desa', '');
-    //     setDistricts([]);
-    //     setVillages([]);
-
-    //     axios.get(`/cities/${e.target.value}/districts`).then(response => {
-    //         setDistricts(response.data);
-    //     });
-    // };
-
-    // const handleDistrictChange = (e) => {
-    //     setData('kecamatan', e.target.value);
-    //     setData('desa', '');
-    //     setVillages([]);
-
-    //     axios.get(`/districts/${e.target.value}/villages`).then(response => {
-    //         setVillages(response.data);
-    //     });
-    // };
-
-    // const handleVillageChange = (e) => {
-    //     setData('desa', e.target.value);
-    // };
-
-const [provinces, setProvinces] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [districts, setDistricts] = useState([]);
-    const [villages, setVillages] = useState([]);
-
-    useEffect(() => {
-        // Fetch Provinces when component mounts
-        fetch('/api/provinces')
-            .then(response => response.json())
-            .then(data => setProvinces(data));
-    }, []);
-
-    useEffect(() => {
-        // Fetch Cities based on selected Province
-        if (data.provinsi) {
-            fetch(`/api/cities/${data.provinsi}`)
-                .then(response => response.json())
-                .then(data => setCities(data));
-        } else {
-            setCities([]);
-            setDistricts([]);
-            setVillages([]);
-        }
-    }, [data.provinsi]);
-
-    useEffect(() => {
-        // Fetch Districts based on selected City
-        if (data.kabupaten) {
-            fetch(`/api/districts/${data.kabupaten}`)
-                .then(response => response.json())
-                .then(data => setDistricts(data));
-        } else {
-            setDistricts([]);
-            setVillages([]);
-        }
-    }, [data.kabupaten]);
-
-    useEffect(() => {
-        // Fetch Villages based on selected District
-        if (data.kecamatan) {
-            fetch(`/api/villages/${data.kecamatan}`)
-                .then(response => response.json())
-                .then(data => setVillages(data));
-        } else {
-            setVillages([]);
-        }
-    }, [data.kecamatan]);
-
-     const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         post(route("tambah-data-alumni.simpan"), {
             onSuccess: () => {
@@ -134,6 +52,68 @@ const [provinces, setProvinces] = useState([]);
             },
         });
     };
+
+    const handleChange = (e) => {
+        setData(e.target.name, e.target.type == 'file' ? e.target.files[0] : e.target.value)
+    }
+
+    const [listKabupaten, setListKabupaten] = useState([])
+    const [listKecamatan, setListKecamatan] = useState([])
+    const [listDesa, setListDesa] = useState([])
+
+    async function getDataKabupaten() {
+        const res = await getKabupaten(data.provinsi)
+        setListKabupaten(res.listKabupaten)
+    }
+
+    async function getDataKecamatan() {
+        const res = await getKecamatan(data.kabupaten)
+        setListKecamatan(res.listKecamatan)
+    }
+
+    async function getDataDesa() {
+        const res = await getDesa(data.kecamatan)
+        setListDesa(res.listDesa)
+    }
+
+    useEffect(() => {
+        if (isEmpty(data.provinsi)) {
+            setData({
+                ...data,
+                kabupaten: '',
+                kecamatan: '',
+                desa: ''
+            })
+            setListKabupaten([])
+        } else {
+            trackPromise(getDataKabupaten())
+        }
+    }, [data.provinsi])
+
+    useEffect(() => {
+        if (isEmpty(data.kabupaten)) {
+            setData({
+                ...data,
+                kecamatan: '',
+                desa: ''
+            })
+            setListKecamatan([])
+        } else {
+            trackPromise(getDataKecamatan())
+        }
+    }, [data.kabupaten])
+
+    useEffect(() => {
+        if (isEmpty(data.kecamatan)) {
+            setData({
+                ...data,
+                desa: ''
+            })
+            setListDesa([])
+        } else {
+            trackPromise(getDataDesa())
+        }
+    }, [data.kecamatan])
 
     return (
         <>
@@ -245,105 +225,6 @@ const [provinces, setProvinces] = useState([]);
                                     onChange={(e) => setData('rw', e.target.value)}
                                     className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
                                 />
-                                {/* <select
-                                    id="provinsi"
-                                    name="provinsi"
-                                    value={data.provinsi}
-                                    onChange={handleProvinceChange}
-                                    className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                                >
-                                    <option value="">Pilih Provinsi</option>
-                                    {provinces.map(province => (
-                                        <option key={province.id} value={province.code}>{province.name}</option>
-                                    ))}
-                                </select>
-                                <select
-                                    id="kabupaten"
-                                    name="kabupaten"
-                                    value={data.kabupaten}
-                                    onChange={handleCityChange}
-                                    className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                                    disabled={!data.provinsi}
-                                >
-                                    <option value="">Pilih Kabupaten</option>
-                                    {cities.map(city => (
-                                        <option key={city.id} value={city.code}>{city.name}</option>
-                                    ))}
-                                </select>
-                                <select
-                                    id="kecamatan"
-                                    name="kecamatan"
-                                    value={data.kecamatan}
-                                    onChange={handleDistrictChange}
-                                    className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                                    disabled={!data.kabupaten}
-                                >
-                                    <option value="">Pilih Kecamatan</option>
-                                    {districts.map(district => (
-                                        <option key={district.id} value={district.code}>{district.name}</option>
-                                    ))}
-                                </select>
-                                <select
-                                    id="desa"
-                                    name="desa"
-                                    value={data.desa}
-                                    onChange={handleVillageChange}
-                                    className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                                    disabled={!data.kecamatan}
-                                >
-                                    <option value="">Pilih Desa</option>
-                                    {villages.map(village => (
-                                        <option key={village.id} value={village.code}>{village.name}</option>
-                                    ))}
-                                </select> */}
-                                
-                                <select
-                                    value={data.provinsi}
-                                    onChange={(e) => setData('provinsi', e.target.value)}
-                                >
-                                    <option value="">Pilih Provinsi</option>
-                                    {provinces.map((province) => (
-                                        <option key={province.code} value={province.code}>
-                                            {province.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                <select
-                                    value={data.kabupaten}
-                                    onChange={(e) => setData('kabupaten', e.target.value)}
-                                    disabled={!data.provinsi}
-                                >
-                                    <option value="">Pilih Kabupaten</option>
-                                    {cities.map((city) => (
-                                        <option key={city.code} value={city.code}>
-                                            {city.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                <select
-                                    value={data.kecamatan}
-                                    onChange={(e) => setData('kecamatan', e.target.value)}
-                                    disabled={!data.kabupaten}
-                                >
-                                    <option value="">Pilih Kecamatan</option>
-                                    {districts.map((district) => (
-                                        <option key={district.code} value={district.code}>
-                                            {district.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                <select
-                                    value={data.desa}
-                                    onChange={(e) => setData('desa', e.target.value)}
-                                    disabled={!data.kecamatan}
-                                >
-                                    <option value="">Pilih Desa</option>
-                                    {villages.map((village) => (
-                                        <option key={village.code} value={village.code}>
-                                            {village.name}
-                                        </option>
-                                    ))}
-                                </select>
                             </div>
                         </FormField>
                     </div>
@@ -425,7 +306,7 @@ const [provinces, setProvinces] = useState([]);
                     </div>
                 </div>
 
-                 <button
+                <button
                     type="submit"
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
                     disabled={processing}
