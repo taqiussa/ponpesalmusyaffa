@@ -303,4 +303,6 @@ function TambahDataAlumni({ listProvinsi }) {
     );
 }
 
+TambahDataAlumni.layout = (page) => <Layout children={page} title="Tambah Data Alumni" />;
+
 export default TambahDataAlumni;
