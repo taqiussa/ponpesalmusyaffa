@@ -1,10 +1,9 @@
 import React from 'react';
 import Layout from '@/Layouts/Layout';
-import Main from '@/Layouts/Main';
 import { Head, useForm } from '@inertiajs/react';
-import FormField from '@/Components/FormField';
 import Spinner from '@/Components/Spinner';
 import ShowAlert from "@/Components/ShowAlert";
+import InputField from '@/Components/InputField';
 
 function EditDataPengguna({ user }) {
     const { data, setData, post, errors, processing, reset } = useForm({
@@ -41,27 +40,20 @@ function EditDataPengguna({ user }) {
             <Head title='Edit Pengguna' />
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-4">
-                    <FormField label="Nama" error={errors.name}>
-                        <input
-                            type="text"
-                            name="name"
-                            value={data.name}
-                            autoComplete='off'
-                            onChange={(e) => setData("name", e.target.value)}
-                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                        />
-                    </FormField>
-
-                    <FormField label="Username" error={errors.username}>
-                        <input
-                            type="text"
-                            name="username"
-                            value={data.username}
-                            autoComplete='off'
-                            onChange={(e) => setData("username", e.target.value)}
-                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                        />
-                    </FormField>
+                    <InputField
+                        label="Nama"
+                        name="name"
+                        value={data.name}
+                        onChange={e => setData('name', e.target.value)}
+                        error={errors.name}
+                    />
+                    <InputField
+                        label="Username"
+                        name="username"
+                        value={data.username}
+                        onChange={e => setData('username', e.target.value)}
+                        error={errors.username}
+                    />
                 </div>
                 <button
                     type="submit"

@@ -18,17 +18,30 @@ function DataPengguna({ listUser }) {
         { label: "No", render: (item, index) => index + 1 },
         { label: "Name", render: (item) => item.name },
         { label: "Username", render: (item) => item.username },
-        { label: "Role", render: (item) => item.roles.length > 0 ? item.roles.map((role) => role.name).join(", ") : <p className="text-red-300 select-none italic">Data Kosong</p> },
-        { label: "Aksi",
+        {
+            label: "Role",
+            render: (item) =>
+                item.roles.length > 0 ? (
+                    item.roles.map((role) => role.name).join(", ")
+                ) : (
+                    <p className="text-red-300 select-none italic">
+                        Data Kosong
+                    </p>
+                ),
+        },
+        {
+            label: "Aksi",
             render: (item) => (
                 <div className="flex justify-center gap-2">
-                    <Link href={route("data-pengguna.edit", item.id)} className="inline-flex items-center text-blue-600 uppercase tracking-widest hover:text-blue-500 active:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150" >
-                        
+                    <Link
+                        href={route("data-pengguna.edit", item.id)}
+                        className="inline-flex items-center text-blue-600 uppercase tracking-widest hover:text-blue-500 active:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    >
                         <Edit />
                     </Link>
                     <Hapus ids={item.id} routes={"data-pengguna.hapus"} />
                 </div>
-            )
+            ),
         },
     ];
 
@@ -55,6 +68,8 @@ function DataPengguna({ listUser }) {
     );
 }
 
-DataPengguna.layout = (page) => <Layout children={page} title="Data Pengguna" />;
+DataPengguna.layout = (page) => (
+    <Layout children={page} title="Data Pengguna" />
+);
 
 export default DataPengguna;

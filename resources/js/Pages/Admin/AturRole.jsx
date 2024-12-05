@@ -2,9 +2,9 @@ import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import ShowAlert from "@/Components/ShowAlert";
 import Hapus from "@/hooks/Hapus";
-import FormField from "@/Components/FormField";
 import Spinner from "@/Components/Spinner";
 import Layout from "@/Layouts/Layout";
+import SelectField from "@/Components/SelectField";
 
 function AturRole({ listRole = [], listUser = [] }) {
     const { post, setData, data, processing, errors } = useForm({
@@ -40,45 +40,24 @@ function AturRole({ listRole = [], listUser = [] }) {
             <Head title="Atur Role" />
             <form onSubmit={handleAssignRole}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-                    <FormField label="Nama" error={errors.user_id}>
-                        <select
-                            id="user-select"
-                            onChange={(e) => setData("user_id", e.target.value)}
-                            value={data.user_id}
-                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                        >
-                            <option value="">Pilih User</option>
-                            {listUser.length > 0 ? (
-                                listUser.map((user) => (
-                                    <option key={user.id} value={user.id}>
-                                        {user.name}
-                                    </option>
-                                ))
-                            ) : (
-                                <option value="">Tidak ada pengguna</option>
-                            )}
-                        </select>
-                    </FormField>
-
-                    <FormField label="Role" error={errors.role}>
-                        <select
-                            id="role-select"
-                            onChange={(e) => setData("role", e.target.value)}
-                            value={data.role}
-                            className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                        >
-                            <option value="">Pilih Role</option>
-                            {listRole.length > 0 ? (
-                                listRole.map((role) => (
-                                    <option key={role.name} value={role.name}>
-                                        {role.name}
-                                    </option>
-                                ))
-                            ) : (
-                                <option value="">Tidak ada peran</option>
-                            )}
-                        </select>
-                    </FormField>
+                    <SelectField
+                        label="Nama"
+                        name="user_id"
+                        value={data.user_id}
+                        onChange={(e) => setData("user_id", e.target.value)}
+                        options={listUser.map((user) => ({ value: user.id, label: user.name }))}
+                        error={errors.user_id}
+                        placeholder="Pilih User"
+                    />
+                    <SelectField
+                        label="Role"
+                        name="role"
+                        value={data.role}
+                        onChange={(e) => setData("role", e.target.value)}
+                        options={listRole.map((role) => ({ value: role.name, label: role.name }))}
+                        error={errors.role}
+                        placeholder="Pilih Role"
+                    />
                 </div>
                 
                 <div className="md:px-5 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">

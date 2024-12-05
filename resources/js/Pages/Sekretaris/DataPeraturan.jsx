@@ -5,9 +5,10 @@ import ShowAlert from "@/Components/ShowAlert";
 import FormField from "@/Components/FormField";
 import Spinner from "@/Components/Spinner";
 import Hapus from "@/hooks/Hapus";
-import Loading from "@/Components/Loading";
 import { useFilter } from "@/hooks/useFilter";
 import DataTable from "@/Components/DataTable";
+import TextareaField from "@/Components/TextareaField";
+import SelectField from "@/Components/SelectField";
 
 function DataPeraturan({ listPeraturan }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -49,56 +50,53 @@ function DataPeraturan({ listPeraturan }) {
         { label: "Keterangan Peraturan", render: (item) => item.nama },
         { label: "Kategori", render: (item) => item.kategori },
         { label: "Keterangan Hukuman", render: (item) => item.hukuman },
-        { label: "Aksi", render: (item) => ( <Hapus ids={item.id} routes={"data-peraturan.hapus"} /> ) },
+        {
+            label: "Aksi",
+            render: (item) => (
+                <Hapus ids={item.id} routes={"data-peraturan.hapus"} />
+            ),
+        },
     ];
 
     return (
         <>
             <Head title="Data Peraturan" />
             <form onSubmit={handleSubmit}>
-                <FormField label="Kategori" error={errors.kategori}>
-                    <select
-                        id="kategori"
-                        value={data.kategori}
-                        onChange={(e) => setData("kategori", e.target.value)}
-                        className="border-gray-300 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md md:w-1/2 lg:w-1/2 sm:w-full w-full shadow-[#14919B] focus:ring"
-                    >
-                        <option value="">Pilih Kategori</option>
-                        <option value="ringan">Ringan</option>
-                        <option value="sedang">Sedang</option>
-                        <option value="berat">Berat</option>
-                    </select>
-                </FormField>
+                <SelectField
+                    label="Kategori"
+                    name="kategori"
+                    value={data.kategori}
+                    onChange={(e) => setData("kategori", e.target.value)}
+                    options={[
+                        { value: "Ringan", label: "Ringan" },
+                        { value: "Sedang", label: "Sedang" },
+                        { value: "Berat", label: "Berat" },
+                    ]}
+                    error={errors.kategori}
+                    placeholder="Pilih Kategori"
+                />
 
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-4">
-                    <FormField label="Keterangan Peraturan" error={errors.nama}>
-                        <textarea
-                            id="nama"
-                            value={data.nama}
-                            autoComplete="off"
-                            placeholder="Masukan Peraturan....."
-                            onChange={(e) => setData("nama", e.target.value)}
-                            required
-                            className="border-gray-300 h-24 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                        />
-                    </FormField>
-
-                    <FormField
+                    <TextareaField
+                        label="Keterangan Peraturan"
+                        name="nama"
+                        value={data.nama}
+                        onChange={(e) => setData("nama", e.target.value)}
+                        placeholder="Masukan Peraturan....."
+                        error={errors.nama}
+                        required
+                    />
+                    <TextareaField
                         label="Keterangan Hukuman"
+                        name="hukuman"
+                        value={data.hukuman}
+                        onChange={(e) => setData("hukuman", e.target.value)}
+                        placeholder="Masukan Hukuman....."
                         error={errors.hukuman}
-                    >
-                        <textarea
-                            id="hukuman"
-                            value={data.hukuman}
-                            autoComplete="off"
-                            placeholder="Masukan Hukuman....."
-                            onChange={(e) => setData("hukuman", e.target.value)}
-                            required
-                            className="border-gray-300 h-24 focus:border-[#0B6477] focus:ring-[#14919B] rounded-md shadow-md w-full shadow-[#14919B] focus:ring"
-                        />
-                    </FormField>
+                        required
+                    />
                 </div>
-                
+
                 <div className="md:px-5 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center">
                     <h3 className="text-xl font-bold text-[#0B6477]">
                         List Peraturan
@@ -123,6 +121,8 @@ function DataPeraturan({ listPeraturan }) {
     );
 }
 
-DataPeraturan.layout = (page) => <Layout children={page} title="Data Peraturan" />;
+DataPeraturan.layout = (page) => (
+    <Layout children={page} title="Data Peraturan" />
+);
 
 export default DataPeraturan;

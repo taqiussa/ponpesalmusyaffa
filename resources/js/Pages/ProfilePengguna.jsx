@@ -9,6 +9,8 @@ import SaveIcon from '@mui/icons-material/PermMedia';
 import ShowAlert from "@/Components/ShowAlert";
 import FormField from '@/Components/FormField';
 import Layout from '@/Layouts/Layout';
+import InputField from '@/Components/InputField';
+import PasswordField from '@/Components/PasswordField';
 
 const theme = createTheme();
 
@@ -209,16 +211,14 @@ function ProfilePengguna({ user }) {
                                 <Box sx={{ p: 2 }}>
                                     {activeTab === 'account' && (
                                         <FormControl fullWidth>
-                                            <FormField label="Nama" error={errors.name}>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Masukan Nama....."
-                                                    name="name"
-                                                    value={data.name}
-                                                    onChange={(e) => setData("name", e.target.value)}
-                                                    className="border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md w-full shadow-blue-300 focus:ring"
-                                                />
-                                            </FormField>
+                                            <InputField
+                                                label="Nama"
+                                                name="name"
+                                                placeholder="Masukan Nama....."
+                                                value={data.name}
+                                                onChange={e => setData('name', e.target.value)}
+                                                error={errors.name}
+                                            />
                                             <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.nama'), "Nama berhasil diperbarui.", "Nama gagal diperbarui.")}>
                                                 Update Nama
                                             </Button>
@@ -227,7 +227,7 @@ function ProfilePengguna({ user }) {
 
                                     {activeTab === 'password' && (
                                         <FormControl fullWidth>
-                                             <FormField label="Password" error={errors.password}>
+                                             {/* <FormField label="Password" error={errors.password}>
                                                 <div className="flex items-center border-gray-300 focus:border-blue-500 focus:ring-blue-300 rounded-md shadow-md shadow-blue-300 focus:ring">
                                                     <input
                                                         type={showPassword ? 'text' : 'password'}
@@ -263,7 +263,23 @@ function ProfilePengguna({ user }) {
                                                         {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </div>
-                                            </FormField>
+                                            </FormField> */}
+                                            <PasswordField
+                                                label="Password"
+                                                name="password"
+                                                value={data.password}
+                                                onChange={(e) => setData('password', e.target.value)}
+                                                placeholder="Masukan Password....."
+                                                error={errors.password}
+                                            />
+                                            <PasswordField
+                                                label="Konfirmasi Password"
+                                                name="password_confirmation"
+                                                value={data.password_confirmation}
+                                                onChange={(e) => setData('password_confirmation', e.target.value)}
+                                                placeholder="Konfirmasi Password Anda....."
+                                                error={errors.password_confirmation}
+                                            />
                                             <Button variant="contained" color="primary" onClick={handleSubmit(route('profil-pengguna.password'), "Password berhasil diperbarui.", "Password gagal diperbarui.")}>
                                                 Update Password
                                             </Button>

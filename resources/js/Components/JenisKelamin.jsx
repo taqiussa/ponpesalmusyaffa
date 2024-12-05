@@ -19,8 +19,8 @@ export default forwardRef(function JenisKelamin(
     }, []);
 
     return (
-        <div className='flex flex-col text-slate-600 capitalize'>
-            <div>
+        <div className="mb-4">
+            <div className="block text-slate-600 capitalize mb-1">
                 jenis kelamin
             </div>
             <div>

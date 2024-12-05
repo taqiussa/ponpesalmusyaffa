@@ -38,6 +38,7 @@ class TambahDataAlumniController extends Controller
                 'kecamatan' => 'required',
                 'kabupaten' => 'required',
                 'provinsi' => 'required',
+                'telepon' => 'required',
                 'status_nikah' => 'required',
                 'status_pekerjaan' => 'required',
                 'tahun_masuk' => 'nullable',

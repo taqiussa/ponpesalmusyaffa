@@ -36,8 +36,8 @@ export default forwardRef(function Tahun(
         }, []);
 
         return (
-                <div className='flex flex-col capitalize text-slate-600'>
-                        <div>
+                <div className="mb-4">
+                        <div className="block text-slate-600 capitalize mb-1">
                                 tahun
                         </div>
                         <div>
